@@ -21,6 +21,7 @@ import AppSelect from '@/components/app/AppSelect.vue';
 import AppToggle from '@/components/app/AppToggle.vue';
 import AppButton from '@/components/app/AppButton.vue';
 import AppTabs from '@/components/app/AppTabs.vue';
+import AppTextarea from '@/components/app/AppTextarea.vue';
 import AppSpinner from '@/components/app/AppSpinner.vue';
 import FeaturedImagePicker from '@/features/admin/contents/FeaturedImagePicker.vue';
 
@@ -51,6 +52,32 @@ const general = reactive({
 const social = ref<SocialLink[]>([]);
 
 const feed = reactive({ rss_enabled: false, atom_enabled: false, sitemap_enabled: false });
+
+// ── Footer: kolom tautan + copyright (home.footer) ────────────────
+interface FooterLink {
+  label: string;
+  url: string;
+}
+interface FooterColumn {
+  title: string;
+  links: FooterLink[];
+}
+const footerColumns = ref<FooterColumn[]>([]);
+const footerCopyright = ref('');
+const footerDesc = ref('');
+
+function addFooterColumn(): void {
+  footerColumns.value.push({ title: '', links: [] });
+}
+function removeFooterColumn(i: number): void {
+  footerColumns.value.splice(i, 1);
+}
+function addFooterLink(ci: number): void {
+  footerColumns.value[ci].links.push({ label: '', url: '' });
+}
+function removeFooterLink(ci: number, li: number): void {
+  footerColumns.value[ci].links.splice(li, 1);
+}
 
 // ── Beranda: tema warna + section (aktif/varian/urutan) ───────────
 const DEFAULT_THEME: PublicThemeColors = {
@@ -150,6 +177,13 @@ watch(
     general.favicon = str('site.favicon_media_id');
     general.search_engine_visible = bool('site.search_engine_visible', true);
     social.value = Array.isArray(s['social.links']) ? (s['social.links'] as SocialLink[]) : [];
+
+    // Footer
+    const savedFooter = s['home.footer'] as { columns?: FooterColumn[]; copyright?: string } | undefined;
+    footerColumns.value = Array.isArray(savedFooter?.columns) ? savedFooter!.columns : [];
+    footerCopyright.value = typeof savedFooter?.copyright === 'string' ? savedFooter!.copyright : '';
+    footerDesc.value = str('site.footer_desc');
+
     feed.rss_enabled = bool('feed.rss_enabled');
     feed.atom_enabled = bool('feed.atom_enabled');
     feed.sitemap_enabled = bool('feed.sitemap_enabled');
@@ -182,6 +216,7 @@ const tabs = [
   { value: 'social', label: 'Sosial Media' },
   { value: 'feed', label: 'Feed' },
   { value: 'home', label: 'Beranda' },
+  { value: 'footer', label: 'Footer' },
 ];
 const activeTab = ref('general');
 
@@ -193,6 +228,7 @@ const payload = computed<SettingsMap>(() => ({
   'site.timezone': general.timezone,
   'site.logo_media_id': general.logo,
   'site.favicon_media_id': general.favicon,
+  'site.footer_desc': footerDesc.value,
   'site.search_engine_visible': general.search_engine_visible,
   'social.links': social.value.filter((l) => l.url.trim()),
   'feed.rss_enabled': feed.rss_enabled,
@@ -200,6 +236,12 @@ const payload = computed<SettingsMap>(() => ({
   'feed.sitemap_enabled': feed.sitemap_enabled,
   'home.theme': { ...homeTheme },
   'home.sections': homeSections.value,
+  'home.footer': {
+    columns: footerColumns.value
+      .map((c) => ({ title: c.title.trim(), links: c.links.filter((l) => l.label.trim() && l.url.trim()) }))
+      .filter((c) => c.title || c.links.length),
+    copyright: footerCopyright.value.trim(),
+  },
 }));
 
 const saveMutation = useMutation({
@@ -390,6 +432,67 @@ const saveMutation = useMutation({
                 </div>
               </div>
             </div>
+          </div>
+        </template>
+
+        <!-- ── Tab Footer ── -->
+        <template #footer>
+          <div class="flex flex-col gap-6 pt-4">
+            <p class="text-xs text-text-muted">
+              Kolom tautan, copyright, dan menu footer. Ikon sosial diambil dari tab
+              <strong>Sosial Media</strong>. Brand &amp; logo dari tab <strong>Umum</strong>.
+            </p>
+
+            <AppTextarea
+              v-model="footerDesc"
+              label="Deskripsi footer"
+              :rows="2"
+              placeholder="Kosongkan untuk memakai tagline situs"
+            />
+
+            <!-- Kolom tautan -->
+            <div class="flex flex-col gap-4">
+              <div
+                v-for="(col, ci) in footerColumns"
+                :key="ci"
+                class="rounded-lg border border-border bg-surface p-3"
+              >
+                <div class="flex items-center gap-2">
+                  <AppInput v-model="col.title" label="Judul kolom" placeholder="Berita" class="flex-1" />
+                  <AppButton variant="ghost" size="md" icon-only aria-label="Hapus kolom" @click="removeFooterColumn(ci)">
+                    <template #icon><Trash2 :size="16" /></template>
+                  </AppButton>
+                </div>
+                <div class="mt-3 flex flex-col gap-2">
+                  <div v-for="(link, li) in col.links" :key="li" class="flex items-end gap-2">
+                    <AppInput v-model="link.label" label="Label" placeholder="Aceh" class="flex-1" />
+                    <AppInput v-model="link.url" label="URL" placeholder="/kategori/aceh" class="flex-1" />
+                    <AppButton variant="ghost" size="md" icon-only aria-label="Hapus tautan" @click="removeFooterLink(ci, li)">
+                      <template #icon><Trash2 :size="14" /></template>
+                    </AppButton>
+                  </div>
+                  <div>
+                    <AppButton variant="secondary" size="sm" @click="addFooterLink(ci)">
+                      <template #icon><Plus :size="14" /></template>
+                      Tambah tautan
+                    </AppButton>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <AppButton variant="secondary" size="sm" @click="addFooterColumn">
+                  <template #icon><Plus :size="14" /></template>
+                  Tambah kolom
+                </AppButton>
+              </div>
+            </div>
+
+            <!-- Copyright -->
+            <AppInput
+              v-model="footerCopyright"
+              label="Teks copyright"
+              placeholder="© 2026 Nama Media · Semua hak dilindungi"
+            />
           </div>
         </template>
       </AppTabs>

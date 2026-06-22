@@ -131,6 +131,18 @@ const routes: RouteRecordRaw[] = [
         meta: { capability: 'manage_settings' },
       },
       {
+        path: 'widgets',
+        name: 'admin-widgets',
+        component: () => import('@/features/admin/widgets/WidgetListView.vue'),
+        meta: { capability: 'manage_settings' },
+      },
+      {
+        path: 'authors',
+        name: 'admin-authors',
+        component: () => import('@/features/admin/authors/AuthorListView.vue'),
+        meta: { capability: 'manage_users' },
+      },
+      {
         path: 'profile',
         name: 'admin-profile',
         component: () => import('@/features/admin/profile/ProfileView.vue'),

@@ -1,0 +1,200 @@
+================================================================
+ INTEGRASI PUBLIC -> ADMIN  (ref: INTEGRATION-PUBLIC-TO-ADMIN.md)
+ Strategi data: SETTINGS NAMESPACE (key-value /settings) — tanpa endpoint baru.
+ Tanggal: 2026-06-22
+================================================================
+
+LEGENDA: [x] selesai  [~] verifikasi (sudah benar, tanpa ubah kode)
+
+----------------------------------------------------------------
+SELESAI DIKERJAKAN (sesi ini)
+----------------------------------------------------------------
+
+[x] §2 MENU MULTI-LOKASI (Top / Secondary / Footer)
+    - src/services/menu.service.ts: ditulis ulang jadi multi-lokasi.
+      MenuLocation = 'top' | 'secondary' | 'footer'. Simpan via settings
+      namespace 'home.menu' = { top, secondary, footer }.
+      API: getAll(), get(location), saveAll(set), save(tree, location).
+    - src/features/admin/menus/MenuBuilderView.vue: tambah tab pemilih lokasi
+      (loc-tabs) + badge jumlah item; edit per-lokasi, simpan semua sekaligus.
+    - Public konsumsi:
+        TheMasthead.vue / MainMenuSheet.vue -> get('top')
+        SecondaryNav.vue -> get('secondary')  (DULU selalu mock, kini live)
+        TheFooter.vue -> get('footer')        (kolom "Menu" ekstra)
+
+[x] §6 FOOTER TERSTRUKTUR
+    - src/features/admin/settings/SettingsView.vue: tab baru "Footer"
+      (kolom tautan + copyright) -> namespace 'home.footer' = { columns, copyright }.
+      Ikon sosial dipakai bersama dari 'social.links' (tab Sosial Media).
+    - src/features/public/data/useSiteConfig.ts (BARU): sumber footer + identitas.
+    - src/features/public/shared/TheFooter.vue: baca useSiteConfig (brand, tagline,
+      kolom, sosial, copyright) + menu lokasi footer. Prop `data` dihapus.
+    - src/layouts/PublicLayout.vue: hapus prop footer mock.
+
+[x] §8 IDENTITAS SITUS (logo / nama / tagline)
+    - Public baca dari settings: site.title, site.tagline, site.logo_media_id
+      (key ini menyimpan URL nyata dari FeaturedImagePicker, bukan id).
+    - TheMasthead.vue & TheFooter.vue: tampil logo bila ada, fallback ke
+      logo kotak crimson + nama. Sumber: useSiteConfig.
+    - Admin: sudah tersedia di SettingsView tab "Umum" (tanpa perubahan).
+
+[~] §4 TEMA PUBLIK (warna)  — VERIFIKASI, sudah benar
+    - Admin: SettingsView tab "Beranda" -> 'home.theme' (7 token).
+    - Public: useHomeConfig.ts baca 'home.theme'; PublicLayout pakai usePublicTheme.
+    - Tidak ada perubahan kode diperlukan.
+
+[~] §5 LAYOUT SECTION BERANDA  — VERIFIKASI, sudah benar
+    - Admin: SettingsView tab "Beranda" -> 'home.sections' (urutan/aktif/varian).
+    - Public: HomeView.vue konsumsi sections + variantOf dari useHomeConfig.
+    - Tidak ada perubahan kode diperlukan.
+
+[x] §1 SINKRON POSISI ADS (dedup)
+    - src/services/ads.service.ts: ekspor AD_POSITION_OPTIONS (sumber tunggal).
+    - AdSlotFormModal.vue: POSITION_OPTIONS = AD_POSITION_OPTIONS (hapus duplikat).
+    - Catatan: floating_bottom_timer & flying_carpet SUDAH dirender di
+      PublicLayout.vue (AdSlotRenderer) — concern dokumen sudah teratasi.
+
+[~] §7 POPUP  — VERIFIKASI, sudah cocok
+    - Admin PopupFormModal emit display{scope,delay_seconds,auto_close_seconds,
+      frequency,frequency_days} & content{html | image_media_id,target_url,alt}.
+    - PublicPopups membaca field yang sama persis. Tidak ada perubahan.
+
+[x] §3 WIDGET RAIL (Populer / Pilihan Editor / Video / Opini)
+    Keputusan: Auto + Kurasi manual · settings 'home.widgets' · keempat rail ·
+    pola List + Form Modal (sama Ads/Popup).
+    - src/services/widget.service.ts (BARU): tipe Widget, WidgetPlacement
+      (popular|editorsPick|video|opinion), source_mode auto|manual,
+      auto{content_type,sort,limit}, manual[], CRUD via settings 'home.widgets'
+      (list/saveAll, defaultWidget()).
+    - src/features/public/data/useWidgets.ts (BARU): resolve per placement.
+      auto -> contentService.list({type,sort,limit}); manual -> item kurasi.
+      resolvePopular() -> PopularStory[]; titleOf() override judul rail.
+      Mode mock -> null (HomeView pakai mock seperti biasa).
+    - src/features/admin/widgets/WidgetListView.vue (BARU): tabel +
+      tambah/edit/hapus; simpan ulang seluruh array (saveAll).
+    - src/features/admin/widgets/WidgetFormModal.vue (BARU): form penempatan +
+      sumber; mode manual punya pencarian konten + urutkan terpilih.
+    - src/features/public/home/HomeView.vue: editorsPick/videos/opinions/popular
+      pakai data widget bila ada (live), fallback ke feed lama. Judul rail via titleOf().
+    - src/features/public/home/components/EditorsPick.vue: prop `title` (default 'Pilihan Editor').
+    - Route 'admin/widgets' (router/index.ts) + entri "Widget Beranda" (adminNav.ts).
+      Catatan: item nav 'Iklan/Widget' dipecah jadi 'Iklan' + 'Widget Beranda'.
+    - Batas backend: listing hanya type/status/cursor/limit/sort -> mode auto
+      TIDAK bisa filter per-kategori di server (didokumentasikan di UI form).
+
+================================================================
+ FASE 2 — TAXONOMY & FONDASI ADMIN (ref: INTEGRATION-PHASE-2-STUDY.md)
+ Tanggal: 2026-06-23
+================================================================
+
+[x] A1 WIDGET MODE 'TAXONOMY' (pilih kategori/term)
+    - src/services/widget.service.ts: WidgetSourceMode + 'taxonomy';
+      WidgetTaxonomyConfig {taxonomy_slug,term_id,term_slug,content_type,limit};
+      defaultWidget() menyertakan taxonomy.
+    - src/features/admin/widgets/WidgetFormModal.vue: opsi sumber "Dari kategori
+      / taxonomy" + 2 AppSelect (taxonomy -> term via taxonomyService) + jumlah.
+    - src/features/admin/widgets/WidgetListView.vue: badge sumber 'Taxonomy'.
+    - src/features/public/data/useWidgets.ts: mode taxonomy menarik pool besar
+      lalu SARING per term DI KLIEN; passthrough bila summary tak punya `terms`.
+    * BATAS CORE: lihat poin 8 (filter ?term=).
+
+[x] B1 MODUL ADMIN AUTHORS (service sudah ada, UI belum)
+    - src/features/admin/authors/AuthorListView.vue (BARU): grid kartu penulis.
+    - src/features/admin/authors/AuthorFormModal.vue (BARU): nama, bio, avatar
+      (FeaturedImagePicker), tautan sosial (key-value). create/update.
+    - Route '/admin/authors' (capability manage_users) + nav "Penulis" (grup Konten).
+    * BATAS CORE: author.service TIDAK punya remove() -> belum bisa hapus penulis
+      dari UI. Lihat poin 9.
+
+[x] A2 SECONDARYNAV / MENU AUTO-DARI-TAXONOMY
+    - src/features/admin/menus/MenuBuilderView.vue: tombol "Isi otomatis semua
+      kategori" pada tab sumber Kategori (skip yang sudah ada, per lokasi aktif).
+      Dipakai untuk mengisi lokasi 'secondary' dengan kategori sekaligus.
+
+[x] B2 HEADER PROFIL PENULIS DI AUTHORVIEW
+    - src/features/public/author/AuthorView.vue: mode live ambil authorService.list,
+      cocokkan by id / slug nama; tampilkan avatar, bio, tautan sosial.
+    * BATAS CORE: daftar artikel penulis masih disaring di klien (mock) karena
+      belum ada filter ?author= di listing. Lihat poin 8.
+
+[x] B4 DESKRIPSI FOOTER TERPISAH
+    - site.footer_desc (settings). useSiteConfig.ts: SiteIdentity.footerDesc
+      (fallback ke tagline). TheFooter.vue pakai footerDesc.
+    - SettingsView.vue tab Footer: AppTextarea "Deskripsi footer".
+
+CATATAN: B3 (ArticleView pakai content.terms asli) DITUNDA — terblokir CORE
+(butuh detail konten live + struktur term berwarna). Lihat poin 8 & 10.
+
+================================================================
+ ARAH ENDPOINT BACKEND (dev-CMSCORE) — untuk yang BELUM ada endpoint
+================================================================
+Saat ini SEMUA fitur di atas disimpan lewat /settings (key-value), jadi
+TIDAK ADA 404 walau backend belum menambah endpoint khusus. Berikut arah
+yang disarankan bila nanti ingin dipindah ke endpoint terdedikasi:
+
+1. MENU (§2)  — sekarang: GET/PUT /settings key 'home.menu'.
+   Arah ideal:
+     GET  /v1/menus                 -> { top:[], secondary:[], footer:[] }
+     GET  /v1/menus/:location       -> MenuItem[]   (location: top|secondary|footer)
+     PUT  /v1/menus/:location       -> body { items: MenuItem[] }
+   Bila dibuat: ubah menu.service.ts agar getAll/save memanggil /menus,
+   bukan settingsService. Kontrak MenuItem (id,label,url,source,ref_id,children)
+   sudah final di FE.
+
+2. FOOTER (§6) — sekarang: /settings key 'home.footer' = { columns, copyright }.
+   Arah ideal: tetap di /settings (config situs, bukan entitas). TIDAK perlu
+   endpoint baru. Sosial tetap di 'social.links'.
+
+3. IDENTITAS SITUS (§8) — sekarang: /settings keys site.title, site.tagline,
+   site.logo_media_id. Arah ideal: tetap di /settings.
+   CATATAN: site.logo_media_id menyimpan URL (bukan id). Bila backend ingin
+   konsisten menyimpan media ID, sediakan GET /v1/media/:id lalu FE resolve
+   id -> file_url di useSiteConfig.ts.
+
+4. TEMA (§4) & SECTION (§5) — sudah via /settings (home.theme, home.sections).
+   Arah ideal: tetap di /settings.
+
+5. ADS (§1) — sudah ada CRUD /v1/ads. Tidak ada gap endpoint.
+
+6. POPUP (§7) — sudah ada CRUD /v1/popups. Tidak ada gap endpoint.
+
+7. WIDGET (§3) — sekarang: /settings key 'home.widgets' = Widget[].
+   Arah ideal bila dipindah ke entitas terdedikasi:
+     GET/POST/PUT/DELETE /v1/widgets
+     Widget { id,title,placement,source_mode,auto{content_type,sort,limit},
+              manual[{id,title,slug}],active,sort_order }
+     placement: popular | editorsPick | video | opinion
+   Bila dibuat: ubah widget.service.ts (list/saveAll) agar memanggil /widgets,
+   bukan settingsService. Kontrak Widget di FE sudah final.
+   PRASYARAT mode auto per-kategori: backend perlu menambah filter ?term= /
+   ?category= di GET /contents (saat ini hanya type/status/cursor/limit/sort).
+
+8. FILTER LISTING KONTEN (PRASYARAT A1-ideal, A2, A3, B2, B3) — BELUM ADA.
+   GET /contents sekarang whitelist: type, status, cursor, limit, sort.
+   Tambahan yang dibutuhkan public:
+     ?term=<id|slug>  (atau ?taxonomy=&term=) -> widget taxonomy, halaman kategori,
+                        infografis, SecondaryNav berbasis data nyata.
+     ?author=<id>     -> daftar artikel di halaman penulis (AuthorView).
+     ?q=<keyword>     -> pencarian relevan server-side (kini difilter di klien).
+     GET /contents/by-slug/:slug -> ArticleView pakai id (slug hiasan).
+   Dampak FE saat tersedia: ganti penyaringan klien di useWidgets (taxonomy),
+   TaxonomyView, InfographicsView, AuthorView, useSearch -> query param langsung.
+
+9. AUTHORS — DELETE belum ada.
+   author.service.ts hanya list/create/update. UI admin (B1) belum bisa hapus.
+   Arah ideal: DELETE /v1/authors/:id (cek pemakaian byline sebelum hapus).
+   Bila ada: tambah authorService.remove() + tombol hapus + ConfirmDialog.
+
+10. TERM BERWARNA (opsional, untuk B3).
+    Public memakai category_color (hardcode di mock). Bila Term punya field warna
+    (mis. meta 'color'), ArticleView & kartu kategori bisa konsisten tanpa mock.
+    Arah: tambah kolom/meta warna pada Term di backend.
+
+================================================================
+ CATATAN UJI (mode data)
+================================================================
+- Mode mock (VITE_USE_MOCK != "false"): public tetap pakai home.mock.json,
+  perubahan admin TIDAK terlihat. Untuk menguji alur live admin->public,
+  set VITE_USE_MOCK=false dan pastikan /settings backend aktif.
+- Verifikasi via dev server (sesuai preferensi: tidak menjalankan
+  type-check/build dari sini).

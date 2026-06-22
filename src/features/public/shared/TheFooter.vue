@@ -1,12 +1,36 @@
 <!--
-  TheFooter.vue — footer ink multi-kolom: kolom tautan + baris sosial + copyright.
-  Data dari FooterConfig (mock / settings). Warna pakai token publik.
+  TheFooter.vue — footer ink multi-kolom: brand + kolom tautan + menu lokasi footer
+  + baris sosial + copyright. Identitas & footer dari useSiteConfig (mock / settings).
+  Menu lokasi 'footer' (MenuBuilder) ditambahkan sebagai kolom ekstra. Token publik.
 -->
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useQuery } from '@tanstack/vue-query';
 import { Globe } from '@lucide/vue';
-import type { FooterConfig } from '@/features/public/data/homeSource';
+import { useSiteConfig } from '@/features/public/data/useSiteConfig';
+import { menuService, type MenuItem } from '@/services/menu.service';
+import { USE_MOCK } from '@/features/public/data/homeSource';
 
-defineProps<{ data: FooterConfig }>();
+const { identity, footer } = useSiteConfig();
+
+// Kolom ekstra dari menu lokasi 'footer' (bila admin mengisinya).
+const { data: footerMenu } = useQuery({
+  queryKey: ['public-menu', 'footer'],
+  queryFn: () => menuService.get('footer'),
+  retry: false,
+  staleTime: 5 * 60_000,
+  enabled: !USE_MOCK,
+});
+
+/** Kolom tautan gabungan: kolom footer config + (opsional) kolom "Menu" dari menu footer. */
+const columns = computed(() => {
+  const cols = [...(footer.value.columns ?? [])];
+  const menu = (footerMenu.value ?? []) as MenuItem[];
+  if (menu.length) {
+    cols.push({ title: 'Menu', links: menu.map((m) => ({ label: m.label, url: m.url || '/' })) });
+  }
+  return cols;
+});
 </script>
 
 <template>
@@ -17,19 +41,25 @@ defineProps<{ data: FooterConfig }>();
       <div class="grid grid-cols-2 gap-8 md:grid-cols-5">
         <div class="col-span-2 md:col-span-1">
           <div class="flex items-center gap-2.5">
-            <span class="flex h-8 w-8 items-center justify-center" :style="{ backgroundColor: 'var(--color-pub-crimson)' }">
-              <span class="h-3.5 w-3.5 rounded-full border-[3px] border-white"></span>
-            </span>
-            <span class="text-sm font-extrabold tracking-[0.14em] text-white">
-              WARTAKAN<span :style="{ color: 'var(--color-pub-crimson)' }"> MEDIA</span>
-            </span>
+            <img
+              v-if="identity.logoUrl"
+              :src="identity.logoUrl"
+              :alt="identity.name"
+              class="h-8 w-auto max-w-[160px] object-contain"
+            />
+            <template v-else>
+              <span class="flex h-8 w-8 items-center justify-center" :style="{ backgroundColor: 'var(--color-pub-crimson)' }">
+                <span class="h-3.5 w-3.5 rounded-full border-[3px] border-white"></span>
+              </span>
+              <span class="text-sm font-extrabold tracking-[0.14em] text-white">{{ identity.name }}</span>
+            </template>
           </div>
           <p class="mt-3 text-xs leading-relaxed" :style="{ color: '#8a857c' }">
-            Portal berita digital dari Aceh untuk Indonesia. Tegas, jurnalistik, terpercaya.
+            {{ identity.footerDesc }}
           </p>
         </div>
 
-        <div v-for="col in data.columns" :key="col.title">
+        <div v-for="col in columns" :key="col.title">
           <h3 class="mb-3 text-xs font-bold uppercase tracking-[0.1em]" :style="{ color: '#8a857c' }">
             {{ col.title }}
           </h3>
@@ -47,11 +77,11 @@ defineProps<{ data: FooterConfig }>();
       <!-- Sosial + copyright -->
       <div class="flex flex-wrap items-center justify-between gap-4">
         <span class="text-[11px] tracking-[0.1em]" :style="{ fontFamily: 'var(--font-pub-mono)', color: '#8a857c' }">
-          {{ data.copyright }}
+          {{ footer.copyright }}
         </span>
         <div class="flex items-center gap-2">
           <a
-            v-for="s in data.social"
+            v-for="s in footer.social"
             :key="s.platform"
             :href="s.url"
             :aria-label="s.platform"

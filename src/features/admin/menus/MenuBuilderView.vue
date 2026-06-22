@@ -22,7 +22,15 @@ import {
 } from '@lucide/vue';
 import { contentService } from '@/services/content.service';
 import { taxonomyService } from '@/services/taxonomy.service';
-import { menuService, type MenuItem, type MenuItemSource } from '@/services/menu.service';
+import {
+  menuService,
+  emptyMenuSet,
+  MENU_LOCATIONS,
+  type MenuItem,
+  type MenuItemSource,
+  type MenuLocation,
+  type MenuSet,
+} from '@/services/menu.service';
 import { useToast } from '@/composables/useToast';
 import { useIsMobile } from '@/composables/useIsMobile';
 import AppCard from '@/components/app/AppCard.vue';
@@ -40,19 +48,29 @@ function uid(): string {
     : `m-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
-// ── Struktur menu (state lokal) ───────────────────────────────────
-const tree = ref<MenuItem[]>([]);
+// ── Struktur menu multi-lokasi (state lokal) ──────────────────────
+// Seluruh set dimuat sekali; `activeLocation` menentukan pohon yang diedit.
+const menuSet = ref<MenuSet>(emptyMenuSet());
+const activeLocation = ref<MenuLocation>('top');
+
+/** Pohon untuk lokasi aktif (proxy read/write ke menuSet). */
+const tree = computed<MenuItem[]>({
+  get: () => menuSet.value[activeLocation.value],
+  set: (v) => {
+    menuSet.value[activeLocation.value] = v;
+  },
+});
 
 useQuery({
   queryKey: ['admin-menu'],
   queryFn: async () => {
     try {
-      tree.value = await menuService.get();
+      menuSet.value = await menuService.getAll();
     } catch {
       // Endpoint mungkin belum ada — mulai dari kosong (UI-only).
-      tree.value = [];
+      menuSet.value = emptyMenuSet();
     }
-    return tree.value;
+    return menuSet.value;
   },
 });
 
@@ -231,12 +249,25 @@ function addTerm(t: { id: string; name: string; slug: string }): void {
   addToMenu(t.name, `/kategori/${t.slug}`, 'category', t.id);
 }
 
+/** Isi otomatis: tambahkan semua kategori yang belum ada ke lokasi aktif. */
+function addAllTerms(): void {
+  const existing = new Set(tree.value.map((m) => m.ref_id).filter(Boolean));
+  let added = 0;
+  for (const t of terms.value) {
+    if (existing.has(t.id)) continue;
+    addToMenu(t.name, `/kategori/${t.slug}`, 'category', t.id);
+    added++;
+  }
+  if (added) toast.success(`${added} kategori ditambahkan. Jangan lupa simpan.`);
+  else toast.info('Semua kategori sudah ada di menu ini.');
+}
+
 // ── Simpan ────────────────────────────────────────────────────────
 const saving = ref(false);
 async function save(): Promise<void> {
   saving.value = true;
   try {
-    await menuService.save(tree.value);
+    await menuService.saveAll(menuSet.value);
     toast.success('Menu tersimpan.');
   } catch {
     toast.error('Gagal menyimpan menu (endpoint backend belum tersedia).');
@@ -252,7 +283,7 @@ async function save(): Promise<void> {
       <div>
         <h1 class="text-2xl font-bold text-text-primary">Menu Navigasi</h1>
         <p class="mt-1 text-sm text-text-muted">
-          Susun menu untuk navigasi front-end (hamburger). Tingkat ke-2 menjadi dropdown.
+          Susun menu front-end per lokasi. Tingkat ke-2 menjadi dropdown (Top) atau diabaikan (Secondary/Footer).
         </p>
       </div>
       <Teleport to="#admin-action-bar" :disabled="!isMobile">
@@ -262,6 +293,21 @@ async function save(): Promise<void> {
         </AppButton>
       </Teleport>
     </header>
+
+    <!-- Pemilih lokasi menu -->
+    <div class="loc-tabs">
+      <button
+        v-for="loc in MENU_LOCATIONS"
+        :key="loc.value"
+        type="button"
+        class="loc-tabs__tab"
+        :class="{ 'loc-tabs__tab--active': activeLocation === loc.value }"
+        @click="activeLocation = loc.value"
+      >
+        {{ loc.label }}
+        <span class="loc-tabs__count">{{ menuSet[loc.value].length }}</span>
+      </button>
+    </div>
 
     <div class="menu-grid">
       <!-- Panel kiri: sumber item -->
@@ -313,14 +359,20 @@ async function save(): Promise<void> {
         <div v-else class="mt-4">
           <p v-if="termsQuery.isLoading.value" class="text-sm text-text-muted">Memuat kategori…</p>
           <AppEmptyState v-else-if="!terms.length" title="Belum ada kategori" />
-          <ul v-else class="source-list">
+          <template v-else>
+            <AppButton variant="secondary" size="sm" class="mb-3 w-full" @click="addAllTerms">
+              <template #icon><Plus :size="14" /></template>
+              Isi otomatis semua kategori
+            </AppButton>
+            <ul class="source-list">
             <li v-for="t in terms" :key="t.id" class="source-list__row">
               <span class="truncate">{{ t.name }}</span>
               <AppButton variant="ghost" size="xs" icon-only aria-label="Tambah" @click="addTerm(t)">
                 <template #icon><Plus :size="14" /></template>
               </AppButton>
             </li>
-          </ul>
+            </ul>
+          </template>
         </div>
       </AppCard>
 
@@ -419,6 +471,51 @@ async function save(): Promise<void> {
 </template>
 
 <style scoped>
+/* Pemilih lokasi menu */
+.loc-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.loc-tabs__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  transition: all 150ms ease;
+}
+.loc-tabs__tab:hover {
+  border-color: color-mix(in srgb, var(--color-primary) 35%, var(--color-border));
+}
+.loc-tabs__tab--active {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 8%, var(--color-surface));
+}
+.loc-tabs__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  font-size: 11px;
+  background: var(--color-bg-subtle);
+  color: var(--color-text-muted);
+}
+.loc-tabs__tab--active .loc-tabs__count {
+  background: color-mix(in srgb, var(--color-primary) 16%, transparent);
+  color: var(--color-primary);
+}
+
 .menu-grid {
   display: grid;
   grid-template-columns: 320px minmax(0, 1fr);

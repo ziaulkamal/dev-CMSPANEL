@@ -22,8 +22,8 @@ const FALLBACK_NAV: MenuItem[] = [
 ];
 
 const { data } = useQuery({
-  queryKey: ['public-menu'],
-  queryFn: () => menuService.get(),
+  queryKey: ['public-menu', 'top'],
+  queryFn: () => menuService.get('top'),
   retry: false,
   staleTime: 5 * 60_000,
   enabled: !USE_MOCK,

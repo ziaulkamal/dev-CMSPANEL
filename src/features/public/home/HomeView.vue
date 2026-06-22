@@ -31,11 +31,20 @@ import {
   type SectionKey,
 } from '@/features/public/data/homeSource';
 import { useHomeConfig } from '@/features/public/data/useHomeConfig';
+import { useWidgets } from '@/features/public/data/useWidgets';
 import { SECTION_REGISTRY, type SectionColumn } from './sectionRegistry';
 
 useSeoMeta({ title: 'Beranda', description: 'Berita terkini dari seluruh dunia.' });
 
 const { sections, variantOf } = useHomeConfig();
+
+// Widget rail terkelola admin (live). Bila ada widget aktif untuk satu rail,
+// datanya menggantikan feed default; bila tidak, jatuh ke perilaku lama.
+const { resolve: resolveWidget, resolvePopular, titleOf } = useWidgets();
+const wEditors = resolveWidget('editorsPick');
+const wVideo = resolveWidget('video');
+const wOpinion = resolveWidget('opinion');
+const wPopular = resolvePopular();
 
 // ── Data: mock atau API ───────────────────────────────────────────
 const mock = getHomeMock();
@@ -57,7 +66,7 @@ const analysis = computed<MockStory[]>(() =>
   USE_MOCK ? mock.analysis : (posts.value.slice(4, 9) as MockStory[]),
 );
 const editorsPick = computed<MockStory[]>(() =>
-  USE_MOCK ? mock.editorsPick : (posts.value.slice(9, 12) as MockStory[]),
+  USE_MOCK ? mock.editorsPick : (wEditors.value ?? (posts.value.slice(9, 12) as MockStory[])),
 );
 // "Terbaru": daftar seragam — semua item sama (judul, deskripsi, author, waktu).
 const centerItems = computed<MockStory[]>(() =>
@@ -73,7 +82,7 @@ const hasMoreLatest = computed(() => USE_MOCK && visibleExtra.value < latestPool
 function loadMoreLatest(): void {
   visibleExtra.value = Math.min(visibleExtra.value + LATEST_STEP, latestPool.value.length);
 }
-const popular = computed(() => (USE_MOCK ? mock.popular : []));
+const popular = computed(() => (USE_MOCK ? mock.popular : (wPopular.value ?? [])));
 
 const { data: videoRes } = useQuery({
   queryKey: ['public-home', 'video'],
@@ -86,10 +95,10 @@ const { data: videoRes } = useQuery({
   enabled: !USE_MOCK,
 });
 const videos = computed<MockStory[]>(() =>
-  USE_MOCK ? mock.videos : ((videoRes.value ?? []) as MockStory[]),
+  USE_MOCK ? mock.videos : (wVideo.value ?? ((videoRes.value ?? []) as MockStory[])),
 );
 const opinions = computed<MockStory[]>(() =>
-  USE_MOCK ? mock.opinions : (posts.value.slice(13, 16) as MockStory[]),
+  USE_MOCK ? mock.opinions : (wOpinion.value ?? (posts.value.slice(13, 16) as MockStory[])),
 );
 
 // ── Section per kolom (sesuai urutan & aktif dari config) ─────────
@@ -151,7 +160,7 @@ const moreItems = computed<MockStory[]>(() => {
           <!-- Kolom kanan sub-grid: Pilihan Editor (sejajar top Hero di desktop) -->
           <section class="flex flex-col">
             <template v-for="key in centerKeys" :key="key">
-              <EditorsPick v-if="key === 'editorsPick'" :items="editorsPick" />
+              <EditorsPick v-if="key === 'editorsPick'" :items="editorsPick" :title="titleOf('editorsPick') ?? 'Pilihan Editor'" />
             </template>
           </section>
 
@@ -227,11 +236,11 @@ const moreItems = computed<MockStory[]>(() => {
         <!-- ── Rail kanan (25%) ── -->
         <aside class="flex flex-col gap-8 md:col-span-2 lg:col-span-1">
           <template v-for="key in rightKeys" :key="key">
-            <RailModule v-if="key === 'videoRail' && videos.length" label="Video">
+            <RailModule v-if="key === 'videoRail' && videos.length" :label="titleOf('video') ?? 'Video'">
               <VideoThumb v-for="v in videos" :key="v.id" :item="v" />
             </RailModule>
 
-            <RailModule v-else-if="key === 'opinionRail' && opinions.length" label="Opinion">
+            <RailModule v-else-if="key === 'opinionRail' && opinions.length" :label="titleOf('opinion') ?? 'Opinion'">
               <div
                 v-for="(op, i) in opinions"
                 :key="op.id"
@@ -243,7 +252,7 @@ const moreItems = computed<MockStory[]>(() => {
 
             <!-- Most popular: menempel (sticky) saat scroll di desktop -->
             <div v-else-if="key === 'popular' && popular.length" class="lg:sticky lg:top-6">
-              <RailModule label="Most popular">
+              <RailModule :label="titleOf('popular') ?? 'Most popular'">
                 <PopularList :items="popular" />
               </RailModule>
             </div>

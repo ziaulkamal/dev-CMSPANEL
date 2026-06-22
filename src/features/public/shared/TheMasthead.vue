@@ -12,9 +12,11 @@ import { menuService, type MenuItem } from '@/services/menu.service';
 import { USE_MOCK, getHomeMock } from '@/features/public/data/homeSource';
 import { useSearchOverlay } from '@/features/public/search/useSearchOverlay';
 import { usePublicColorScheme } from '@/composables/usePublicColorScheme';
+import { useSiteConfig } from '@/features/public/data/useSiteConfig';
 
 const search = useSearchOverlay();
 const { isDark, toggle: toggleTheme } = usePublicColorScheme();
+const { identity } = useSiteConfig();
 
 /** Nav default bila backend belum punya /menus dan mock mati. */
 const FALLBACK_NAV: MenuItem[] = [
@@ -25,8 +27,8 @@ const FALLBACK_NAV: MenuItem[] = [
 ];
 
 const { data } = useQuery({
-  queryKey: ['public-menu'],
-  queryFn: () => menuService.get(),
+  queryKey: ['public-menu', 'top'],
+  queryFn: () => menuService.get('top'),
   retry: false,
   staleTime: 5 * 60_000,
   enabled: !USE_MOCK,
@@ -46,15 +48,23 @@ const nav = computed<MenuItem[]>(() => {
         :to="{ name: 'home' }"
         class="mx-auto flex flex-none items-center gap-2.5 md:mx-0"
       >
-        <span
-          class="flex h-9 w-9 items-center justify-center md:h-8 md:w-8"
-          :style="{ backgroundColor: 'var(--color-pub-crimson)' }"
-        >
-          <span class="h-4 w-4 rounded-full border-[3px] border-white md:h-3.5 md:w-3.5"></span>
-        </span>
-        <span class="text-base font-extrabold tracking-[0.14em] md:text-sm" :style="{ color: 'var(--color-pub-ink)' }">
-          WARTAKAN<span :style="{ color: 'var(--color-pub-crimson)' }"> MEDIA</span>
-        </span>
+        <img
+          v-if="identity.logoUrl"
+          :src="identity.logoUrl"
+          :alt="identity.name"
+          class="h-9 w-auto max-w-[180px] object-contain md:h-8"
+        />
+        <template v-else>
+          <span
+            class="flex h-9 w-9 items-center justify-center md:h-8 md:w-8"
+            :style="{ backgroundColor: 'var(--color-pub-crimson)' }"
+          >
+            <span class="h-4 w-4 rounded-full border-[3px] border-white md:h-3.5 md:w-3.5"></span>
+          </span>
+          <span class="text-base font-extrabold tracking-[0.14em] md:text-sm" :style="{ color: 'var(--color-pub-ink)' }">
+            {{ identity.name }}
+          </span>
+        </template>
       </RouterLink>
 
       <!-- Nav primer (desktop) dengan dropdown hover -->

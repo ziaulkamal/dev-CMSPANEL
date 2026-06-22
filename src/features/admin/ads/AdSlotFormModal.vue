@@ -7,7 +7,7 @@
 import { computed, reactive, watch } from 'vue';
 import { useMutation } from '@tanstack/vue-query';
 import { useToast } from '@/composables/useToast';
-import { adsService, type AdSlot, type AdKind, type AdPosition } from '@/services/ads.service';
+import { adsService, AD_POSITION_OPTIONS, type AdSlot, type AdKind, type AdPosition } from '@/services/ads.service';
 import AppModal from '@/components/app/AppModal.vue';
 import AppInput from '@/components/app/AppInput.vue';
 import AppSelect from '@/components/app/AppSelect.vue';
@@ -32,17 +32,8 @@ const KIND_OPTIONS = [
   { value: 'javascript', label: 'JavaScript' },
   { value: 'adsense', label: 'Google AdSense' },
 ];
-const POSITION_OPTIONS = [
-  { value: 'in_post_below_title', label: 'Dalam post — di bawah judul' },
-  { value: 'in_post_after_paragraph', label: 'Dalam post — setelah paragraf ke-N' },
-  { value: 'post_sidebar_left', label: 'Sidebar kiri post' },
-  { value: 'post_sidebar_bottom', label: 'Sidebar bawah post (half-page sticky)' },
-  { value: 'pre_comments', label: 'Dalam post — sebelum komentar' },
-  { value: 'floating_top_nav', label: 'Mengambang — atas (nav, desktop)' },
-  { value: 'floating_top_nav_mobile', label: 'Mengambang — atas (nav, mobile 300px)' },
-  { value: 'floating_bottom_timer', label: 'Mengambang — bawah (timer)' },
-  { value: 'flying_carpet', label: 'Flying carpet' },
-];
+// Posisi dari sumber tunggal di ads.service (hindari drift dengan public).
+const POSITION_OPTIONS = AD_POSITION_OPTIONS;
 
 interface FormState {
   name: string;

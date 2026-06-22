@@ -1,6 +1,6 @@
 <!-- src/layouts/PublicLayout.vue — shell segment publik bergaya newsroom. -->
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { RouterView, useRoute } from 'vue-router';
 import TheMasthead from '@/features/public/shared/TheMasthead.vue';
 import HeadlineBar from '@/features/public/shared/HeadlineBar.vue';
@@ -15,16 +15,13 @@ import MainMenuSheet from '@/features/public/shared/MainMenuSheet.vue';
 import { usePublicTheme } from '@/composables/usePublicTheme';
 import { useHomeConfig } from '@/features/public/data/useHomeConfig';
 import { useBreadcrumbs } from '@/features/public/shared/useBreadcrumbs';
-import { USE_MOCK, getHomeMock } from '@/features/public/data/homeSource';
+import { USE_MOCK } from '@/features/public/data/homeSource';
 
 const rootEl = ref<HTMLElement | null>(null);
 
 // Warna tema publik dari config (live preview saat panel mengubahnya).
 const { theme } = useHomeConfig();
 usePublicTheme(rootEl, theme);
-
-// Footer: mock saat USE_MOCK; live → fallback ringkas (sebelum ada settings footer).
-const footer = computed(() => getHomeMock().footer);
 
 // Menu utama mobile sebagai bottom sheet (dibuka dari BottomNav).
 const menuOpen = ref(false);
@@ -68,7 +65,7 @@ watch(() => route.fullPath, () => clearBreadcrumbs());
     </main>
 
     <!-- Footer: bar full-width; pb ekstra di mobile agar isi tak tertutup BottomNav. -->
-    <TheFooter :data="footer" class="pb-[72px] md:pb-0" />
+    <TheFooter class="pb-[72px] md:pb-0" />
 
     <!-- Navigasi bawah ala app Android (mobile only). -->
     <BottomNav @open-menu="menuOpen = true" />

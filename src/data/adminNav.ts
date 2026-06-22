@@ -3,7 +3,7 @@
  * Definisi menu sidebar admin → dipetakan ke route vue-router (href = path).
  * Item difilter capability di layout sebelum dirender.
  */
-import { LayoutDashboard, FileText, Image, Tags, Users, MessageSquare, Settings, UserCircle, Menu, Megaphone, GalleryThumbnails } from '@lucide/vue';
+import { LayoutDashboard, FileText, Image, Tags, Users, MessageSquare, Settings, UserCircle, Menu, Megaphone, GalleryThumbnails, LayoutGrid, PenLine } from '@lucide/vue';
 import type { Capability } from '@/types/domain';
 
 export interface AdminNavItem {
@@ -35,8 +35,10 @@ export const adminNavSource: AdminNavGroup[] = [
       { label: 'Konten', icon: FileText, href: '/admin/contents', capability: 'edit_post', primary: true },
       { label: 'Media', icon: Image, href: '/admin/media', capability: 'manage_media', primary: true },
       { label: 'Taxonomy', icon: Tags, href: '/admin/taxonomies', capability: 'manage_settings' },
+      { label: 'Penulis', icon: PenLine, href: '/admin/authors', capability: 'manage_users' },
       { label: 'Menu', icon: Menu, href: '/admin/menus', capability: 'manage_settings' },
-      { label: 'Iklan/Widget', icon: Megaphone, href: '/admin/ads', capability: 'manage_settings' },
+      { label: 'Iklan', icon: Megaphone, href: '/admin/ads', capability: 'manage_settings' },
+      { label: 'Widget Beranda', icon: LayoutGrid, href: '/admin/widgets', capability: 'manage_settings' },
       { label: 'Popup', icon: GalleryThumbnails, href: '/admin/popups', capability: 'manage_settings' },
       { label: 'Komentar', icon: MessageSquare, href: '/admin/comments', capability: 'manage_comments', primary: true },
     ],

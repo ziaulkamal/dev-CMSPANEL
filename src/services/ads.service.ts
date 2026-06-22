@@ -16,6 +16,19 @@ export type AdPosition =
   | 'floating_bottom_timer'
   | 'flying_carpet';
 
+/** Sumber tunggal posisi + label — dipakai form admin & dokumentasi public. */
+export const AD_POSITION_OPTIONS: Array<{ value: AdPosition; label: string }> = [
+  { value: 'in_post_below_title', label: 'Dalam post — di bawah judul' },
+  { value: 'in_post_after_paragraph', label: 'Dalam post — setelah paragraf ke-N' },
+  { value: 'post_sidebar_left', label: 'Sidebar kiri post' },
+  { value: 'post_sidebar_bottom', label: 'Sidebar bawah post (half-page sticky)' },
+  { value: 'pre_comments', label: 'Dalam post — sebelum komentar' },
+  { value: 'floating_top_nav', label: 'Mengambang — atas (nav, desktop)' },
+  { value: 'floating_top_nav_mobile', label: 'Mengambang — atas (nav, mobile 300px)' },
+  { value: 'floating_bottom_timer', label: 'Mengambang — bawah (timer)' },
+  { value: 'flying_carpet', label: 'Flying carpet' },
+];
+
 export interface AdSlot {
   id: string;
   name: string;

@@ -6,12 +6,24 @@
 -->
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useQuery } from '@tanstack/vue-query';
 import { RouterLink } from 'vue-router';
 import { ChevronLeft, ChevronRight } from '@lucide/vue';
-import type { MenuItem } from '@/services/menu.service';
-import { getHomeMock } from '@/features/public/data/homeSource';
+import { menuService, type MenuItem } from '@/services/menu.service';
+import { USE_MOCK, getHomeMock } from '@/features/public/data/homeSource';
 
-const items = computed<MenuItem[]>(() => getHomeMock().secondaryNav ?? []);
+const { data } = useQuery({
+  queryKey: ['public-menu', 'secondary'],
+  queryFn: () => menuService.get('secondary'),
+  retry: false,
+  staleTime: 5 * 60_000,
+  enabled: !USE_MOCK,
+});
+
+const items = computed<MenuItem[]>(() => {
+  if (USE_MOCK) return getHomeMock().secondaryNav ?? [];
+  return data.value ?? [];
+});
 
 const scroller = ref<HTMLElement | null>(null);
 function scrollBy(dir: 1 | -1): void {
