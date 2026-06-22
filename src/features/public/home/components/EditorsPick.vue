@@ -3,11 +3,15 @@
   SectionHeader + daftar StoryCard (kategori + thumbnail), dipisah divider.
 -->
 <script setup lang="ts">
+import { computed } from 'vue';
 import type { MockStory } from '@/features/public/data/homeSource';
 import SectionHeader from './SectionHeader.vue';
 import StoryCard from './StoryCard.vue';
 
-defineProps<{ items: MockStory[] }>();
+const props = defineProps<{ items: MockStory[] }>();
+
+/** Maksimal 5 item, tanpa gambar (daftar ringkas). */
+const top5 = computed(() => props.items.slice(0, 5));
 </script>
 
 <template>
@@ -19,11 +23,11 @@ defineProps<{ items: MockStory[] }>();
     <SectionHeader title="Pilihan Editor" accent="var(--color-pub-crimson)" see-all />
     <div class="-my-2 flex flex-col">
       <div
-        v-for="(it, i) in items"
+        v-for="(it, i) in top5"
         :key="it.id"
         :style="i ? { borderTop: '1px solid var(--color-pub-line)' } : {}"
       >
-        <StoryCard :item="it" />
+        <StoryCard :item="it" force-text-only />
       </div>
     </div>
   </section>
