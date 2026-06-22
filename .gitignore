@@ -1,0 +1,20 @@
+node_modules
+dist
+dist-ssr
+*.local
+.env
+.env.*
+!.env.example
+.DS_Store
+*.log
+.vscode/*
+!.vscode/extensions.json
+
+# Artefak compile TypeScript di root (sumbernya *.ts)
+vite.config.js
+vite.config.d.ts
+
+# Berkas referensi/analisis pribadi (bukan bagian source)
+Analisis Al Jazeera - Design Prompt.html
+_design.html
+_tpl_raw.txt
