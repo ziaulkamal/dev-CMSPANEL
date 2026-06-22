@@ -9,7 +9,10 @@ export type AdPosition =
   | 'in_post_below_title'
   | 'in_post_after_paragraph'
   | 'post_sidebar_left'
+  | 'post_sidebar_bottom'
+  | 'pre_comments'
   | 'floating_top_nav'
+  | 'floating_top_nav_mobile'
   | 'floating_bottom_timer'
   | 'flying_carpet';
 

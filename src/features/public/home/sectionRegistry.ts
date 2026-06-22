@@ -32,9 +32,9 @@ export const SECTION_REGISTRY: Record<SectionKey, SectionMeta> = {
     variants: [{ value: 'default', label: 'Timeline' }],
   },
   analysis: {
-    label: 'Analysis',
+    label: 'Infografis',
     column: 'left',
-    variants: [{ value: 'default', label: 'Kartu + dek' }],
+    variants: [{ value: 'default', label: 'Galeri potret 9:16' }],
   },
   editorsPick: {
     label: 'Pilihan Editor',
@@ -65,9 +65,9 @@ export const SECTION_REGISTRY: Record<SectionKey, SectionMeta> = {
     variants: [{ value: 'numbered', label: 'Bernomor' }],
   },
   moreNews: {
-    label: 'Berita lainnya',
+    label: 'Berita per Kategori',
     column: 'full',
-    variants: [{ value: 'grid', label: 'Grid 2 kolom' }],
+    variants: [{ value: 'cards', label: 'Kartu per kategori' }],
   },
 };
 

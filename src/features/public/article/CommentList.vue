@@ -1,36 +1,27 @@
-<!-- src/features/public/article/CommentList.vue — daftar komentar approved, thread via parent_id. -->
+<!-- src/features/public/article/CommentList.vue — daftar komentar modern, thread via parent_id. -->
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { Comment } from '@/types/domain';
+import { buildCommentTree, type UiComment } from './commentTypes';
+import CommentItem from './CommentItem.vue';
 
-const props = defineProps<{ comments: ReadonlyArray<Comment> }>();
+const props = defineProps<{ comments: ReadonlyArray<UiComment> }>();
+const emit = defineEmits<{
+  (e: 'reply', payload: { parentId: string; name: string; whatsapp: string; body: string }): void;
+}>();
 
-interface ThreadedComment extends Comment {
-  replies: ThreadedComment[];
-}
-
-/** Susun komentar datar menjadi pohon berdasarkan parent_id. */
-const tree = computed<ThreadedComment[]>(() => {
-  const byId = new Map<string, ThreadedComment>();
-  props.comments.forEach((c) => byId.set(c.id, { ...c, replies: [] }));
-  const roots: ThreadedComment[] = [];
-  byId.forEach((c) => {
-    const parent = c.parent_id ? byId.get(c.parent_id) : undefined;
-    if (parent) parent.replies.push(c);
-    else roots.push(c);
-  });
-  return roots;
-});
+const tree = computed<UiComment[]>(() => buildCommentTree(props.comments));
 </script>
 
 <template>
-  <ul class="flex flex-col gap-4">
-    <li v-for="c in tree" :key="c.id">
-      <article class="rounded-lg border border-border bg-surface p-4">
-        <p class="text-sm font-medium">{{ c.guest_name ?? 'Anonim' }}</p>
-        <p class="mt-1 text-sm text-text-muted">{{ c.body }}</p>
-      </article>
-      <CommentList v-if="c.replies.length" :comments="c.replies" class="ml-6 mt-3" />
-    </li>
-  </ul>
+  <div v-if="tree.length" class="flex flex-col gap-6">
+    <CommentItem
+      v-for="c in tree"
+      :key="c.id"
+      :comment="c"
+      @reply="emit('reply', $event)"
+    />
+  </div>
+  <p v-else class="text-sm" :style="{ color: 'var(--color-pub-muted)' }">
+    Belum ada komentar. Jadilah yang pertama!
+  </p>
 </template>

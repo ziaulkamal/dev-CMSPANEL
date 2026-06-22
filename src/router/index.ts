@@ -18,6 +18,31 @@ const routes: RouteRecordRaw[] = [
         name: 'article',
         component: () => import('@/features/public/article/ArticleView.vue'),
       },
+      {
+        path: 'search',
+        name: 'search',
+        component: () => import('@/features/public/search/SearchView.vue'),
+      },
+      {
+        path: 'terbaru',
+        name: 'latest',
+        component: () => import('@/features/public/latest/LatestView.vue'),
+      },
+      {
+        path: 'kategori/:slug',
+        name: 'taxonomy',
+        component: () => import('@/features/public/taxonomy/TaxonomyView.vue'),
+      },
+      {
+        path: 'penulis/:id',
+        name: 'author',
+        component: () => import('@/features/public/author/AuthorView.vue'),
+      },
+      {
+        path: 'infografis',
+        name: 'infographics',
+        component: () => import('@/features/public/infographics/InfographicsView.vue'),
+      },
     ],
   },
 

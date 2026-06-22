@@ -28,7 +28,16 @@ const top5 = computed(() => props.items.slice(0, 5));
         class="py-[5px]"
         :style="i ? { borderTop: '1px solid var(--color-pub-line)' } : {}"
       >
-        <StoryCard :item="it" force-text-only padding-class="py-0" title-class="text-[19px]" />
+        <StoryCard
+          :item="it"
+          force-text-only
+          padding-class="py-0"
+          title-class="text-[19px]"
+          raw-title-size
+          :shrink-threshold="43"
+          :clamp-title="2"
+          date-beside-category
+        />
       </div>
     </div>
   </section>

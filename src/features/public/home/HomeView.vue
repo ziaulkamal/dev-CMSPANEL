@@ -4,7 +4,8 @@
   registry + config (urutan, aktif, varian). Sumber data: mock (USE_MOCK) atau API.
 -->
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+import { ChevronDown } from '@lucide/vue';
 import { useQuery, useInfiniteQuery } from '@tanstack/vue-query';
 import { contentService } from '@/services/content.service';
 import { useSeoMeta } from '@/composables/useSeoMeta';
@@ -13,11 +14,13 @@ import LoadMore from '@/components/ui/LoadMore.vue';
 import HeroBreaking from './components/HeroBreaking.vue';
 import LiveUpdates from './components/LiveUpdates.vue';
 import StoryCard from './components/StoryCard.vue';
+import InfographicGallery from './components/InfographicGallery.vue';
 import RailModule from './components/RailModule.vue';
 import OpinionItem from './components/OpinionItem.vue';
 import VideoThumb from './components/VideoThumb.vue';
 import PopularList from './components/PopularList.vue';
 import EditorsPick from './components/EditorsPick.vue';
+import CategoryNews from './components/CategoryNews.vue';
 import SectionHeader from './components/SectionHeader.vue';
 import AdSlotRenderer from '@/features/public/shared/AdSlotRenderer.vue';
 
@@ -50,12 +53,26 @@ const posts = computed<MockStory[]>(() => (postsRes.value ?? []) as MockStory[])
 
 const hero = computed(() => (USE_MOCK ? mock.hero : posts.value[0]));
 const liveItems = computed(() => (USE_MOCK ? mock.liveUpdates : posts.value.slice(1, 5)));
-const analysis = computed(() => (USE_MOCK ? mock.analysis : posts.value[5]));
-const editorsPick = computed<MockStory[]>(() =>
-  USE_MOCK ? mock.editorsPick : (posts.value.slice(6, 9) as MockStory[]),
+const analysis = computed<MockStory[]>(() =>
+  USE_MOCK ? mock.analysis : (posts.value.slice(4, 9) as MockStory[]),
 );
-const centerFeatured = computed(() => (USE_MOCK ? mock.centerFeatured : posts.value[9]));
-const centerList = computed(() => (USE_MOCK ? mock.centerList : posts.value.slice(10, 16)));
+const editorsPick = computed<MockStory[]>(() =>
+  USE_MOCK ? mock.editorsPick : (posts.value.slice(9, 12) as MockStory[]),
+);
+// "Terbaru": daftar seragam — semua item sama (judul, deskripsi, author, waktu).
+const centerItems = computed<MockStory[]>(() =>
+  USE_MOCK ? (mock.centerList as MockStory[]) : (posts.value.slice(12, 19) as MockStory[]),
+);
+
+// ── Lazy-load "Terbaru": tombol memunculkan 5 berita tambahan tiap klik ──
+const LATEST_STEP = 5;
+const latestPool = computed<MockStory[]>(() => mock.latestMore as MockStory[]);
+const visibleExtra = ref(0);
+const extraItems = computed<MockStory[]>(() => latestPool.value.slice(0, visibleExtra.value));
+const hasMoreLatest = computed(() => USE_MOCK && visibleExtra.value < latestPool.value.length);
+function loadMoreLatest(): void {
+  visibleExtra.value = Math.min(visibleExtra.value + LATEST_STEP, latestPool.value.length);
+}
 const popular = computed(() => (USE_MOCK ? mock.popular : []));
 
 const { data: videoRes } = useQuery({
@@ -102,7 +119,7 @@ const { data: moreData, fetchNextPage, hasNextPage, isFetchingNextPage } = useIn
   enabled: !USE_MOCK,
 });
 const moreItems = computed<MockStory[]>(() => {
-  if (USE_MOCK) return mock.centerList as MockStory[];
+  if (USE_MOCK) return mock.categoryNews as MockStory[];
   return ((moreData.value?.pages.flatMap((p) => p.data) ?? []) as MockStory[]).slice(14);
 });
 </script>
@@ -112,52 +129,100 @@ const moreItems = computed<MockStory[]>(() => {
     <p v-if="isLoading && !USE_MOCK" :style="{ color: 'var(--color-pub-muted)' }">Memuat…</p>
 
     <div v-else>
-      <!-- Grid 3 kolom asimetris: 48% / 27% / 25% (→ 2 → 1 saat menyempit) -->
-      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8 lg:[grid-template-columns:48%_27%_25%]">
-        <!-- ── Kolom kiri (48%) ── -->
-        <section class="flex flex-col gap-6">
-          <template v-for="key in leftKeys" :key="key">
-            <HeroBreaking
-              v-if="key === 'hero' && hero"
-              :item="hero"
-              :variant="variantOf('hero')"
-            />
-            <LiveUpdates v-else-if="key === 'live'" :items="liveItems" />
-            <div
-              v-else-if="key === 'analysis' && analysis"
-              class="rounded-lg p-4"
-              :style="{ border: '1px solid var(--color-pub-line)', backgroundColor: 'var(--color-pub-paper)' }"
-            >
-              <StoryCard :item="analysis" eyebrow="ANALYSIS" show-excerpt class="!py-0" />
-            </div>
-            <div
-              v-else-if="key === 'centerFeed'"
-              class="rounded-lg px-4 py-1"
-              :style="{ border: '1px solid var(--color-pub-line)', backgroundColor: 'var(--color-pub-paper)' }"
-            >
-              <SectionHeader title="Terbaru" accent="var(--color-pub-crimson)" see-all />
-              <StoryCard
-                v-if="centerFeatured"
-                :item="centerFeatured"
-                :show-excerpt="variantOf('centerFeed') !== 'text-only'"
+      <!-- 2 kolom: area konten (kiri+tengah) | rail. Gap lega agar rail tak dempet. -->
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-10 lg:[grid-template-columns:72%_25%]">
+        <!-- ── Area kiri+tengah (75%): sub-grid 2 kolom (≈48/27) ──
+             Baris 1: [Hero+Live | Pilihan Editor]
+             Baris 2: Infografis (span 2)
+             Baris 3: Terbaru (span 2) -->
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8 lg:[grid-template-columns:64%_36%]">
+          <!-- Kolom kiri sub-grid: Hero + Live -->
+          <section class="flex flex-col gap-6">
+            <template v-for="key in leftKeys" :key="key">
+              <HeroBreaking
+                v-if="key === 'hero' && hero"
+                :item="hero"
+                :variant="variantOf('hero')"
               />
+              <LiveUpdates v-else-if="key === 'live'" :items="liveItems" :limit="3" />
+            </template>
+          </section>
+
+          <!-- Kolom kanan sub-grid: Pilihan Editor (sejajar top Hero di desktop) -->
+          <section class="flex flex-col">
+            <template v-for="key in centerKeys" :key="key">
+              <EditorsPick v-if="key === 'editorsPick'" :items="editorsPick" />
+            </template>
+          </section>
+
+          <!-- Infografis: span 2 kolom (selebar kiri+tengah) -->
+          <InfographicGallery
+            v-if="leftKeys.includes('analysis')"
+            :items="analysis"
+            title="Infografis"
+            class="md:col-span-2"
+          />
+
+          <!-- Terbaru: span 2 kolom (selebar kiri+tengah) -->
+          <div
+            v-if="leftKeys.includes('centerFeed')"
+            class="rounded-lg px-5 pt-4 pb-5 md:col-span-2"
+            :style="{ border: '1px solid var(--color-pub-line)', backgroundColor: 'var(--color-pub-paper)' }"
+          >
+            <SectionHeader title="Terbaru" accent="var(--color-pub-crimson)" see-all />
+            <!-- Daftar baris memanjang seragam: thumbnail kiri + judul, deskripsi,
+                 author, dan waktu tayang. Semua item sama (tanpa item utama). -->
+            <div class="flex flex-col">
+              <!-- Daftar utama + lazy-load (extraItems) digabung: divider seragam,
+                   baris tambahan muncul mulus dengan animasi reveal. -->
               <div
-                v-for="it in centerList"
+                v-for="(it, i) in [...centerItems, ...extraItems]"
                 :key="it.id"
-                :style="{ borderTop: '1px solid var(--color-pub-line)' }"
+                class="pub-reveal"
+                :style="i > 0 ? { borderTop: '1px solid var(--color-pub-line)' } : undefined"
               >
-                <StoryCard :item="it" :force-text-only="variantOf('centerFeed') === 'text-only'" />
+                <StoryCard
+                  :item="it"
+                  thumb-left
+                  thumb-size="lg"
+                  thumb-fill
+                  show-author
+                  show-stats
+                  :clamp-title="2"
+                  :excerpt-lines="2"
+                  title-class="text-[23px]"
+                  padding-class="py-5"
+                  :show-excerpt="variantOf('centerFeed') !== 'text-only'"
+                  :force-text-only="variantOf('centerFeed') === 'text-only'"
+                />
               </div>
             </div>
-          </template>
-        </section>
-
-        <!-- ── Kolom tengah (27%) ── -->
-        <section class="flex flex-col">
-          <template v-for="key in centerKeys" :key="key">
-            <EditorsPick v-if="key === 'editorsPick'" :items="editorsPick" />
-          </template>
-        </section>
+            <!-- Footer: tombol "muat lebih" (lazy-load) atau tautan arsip saat habis -->
+            <div
+              class="mt-5 flex flex-col items-center gap-2 pt-5"
+              :style="{ borderTop: '1px solid var(--color-pub-line)' }"
+            >
+              <button
+                v-if="hasMoreLatest"
+                type="button"
+                class="pub-loadmore"
+                @click="loadMoreLatest"
+              >
+                Muat 5 berita lagi
+                <ChevronDown class="pub-loadmore__icon" :size="16" aria-hidden="true" />
+              </button>
+              <a v-else href="/" class="pub-archive-link">
+                Lihat semua berita terbaru
+                <span class="pub-archive-link__arrow" aria-hidden="true">→</span>
+              </a>
+              <span
+                v-if="USE_MOCK && extraItems.length"
+                class="text-[11px]"
+                :style="{ color: 'var(--color-pub-muted)' }"
+              >Menampilkan {{ centerItems.length + extraItems.length }} dari {{ centerItems.length + latestPool.length }} berita</span>
+            </div>
+          </div>
+        </div>
 
         <!-- ── Rail kanan (25%) ── -->
         <aside class="flex flex-col gap-8 md:col-span-2 lg:col-span-1">
@@ -176,9 +241,12 @@ const moreItems = computed<MockStory[]>(() => {
               </div>
             </RailModule>
 
-            <RailModule v-else-if="key === 'popular' && popular.length" label="Most popular">
-              <PopularList :items="popular" />
-            </RailModule>
+            <!-- Most popular: menempel (sticky) saat scroll di desktop -->
+            <div v-else-if="key === 'popular' && popular.length" class="lg:sticky lg:top-6">
+              <RailModule label="Most popular">
+                <PopularList :items="popular" />
+              </RailModule>
+            </div>
           </template>
 
           <!-- Iklan rail (admin-driven) -->
@@ -191,24 +259,13 @@ const moreItems = computed<MockStory[]>(() => {
         <AdSlotRenderer position="in_post_below_title" />
       </div>
 
-      <!-- ── Berita lainnya (full width, card) ── -->
+      <!-- ── Berita per Kategori (full width, kartu grid) ── -->
       <div v-for="key in fullKeys" :key="key">
-        <div
-          v-if="key === 'moreNews' && moreItems.length"
-          class="mt-8 rounded-lg p-5"
-          :style="{ border: '1px solid var(--color-pub-line)', backgroundColor: 'var(--color-pub-paper)' }"
-        >
-          <SectionHeader title="Berita lainnya" accent="var(--color-pub-amber)" see-all />
-          <div class="grid grid-cols-1 gap-x-8 sm:grid-cols-2">
-            <div
-              v-for="it in moreItems"
-              :key="it.id"
-              :style="{ borderTop: '1px solid var(--color-pub-line)' }"
-            >
-              <StoryCard :item="it" />
-            </div>
-          </div>
-        </div>
+        <CategoryNews
+          v-if="key === 'moreNews'"
+          :items="moreItems"
+          :per-category="4"
+        />
       </div>
 
       <LoadMore

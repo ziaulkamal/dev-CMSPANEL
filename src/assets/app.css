@@ -18,6 +18,15 @@
 /* Dark mode — class-based (.dark di <html>) */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Kunci pinch-zoom dua jari di mobile (pelengkap meta viewport user-scalable=no;
+   Safari iOS kerap mengabaikan meta, jadi cegah juga lewat touch-action). Scroll
+   vertikal & tap tetap normal; teks tidak auto-membesar saat rotasi. */
+html {
+  touch-action: pan-x pan-y;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 /* ── Design Tokens ───────────────────────────────────────────── */
 @theme {
     --font-sans: 'DM Sans Variable', ui-sans-serif, system-ui, sans-serif,
@@ -255,6 +264,71 @@
     .pub-link-title { transition: color var(--duration-fast) var(--ease-default); }
     .pub-link-title:hover { color: var(--color-pub-crimson); text-decoration: underline; }
 
+    /* Tautan-pill arsip (footer section, mis. "Lihat semua berita terbaru"):
+       garis crimson tipis → terisi penuh saat hover; tetap rapi & terpusat. */
+    .pub-archive-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 22px;
+        border-radius: 9999px;
+        font-family: var(--font-pub-sans);
+        font-size: 12.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        white-space: nowrap;
+        color: var(--color-pub-crimson);
+        border: 1.5px solid color-mix(in srgb, var(--color-pub-crimson) 40%, transparent);
+        transition: background-color 200ms var(--ease-default),
+                    color 200ms var(--ease-default),
+                    border-color 200ms var(--ease-default),
+                    box-shadow 200ms var(--ease-default);
+    }
+    .pub-archive-link:hover {
+        color: #fff;
+        background-color: var(--color-pub-crimson);
+        border-color: var(--color-pub-crimson);
+        box-shadow: 0 4px 14px color-mix(in srgb, var(--color-pub-crimson) 28%, transparent);
+    }
+    .pub-archive-link__arrow { transition: transform 200ms var(--ease-default); }
+    .pub-archive-link:hover .pub-archive-link__arrow { transform: translateX(3px); }
+
+    /* Tombol "muat lebih" (lazy-load Terbaru): pill terisi crimson lembut,
+       hover lebih pekat + ikon panah turun sedikit. */
+    .pub-loadmore {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 26px;
+        border-radius: 9999px;
+        font-family: var(--font-pub-sans);
+        font-size: 12.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        white-space: nowrap;
+        cursor: pointer;
+        color: var(--color-pub-crimson);
+        background-color: color-mix(in srgb, var(--color-pub-crimson) 8%, transparent);
+        border: 1.5px solid color-mix(in srgb, var(--color-pub-crimson) 35%, transparent);
+        transition: background-color 200ms var(--ease-default),
+                    color 200ms var(--ease-default),
+                    border-color 200ms var(--ease-default),
+                    box-shadow 200ms var(--ease-default);
+    }
+    .pub-loadmore:hover {
+        color: #fff;
+        background-color: var(--color-pub-crimson);
+        border-color: var(--color-pub-crimson);
+        box-shadow: 0 4px 14px color-mix(in srgb, var(--color-pub-crimson) 28%, transparent);
+    }
+    .pub-loadmore__icon { transition: transform 200ms var(--ease-default); }
+    .pub-loadmore:hover .pub-loadmore__icon { transform: translateY(2px); }
+
+    /* Reveal halus untuk baris Terbaru yang baru dimuat (lazy-load). */
+    .pub-reveal { animation: pub-reveal 320ms var(--ease-default) both; }
+
     /* Titik LIVE berkedip halus. */
     .pub-live-dot {
         width: 9px; height: 9px; border-radius: 9999px;
@@ -268,7 +342,44 @@
     50% { opacity: 0.55; box-shadow: 0 0 0 4px rgba(225, 26, 51, 0); }
 }
 
+@keyframes pub-reveal {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Marquee Headline News: wrapper berisi 2 grup identik; geser -50% = tepat satu
+   grup, sehingga grup ke-2 menggantikan posisi grup ke-1 → loop tak terputus. */
+@keyframes pub-marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+.pub-marquee {
+    display: flex;
+    width: max-content;
+    flex-wrap: nowrap;
+    align-items: center;
+    will-change: transform;
+    animation: pub-marquee 38s linear infinite;
+}
+/* Tiap grup = satu salinan penuh item; tak boleh menyusut/wrap. */
+.pub-marquee__group {
+    display: flex;
+    flex: none;
+    align-items: center;
+    white-space: nowrap;
+}
+.pub-marquee__group > * {
+    flex: none;
+    white-space: nowrap;
+}
+/* Jeda saat hover agar pengguna sempat membaca. */
+.pub-marquee-viewport:hover .pub-marquee { animation-play-state: paused; }
+
 /* Hormati preferensi pengurangan gerak. */
 @media (prefers-reduced-motion: reduce) {
     .pub-live-dot { animation: none; }
+    .pub-reveal { animation: none; }
+    /* Tanpa animasi: jadikan track dapat di-scroll horizontal manual. */
+    .pub-marquee { animation: none; }
+    .pub-marquee-viewport { overflow-x: auto; }
 }

@@ -34,7 +34,10 @@ const POSITION_LABEL: Record<string, string> = {
   in_post_below_title: 'Bawah judul',
   in_post_after_paragraph: 'Setelah paragraf',
   post_sidebar_left: 'Sidebar kiri',
+  post_sidebar_bottom: 'Sidebar bawah',
+  pre_comments: 'Sebelum komentar',
   floating_top_nav: 'Mengambang atas',
+  floating_top_nav_mobile: 'Mengambang atas (mobile)',
   floating_bottom_timer: 'Mengambang bawah',
   flying_carpet: 'Flying carpet',
 };

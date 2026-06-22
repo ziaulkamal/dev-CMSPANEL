@@ -27,6 +27,21 @@ export function daysAgo(iso?: string | null): string {
 }
 
 /**
+ * Tanggal absolut singkat dalam Bahasa Indonesia, mis. "22 Jun 2026".
+ * Mengembalikan "" bila kosong/invalid (agar pemanggil bisa sembunyikan).
+ */
+export function formatDate(iso?: string | null): string {
+  if (!iso) return '';
+  const t = new Date(iso).getTime();
+  if (Number.isNaN(t)) return '';
+  return new Date(t).toLocaleDateString('id-ID', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+}
+
+/**
  * Waktu relatif berbutir halus (detik→menit→jam→hari) dalam Bahasa Indonesia,
  * untuk timeline LIVE/feed. Mis. "baru saja", "6 mnt lalu", "3 jam lalu".
  * Mengembalikan "" bila kosong/invalid (agar pemanggil bisa sembunyikan).

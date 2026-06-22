@@ -4,11 +4,20 @@
   Tiap baris: titik di garis vertikal + waktu relatif + judul ringkas.
 -->
 <script setup lang="ts">
+import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
 import type { ContentSummary } from '@/types/domain';
 import { relativeTime } from '@/lib/datetime';
 
-defineProps<{ items: ContentSummary[] }>();
+const props = withDefaults(
+  defineProps<{ items: ContentSummary[]; limit?: number }>(),
+  { limit: 0 },
+);
+
+/** Item yang ditampilkan (dibatasi `limit` bila > 0). */
+const visibleItems = computed(() =>
+  props.limit > 0 ? props.items.slice(0, props.limit) : props.items,
+);
 </script>
 
 <template>
@@ -36,7 +45,7 @@ defineProps<{ items: ContentSummary[] }>();
     <!-- Timeline scrollable (maks ~5 item terlihat) -->
     <ul class="pub-live-scroll flex max-h-[248px] flex-col gap-3.5 overflow-y-auto px-4 py-3.5">
       <li
-        v-for="it in items"
+        v-for="it in visibleItems"
         :key="it.id"
         class="relative pl-4 text-sm leading-snug"
         :style="{ borderLeft: '2px solid var(--color-pub-line)' }"

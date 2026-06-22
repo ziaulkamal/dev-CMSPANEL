@@ -53,7 +53,7 @@ const isSplit = computed(() => props.variant === 'split');
         <span class="block text-[11px] font-extrabold tracking-[0.12em] text-white">
           {{ label ?? 'BREAKING' }}
         </span>
-        <span class="mt-1.5 block text-2xl font-extrabold leading-tight text-white sm:text-[28px]">
+        <span class="mt-1.5 block text-[22px] font-extrabold leading-tight text-white sm:text-[24px] lg:text-[28px]">
           {{ item.title }}
         </span>
       </span>
@@ -62,7 +62,7 @@ const isSplit = computed(() => props.variant === 'split');
     <!-- Teks di bawah (varian split) -->
     <span v-if="isSplit" class="mt-3 block">
       <span class="pub-eyebrow block">{{ label ?? 'BREAKING' }}</span>
-      <span class="mt-1.5 block text-2xl font-extrabold leading-tight sm:text-[28px]" :style="{ color: 'var(--color-pub-ink)' }">
+      <span class="mt-1.5 block text-[22px] font-extrabold leading-tight sm:text-[24px] lg:text-[28px]" :style="{ color: 'var(--color-pub-ink)' }">
         {{ item.title }}
       </span>
     </span>

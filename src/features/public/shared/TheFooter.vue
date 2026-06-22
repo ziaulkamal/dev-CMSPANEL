@@ -10,7 +10,8 @@ defineProps<{ data: FooterConfig }>();
 </script>
 
 <template>
-  <footer :style="{ backgroundColor: 'var(--color-pub-ink)' }">
+  <!-- Footer selalu band gelap (ink tetap), tak ikut flip saat dark mode. -->
+  <footer :style="{ backgroundColor: 'var(--color-pub-footer, #15130f)' }">
     <div class="mx-auto max-w-[1140px] px-4 py-12 lg:px-6">
       <!-- Brand + kolom tautan -->
       <div class="grid grid-cols-2 gap-8 md:grid-cols-5">
@@ -20,11 +21,11 @@ defineProps<{ data: FooterConfig }>();
               <span class="h-3.5 w-3.5 rounded-full border-[3px] border-white"></span>
             </span>
             <span class="text-sm font-extrabold tracking-[0.14em] text-white">
-              NEWS<span :style="{ color: 'var(--color-pub-crimson)' }">ROOM</span>
+              WARTAKAN<span :style="{ color: 'var(--color-pub-crimson)' }"> MEDIA</span>
             </span>
           </div>
           <p class="mt-3 text-xs leading-relaxed" :style="{ color: '#8a857c' }">
-            Portal berita digital 24-jam. Tegas, jurnalistik, mendunia.
+            Portal berita digital dari Aceh untuk Indonesia. Tegas, jurnalistik, terpercaya.
           </p>
         </div>
 

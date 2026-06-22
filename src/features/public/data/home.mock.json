@@ -2,117 +2,236 @@
   "nav": [
     {
       "id": "news",
-      "label": "News",
+      "label": "Berita",
       "url": "/",
       "children": [
-        { "id": "world", "label": "World", "url": "/" },
-        { "id": "politics", "label": "Politics", "url": "/" },
-        { "id": "business", "label": "Business", "url": "/" },
-        { "id": "tech", "label": "Technology", "url": "/" }
+        { "id": "aceh", "label": "Aceh", "url": "/" },
+        { "id": "nasional", "label": "Nasional", "url": "/" },
+        { "id": "ekonomi", "label": "Ekonomi", "url": "/" },
+        { "id": "teknologi", "label": "Teknologi", "url": "/" }
       ]
     },
-    { "id": "opinion", "label": "Opinion", "url": "/", "children": [] },
-    { "id": "sport", "label": "Sport", "url": "/", "children": [] },
+    { "id": "opinion", "label": "Opini", "url": "/", "children": [] },
+    { "id": "sport", "label": "Olahraga", "url": "/", "children": [] },
     { "id": "video", "label": "Video", "url": "/", "children": [] },
     {
       "id": "more",
-      "label": "More",
+      "label": "Lainnya",
       "url": "/",
       "children": [
-        { "id": "explained", "label": "Explained", "url": "/" },
+        { "id": "explained", "label": "Penjelasan", "url": "/" },
         { "id": "podcast", "label": "Podcast", "url": "/" },
-        { "id": "investigations", "label": "Investigations", "url": "/" }
+        { "id": "investigations", "label": "Investigasi", "url": "/" }
       ]
     }
   ],
   "trending": [
-    "Gaza ceasefire talks resume",
-    "Global markets rally after rate cut",
-    "Climate summit reaches new accord",
-    "Election results spark debate",
-    "Tech giants face new regulation"
+    "PON Aceh siapkan venue baru di Banda Aceh",
+    "Harga pinang Aceh menguat di pasar ekspor",
+    "Pemprov Aceh dorong digitalisasi UMKM",
+    "Wisata Sabang catat lonjakan kunjungan",
+    "Qanun syariat dibahas ulang di parlemen Aceh"
   ],
   "hero": {
     "id": "h1",
-    "slug": "ceasefire-negotiations-enter-decisive-phase",
-    "title": "Ceasefire negotiations enter a decisive phase as mediators push for deal",
-    "excerpt": "Diplomats from three nations gathered overnight, signaling the closest progress in months.",
-    "featured_image": "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&w=1200&q=70",
+    "slug": "pemprov-aceh-percepat-pembangunan-pelabuhan-malahayati",
+    "title": "Pemprov Aceh percepat pembangunan Pelabuhan Malahayati sebagai gerbang ekspor",
+    "excerpt": "Gubernur menyebut perluasan dermaga akan memangkas biaya logistik dan membuka akses pasar baru bagi komoditas Aceh.",
+    "featured_image": "https://images.unsplash.com/photo-1577416412292-747c6607f055?auto=format&fit=crop&w=1200&q=70",
     "label": "BREAKING",
-    "category": "DUNIA",
+    "category": "ACEH",
+    "category_slug": "aceh",
     "category_color": "#e11a33",
-    "published_at": "2026-06-22T09:40:00Z"
+    "published_at": "2026-06-22T09:40:00Z",
+    "authors": [
+      {
+        "id": "lina-marwah",
+        "display_name": "Lina Marwah",
+        "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&crop=faces&w=128&h=128&q=70",
+        "bio": "Koresponden Aceh, meliput pemerintahan daerah & ekonomi kawasan."
+      }
+    ],
+    "tags": [
+      { "label": "Pelabuhan Malahayati", "slug": "pelabuhan-malahayati" },
+      { "label": "Ekspor Aceh", "slug": "ekspor-aceh" },
+      { "label": "Logistik", "slug": "logistik" },
+      { "label": "Pembangunan", "slug": "pembangunan" }
+    ],
+    "stats": { "views": 18420, "comments": 36, "likes": 742, "shares": 215 }
   },
   "liveUpdates": [
-    { "id": "l1", "slug": "live-1", "title": "Mediators say technical talks ‘really hard’ but ongoing", "published_at": "2026-06-22T09:34:00Z" },
-    { "id": "l2", "slug": "live-2", "title": "If you’re just joining us: here’s what we know so far", "published_at": "2026-06-22T09:19:00Z" },
-    { "id": "l3", "slug": "live-3", "title": "Regional airline to lower fares amid fuel price drop", "published_at": "2026-06-22T09:04:00Z" },
-    { "id": "l4", "slug": "live-4", "title": "Officials confirm humanitarian corridor reopened", "published_at": "2026-06-22T08:40:00Z" },
-    { "id": "l5", "slug": "live-5", "title": "Analysts weigh in: what a deal would mean for markets", "published_at": "2026-06-22T08:12:00Z" },
-    { "id": "l6", "slug": "live-6", "title": "Aid agencies prepare for rapid distribution", "published_at": "2026-06-22T07:45:00Z" }
+    { "id": "l1", "slug": "live-1", "title": "Dishub Aceh sebut pengerukan alur pelabuhan dimulai pekan ini", "published_at": "2026-06-22T09:34:00Z" },
+    { "id": "l2", "slug": "live-2", "title": "Baru bergabung? Berikut rangkuman perkembangan terkini", "published_at": "2026-06-22T09:19:00Z" },
+    { "id": "l3", "slug": "live-3", "title": "Maskapai turunkan tarif rute Banda Aceh–Medan", "published_at": "2026-06-22T09:04:00Z" },
+    { "id": "l4", "slug": "live-4", "title": "Pelaku usaha sambut rencana zona logistik terpadu", "published_at": "2026-06-22T08:40:00Z" },
+    { "id": "l5", "slug": "live-5", "title": "Analis: dampak proyek bagi harga komoditas lokal", "published_at": "2026-06-22T08:12:00Z" },
+    { "id": "l6", "slug": "live-6", "title": "Nelayan Krueng Raya minta jaminan akses dermaga", "published_at": "2026-06-22T07:45:00Z" }
   ],
-  "analysis": {
-    "id": "a1",
-    "slug": "what-the-new-accord-means",
-    "title": "Analysis: What the new accord really means for the region",
-    "excerpt": "Behind the diplomatic language lies a fragile balance of competing interests.",
-    "featured_image": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=640&q=70",
-    "category": "ANALISIS",
-    "category_color": "#f59e00",
-    "published_at": "2026-06-22T07:30:00Z"
-  },
+  "analysis": [
+    {
+      "id": "a1",
+      "slug": "anatomi-ekspor-komoditas-aceh",
+      "title": "Anatomi ekspor komoditas Aceh: siapa untung dari pelabuhan baru",
+      "featured_image": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=540&q=70",
+      "category": "INFOGRAFIS",
+      "category_color": "#f59e00",
+      "published_at": "2026-06-22T07:30:00Z"
+    },
+    {
+      "id": "a2",
+      "slug": "peta-harga-pinang-sumatra",
+      "title": "Peta harga pinang Sumatra: daerah mana paling tertekan",
+      "featured_image": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=540&q=70",
+      "category": "INFOGRAFIS",
+      "category_color": "#f59e00",
+      "published_at": "2026-06-22T06:50:00Z"
+    },
+    {
+      "id": "a3",
+      "slug": "alur-distribusi-bantuan-banjir-aceh",
+      "title": "Alur distribusi bantuan banjir Aceh dalam tujuh tahap",
+      "featured_image": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=540&q=70",
+      "category": "INFOGRAFIS",
+      "category_color": "#f59e00",
+      "published_at": "2026-06-22T05:20:00Z"
+    },
+    {
+      "id": "a4",
+      "slug": "lonjakan-kunjungan-wisata-sabang",
+      "title": "Lonjakan kunjungan wisata Sabang sepanjang 2026",
+      "featured_image": "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=540&q=70",
+      "category": "INFOGRAFIS",
+      "category_color": "#f59e00",
+      "published_at": "2026-06-22T04:10:00Z"
+    },
+    {
+      "id": "a5",
+      "slug": "rantai-pasok-kopi-gayo",
+      "title": "Rantai pasok kopi Gayo: dari kebun ke cangkir dunia",
+      "featured_image": "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=540&q=70",
+      "category": "INFOGRAFIS",
+      "category_color": "#f59e00",
+      "published_at": "2026-06-22T03:00:00Z"
+    }
+  ],
   "editorsPick": [
-    { "id": "e1", "slug": "ep-1", "title": "Profil: tokoh di balik meja perundingan", "category": "PROFIL", "category_color": "#0284c7", "published_at": "2026-06-22T06:20:00Z" },
-    { "id": "e2", "slug": "ep-2", "title": "Lini masa: bagaimana konflik mencapai titik ini", "category": "EXPLAINER", "category_color": "#059669", "published_at": "2026-06-22T05:30:00Z" },
-    { "id": "e3", "slug": "ep-3", "title": "Opini: jalan panjang menuju perdamaian berkelanjutan", "category": "OPINI", "category_color": "#7c3aed", "published_at": "2026-06-22T04:50:00Z" },
-    { "id": "e4", "slug": "ep-4", "title": "Data: angka-angka kunci di balik kesepakatan", "category": "DATA", "category_color": "#059669", "published_at": "2026-06-22T04:10:00Z" },
-    { "id": "e5", "slug": "ep-5", "title": "Wawancara: suara warga di garis perbatasan", "category": "WAWANCARA", "category_color": "#e11a33", "published_at": "2026-06-22T03:35:00Z" }
+    { "id": "e1", "slug": "ep-1", "title": "Profil: tokoh di balik kebangkitan kopi Gayo", "category": "PROFIL", "category_color": "#0284c7", "published_at": "2026-06-22T06:20:00Z" },
+    { "id": "e2", "slug": "ep-2", "title": "Lini masa: perjalanan pemulihan Aceh pascatsunami", "category": "EXPLAINER", "category_color": "#059669", "published_at": "2026-06-22T05:30:00Z" },
+    { "id": "e3", "slug": "ep-3", "title": "Opini: jalan panjang ekonomi syariah di Aceh", "category": "OPINI", "category_color": "#7c3aed", "published_at": "2026-06-22T04:50:00Z" },
+    { "id": "e4", "slug": "ep-4", "title": "Data: angka-angka kunci pembangunan Aceh 2026", "category": "DATA", "category_color": "#059669", "published_at": "2026-06-22T04:10:00Z" },
+    { "id": "e5", "slug": "ep-5", "title": "Wawancara: suara nelayan di pesisir Krueng Raya", "category": "WAWANCARA", "category_color": "#e11a33", "published_at": "2026-06-22T03:35:00Z" }
   ],
   "centerFeatured": {
     "id": "c0",
-    "slug": "markets-rally-rate-cut",
-    "title": "Markets rally to record highs after surprise rate cut",
-    "excerpt": "Investors cheered the central bank’s move, sending major indices up across the board.",
-    "featured_image": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=720&q=70",
+    "slug": "kopi-gayo-tembus-pasar-eropa",
+    "title": "Kopi Gayo tembus pasar Eropa setelah lolos sertifikasi baru",
+    "excerpt": "Eksportir di Aceh Tengah menyebut permintaan dari Eropa melonjak usai sertifikasi keberlanjutan diterbitkan.",
+    "featured_image": "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=720&q=70",
     "category": "EKONOMI",
+    "category_slug": "ekonomi",
     "category_color": "#059669",
-    "published_at": "2026-06-22T08:10:00Z"
+    "published_at": "2026-06-22T08:10:00Z",
+    "authors": [
+      {
+        "id": "rina-wijaya",
+        "display_name": "Rina Wijaya",
+        "avatar": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&crop=faces&w=128&h=128&q=70",
+        "bio": "Reporter ekonomi & komoditas Aceh."
+      }
+    ],
+    "tags": [
+      { "label": "Kopi Gayo", "slug": "kopi-gayo" },
+      { "label": "Ekspor", "slug": "ekspor" },
+      { "label": "Aceh Tengah", "slug": "aceh-tengah" }
+    ],
+    "stats": { "views": 42100, "comments": 312, "likes": 1640, "shares": 1280 }
   },
   "centerList": [
-    { "id": "c1", "slug": "summit-accord", "title": "Climate summit reaches landmark accord on emissions", "featured_image": "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?auto=format&fit=crop&w=240&q=60", "category": "LINGKUNGAN", "category_color": "#059669", "published_at": "2026-06-22T07:50:00Z" },
-    { "id": "c2", "slug": "election-debate", "title": "Election results spark fierce debate over turnout figures", "category": "POLITIK", "category_color": "#e11a33", "published_at": "2026-06-22T07:20:00Z" },
-    { "id": "c3", "slug": "tech-regulation", "title": "Tech giants brace for sweeping new regulation package", "featured_image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=240&q=60", "category": "TEKNOLOGI", "category_color": "#0284c7", "published_at": "2026-06-22T06:55:00Z" },
-    { "id": "c4", "slug": "energy-prices", "title": "Energy prices ease as supply concerns fade", "category": "EKONOMI", "category_color": "#059669", "published_at": "2026-06-22T06:30:00Z" },
-    { "id": "c5", "slug": "health-breakthrough", "title": "Researchers report breakthrough in vaccine trial", "featured_image": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=240&q=60", "category": "KESEHATAN", "category_color": "#0284c7", "published_at": "2026-06-22T05:48:00Z" },
-    { "id": "c6", "slug": "sports-final", "title": "Underdogs stun champions in dramatic final", "category": "OLAHRAGA", "category_color": "#f59e00", "published_at": "2026-06-22T05:10:00Z" }
+    { "id": "c0", "slug": "kopi-gayo-tembus-pasar-eropa", "title": "Kopi Gayo tembus pasar Eropa setelah lolos sertifikasi baru", "excerpt": "Eksportir di Aceh Tengah menyebut permintaan dari Eropa melonjak usai sertifikasi keberlanjutan diterbitkan. Petani berharap harga di tingkat kebun ikut terangkat, meski sebagian masih khawatir soal konsistensi mutu dan biaya logistik dari dataran tinggi Gayo ke pelabuhan ekspor.", "featured_image": "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=480&q=70", "category": "EKONOMI", "category_color": "#059669", "authors": [{ "display_name": "Rina Wijaya", "avatar": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&crop=faces&w=96&h=96&q=70" }], "stats": { "views": 42100, "comments": 312, "shares": 1280 }, "published_at": "2026-06-22T08:10:00Z" },
+    { "id": "c1", "slug": "konferensi-kelautan-aceh", "title": "Konferensi kelautan di Banda Aceh hasilkan kesepakatan konservasi", "excerpt": "Para delegasi menyepakati langkah perlindungan terumbu karang di perairan Sabang setelah pembahasan maraton hingga larut malam. Kesepakatan mencakup pembatasan zona tangkap dan pendanaan untuk rehabilitasi ekosistem pesisir yang rusak akibat aktivitas berlebih.", "featured_image": "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=480&q=70", "category": "LINGKUNGAN", "category_color": "#059669", "authors": [{ "display_name": "Adi Pratama", "avatar": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&crop=faces&w=96&h=96&q=70" }], "stats": { "views": 28700, "comments": 184, "shares": 906 }, "published_at": "2026-06-22T07:50:00Z" },
+    { "id": "c2", "slug": "hasil-pilkada-aceh", "title": "Hasil Pilkada Aceh picu perdebatan soal angka partisipasi", "excerpt": "Penyelenggara membela hasil rekapitulasi saat sejumlah pihak mempertanyakan tingginya partisipasi di beberapa kabupaten. Pemantau dari kedua kubu meminta audit independen, sementara KIP Aceh menegaskan angka itu konsisten dengan data pemilih dan tren pencoblosan awal.", "featured_image": "https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?auto=format&fit=crop&w=480&q=70", "category": "POLITIK", "category_color": "#e11a33", "authors": [{ "display_name": "Siti Hapsah", "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&crop=faces&w=96&h=96&q=70" }], "stats": { "views": 51300, "comments": 627, "shares": 2140 }, "published_at": "2026-06-22T07:20:00Z" },
+    { "id": "c3", "slug": "umkm-aceh-go-digital", "title": "UMKM Aceh bersiap hadapi gelombang digitalisasi pasar", "excerpt": "Program pendampingan baru akan mengubah cara pelaku usaha kecil di Aceh memasarkan produk, mengelola data pelanggan, dan bersaing lintas daerah. Pemprov menargetkan ribuan UMKM masuk lokapasar tahun ini, meski sebagian pelaku mengeluhkan keterbatasan jaringan internet di pelosok.", "featured_image": "https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?auto=format&fit=crop&w=480&q=70", "category": "TEKNOLOGI", "category_color": "#0284c7", "authors": [{ "display_name": "Bayu Saputra" }], "stats": { "views": 19800, "comments": 98, "shares": 540 }, "published_at": "2026-06-22T06:55:00Z" },
+    { "id": "c4", "slug": "harga-pinang-aceh-melandai", "title": "Harga pinang Aceh melandai seiring pasokan ekspor pulih", "excerpt": "Harga di tingkat pengumpul turun selama tiga pekan beruntun setelah stok membaik dan permintaan ekspor kembali stabil. Pedagang menyebut pelonggaran arus barang di pelabuhan sebagai pendorong utama, namun mengingatkan gangguan cuaca bisa cepat membalik tren.", "featured_image": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=480&q=70", "category": "EKONOMI", "category_color": "#059669", "authors": [{ "display_name": "Dewi Lestari" }], "stats": { "views": 14200, "comments": 56, "shares": 312 }, "published_at": "2026-06-22T06:30:00Z" },
+    { "id": "c5", "slug": "riset-vaksin-unsyiah", "title": "Peneliti Unsyiah laporkan kemajuan uji vaksin tropis", "excerpt": "Hasil awal menunjukkan respons imun yang kuat dengan efek samping minim, memunculkan harapan jalur persetujuan yang lebih cepat. Tim peneliti menegaskan uji skala besar masih diperlukan, tetapi menyebut data awal ini sebagai yang paling menjanjikan sejauh ini.", "featured_image": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=480&q=70", "category": "KESEHATAN", "category_color": "#0284c7", "authors": [{ "display_name": "Farah Nuraini" }], "stats": { "views": 33600, "comments": 241, "shares": 1490 }, "published_at": "2026-06-22T05:48:00Z" },
+    { "id": "c6", "slug": "persiraja-juara-dramatis", "title": "Persiraja kalahkan juara bertahan di final dramatis", "excerpt": "Gol di menit akhir memastikan kejutan yang tak banyak diprediksi pengamat di laga penentu musim ini. Suporter membanjiri jalanan Banda Aceh untuk merayakan, sementara pelatih menyebut kemenangan ini buah dari persiapan tanpa kenal lelah dan keyakinan tim.", "featured_image": "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?auto=format&fit=crop&w=480&q=70", "category": "OLAHRAGA", "category_color": "#f59e00", "authors": [{ "display_name": "Yoga Mahendra" }], "stats": { "views": 47900, "comments": 503, "shares": 1820 }, "published_at": "2026-06-22T05:10:00Z" }
+  ],
+  "categoryNews": [
+    { "id": "cn-eko-1", "slug": "cn-eko-1", "title": "Rupiah menguat tipis, ekspor Aceh ikut terdongkrak", "featured_image": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=480&q=70", "category": "EKONOMI", "category_color": "#059669", "authors": [{ "display_name": "Rina Wijaya", "avatar": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&crop=faces&w=96&h=96&q=70" }], "published_at": "2026-06-22T08:10:00Z" },
+    { "id": "cn-eko-2", "slug": "cn-eko-2", "title": "Harga ikan tongkol di Lampulo melandai jelang akhir pekan", "featured_image": "https://images.unsplash.com/photo-1534177616072-ef7dc120449d?auto=format&fit=crop&w=480&q=70", "category": "EKONOMI", "category_color": "#059669", "authors": [{ "display_name": "Dewi Lestari" }], "published_at": "2026-06-22T06:30:00Z" },
+    { "id": "cn-eko-3", "slug": "cn-eko-3", "title": "Bank Aceh isyaratkan kredit usaha mikro lebih longgar", "featured_image": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=480&q=70", "category": "EKONOMI", "category_color": "#059669", "authors": [{ "display_name": "Adi Pratama" }], "published_at": "2026-06-22T05:40:00Z" },
+    { "id": "cn-eko-4", "slug": "cn-eko-4", "title": "Investor lirik kawasan industri Ladong di Aceh Besar", "featured_image": "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=480&q=70", "category": "EKONOMI", "category_color": "#059669", "authors": [{ "display_name": "Bayu Saputra" }], "published_at": "2026-06-22T04:55:00Z" },
+    { "id": "cn-pol-1", "slug": "cn-pol-1", "title": "Hasil Pilkada Aceh picu perdebatan angka partisipasi", "featured_image": "https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?auto=format&fit=crop&w=480&q=70", "category": "POLITIK", "category_color": "#e11a33", "authors": [{ "display_name": "Siti Hapsah", "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&crop=faces&w=96&h=96&q=70" }], "published_at": "2026-06-22T07:20:00Z" },
+    { "id": "cn-pol-2", "slug": "cn-pol-2", "title": "Koalisi baru terbentuk jelang sidang paripurna DPRA", "featured_image": "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&w=480&q=70", "category": "POLITIK", "category_color": "#e11a33", "authors": [{ "display_name": "Yoga Mahendra" }], "published_at": "2026-06-22T06:10:00Z" },
+    { "id": "cn-pol-3", "slug": "cn-pol-3", "title": "DPRA bahas revisi qanun tata kelola dana otsus", "featured_image": "https://images.unsplash.com/photo-1555848962-6e79363ec58f?auto=format&fit=crop&w=480&q=70", "category": "POLITIK", "category_color": "#e11a33", "authors": [{ "display_name": "Farah Nuraini" }], "published_at": "2026-06-22T05:05:00Z" },
+    { "id": "cn-pol-4", "slug": "cn-pol-4", "title": "Pemkab Pidie dorong transparansi anggaran desa", "featured_image": "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=480&q=70", "category": "POLITIK", "category_color": "#e11a33", "authors": [{ "display_name": "Nadia Rahman" }], "published_at": "2026-06-22T04:20:00Z" },
+    { "id": "cn-tek-1", "slug": "cn-tek-1", "title": "UMKM Aceh bersiap hadapi gelombang digitalisasi", "featured_image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=480&q=70", "category": "TEKNOLOGI", "category_color": "#0284c7", "authors": [{ "display_name": "Bayu Saputra" }], "published_at": "2026-06-22T06:55:00Z" },
+    { "id": "cn-tek-2", "slug": "cn-tek-2", "title": "Startup Banda Aceh kembangkan aplikasi nelayan pintar", "featured_image": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=480&q=70", "category": "TEKNOLOGI", "category_color": "#0284c7", "authors": [{ "display_name": "Daniel Okoro" }], "published_at": "2026-06-22T05:35:00Z" },
+    { "id": "cn-tek-3", "slug": "cn-tek-3", "title": "Adopsi motor listrik di Banda Aceh tembus rekor", "featured_image": "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=480&q=70", "category": "TEKNOLOGI", "category_color": "#0284c7", "authors": [{ "display_name": "Mei Lin" }], "published_at": "2026-06-22T04:45:00Z" },
+    { "id": "cn-tek-4", "slug": "cn-tek-4", "title": "Jaringan internet desa di Gayo Lues mulai diperluas", "featured_image": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=480&q=70", "category": "TEKNOLOGI", "category_color": "#0284c7", "authors": [{ "display_name": "Rina Wijaya" }], "published_at": "2026-06-22T03:50:00Z" },
+    { "id": "cn-olr-1", "slug": "cn-olr-1", "title": "Persiraja kalahkan juara bertahan di final dramatis", "featured_image": "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?auto=format&fit=crop&w=480&q=70", "category": "OLAHRAGA", "category_color": "#f59e00", "authors": [{ "display_name": "Yoga Mahendra" }], "published_at": "2026-06-22T05:10:00Z" },
+    { "id": "cn-olr-2", "slug": "cn-olr-2", "title": "Atlet muda Aceh pecahkan rekor PON lari 100m", "featured_image": "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=480&q=70", "category": "OLAHRAGA", "category_color": "#f59e00", "authors": [{ "display_name": "Adi Pratama" }], "published_at": "2026-06-22T04:30:00Z" },
+    { "id": "cn-olr-3", "slug": "cn-olr-3", "title": "Tim voli pantai Aceh lolos ke final usai laga sengit", "featured_image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=480&q=70", "category": "OLAHRAGA", "category_color": "#f59e00", "authors": [{ "display_name": "Siti Hapsah" }], "published_at": "2026-06-22T03:40:00Z" },
+    { "id": "cn-olr-4", "slug": "cn-olr-4", "title": "Persiraja umumkan transfer pemain bintang baru", "featured_image": "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=480&q=70", "category": "OLAHRAGA", "category_color": "#f59e00", "authors": [{ "display_name": "Dewi Lestari" }], "published_at": "2026-06-22T02:55:00Z" }
+  ],
+  "latestMore": [
+    { "id": "lm1", "slug": "lm-1", "title": "Kejati Aceh tetapkan dua tersangka korupsi dana desa", "excerpt": "Penyidik menyebut keduanya diduga terlibat dalam aliran dana proyek infrastruktur desa senilai miliaran rupiah, dan tak menutup kemungkinan ada tersangka lain menyusul.", "featured_image": "https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&w=480&q=70", "category": "HUKUM", "category_color": "#e11a33", "authors": [{ "display_name": "Rina Wijaya", "avatar": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&crop=faces&w=96&h=96&q=70" }], "stats": { "views": 18400, "comments": 92, "shares": 410 }, "published_at": "2026-06-22T02:40:00Z" },
+    { "id": "lm2", "slug": "lm-2", "title": "Banjir rob rendam kawasan pesisir Aceh Utara", "excerpt": "Ketinggian air mencapai lutut orang dewasa di sejumlah titik; warga diminta waspada terhadap pasang maksimum dalam tiga hari ke depan.", "featured_image": "https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=480&q=70", "category": "LINGKUNGAN", "category_color": "#059669", "authors": [{ "display_name": "Adi Pratama" }], "stats": { "views": 12700, "comments": 48, "shares": 230 }, "published_at": "2026-06-22T02:20:00Z" },
+    { "id": "lm3", "slug": "lm-3", "title": "Festival Seni Rapai Aceh umumkan deretan peserta", "excerpt": "Sejumlah sanggar dari pelosok kabupaten mendominasi daftar peserta, mengejutkan pengamat yang memperkirakan dominasi grup besar kota.", "featured_image": "https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?auto=format&fit=crop&w=480&q=70", "category": "HIBURAN", "category_color": "#7c3aed", "authors": [{ "display_name": "Mei Lin" }], "stats": { "views": 9800, "comments": 31, "shares": 188 }, "published_at": "2026-06-22T01:55:00Z" },
+    { "id": "lm4", "slug": "lm-4", "title": "Bengkel lokal Aceh rilis konversi motor listrik terjangkau", "excerpt": "Produk anyar diklaim mampu menempuh jarak lebih jauh dengan biaya konversi yang ditekan hingga sepertiga dibanding sebelumnya.", "featured_image": "https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=480&q=70", "category": "OTOMOTIF", "category_color": "#0284c7", "authors": [{ "display_name": "Bayu Saputra" }], "stats": { "views": 15200, "comments": 64, "shares": 302 }, "published_at": "2026-06-22T01:30:00Z" },
+    { "id": "lm5", "slug": "lm-5", "title": "Peneliti temukan spesies karang baru di perairan Sabang", "excerpt": "Temuan dari ekspedisi gabungan ini disebut membuka peluang studi adaptasi biota laut pada perairan tropis dangkal Aceh.", "featured_image": "https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=480&q=70", "category": "SAINS", "category_color": "#059669", "authors": [{ "display_name": "Farah Nuraini" }], "stats": { "views": 22100, "comments": 117, "shares": 540 }, "published_at": "2026-06-22T01:05:00Z" },
+    { "id": "lm6", "slug": "lm-6", "title": "Bursa kerja digital Aceh catat lonjakan pelamar", "excerpt": "Sektor pariwisata dan logistik menjadi yang paling diburu, sementara perusahaan mengeluhkan kesenjangan keterampilan di kalangan pencari kerja muda.", "featured_image": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=480&q=70", "category": "EKONOMI", "category_color": "#059669", "authors": [{ "display_name": "Dewi Lestari" }], "stats": { "views": 11400, "comments": 39, "shares": 176 }, "published_at": "2026-06-22T00:45:00Z" },
+    { "id": "lm7", "slug": "lm-7", "title": "Banda Aceh uji coba bus Trans Koetaradja gratis", "excerpt": "Program percontohan selama sebulan ini bertujuan menekan emisi sekaligus mengukur minat warga beralih dari kendaraan pribadi.", "featured_image": "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=480&q=70", "category": "ACEH", "category_color": "#0284c7", "authors": [{ "display_name": "Siti Hapsah" }], "stats": { "views": 8600, "comments": 27, "shares": 145 }, "published_at": "2026-06-22T00:20:00Z" },
+    { "id": "lm8", "slug": "lm-8", "title": "RSUD Zainoel Abidin tambah kapasitas ICU", "excerpt": "Penambahan fasilitas disebut sebagai antisipasi lonjakan musiman dan upaya mengurai antrean pasien rujukan dari kabupaten sekitar.", "featured_image": "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=480&q=70", "category": "KESEHATAN", "category_color": "#0284c7", "authors": [{ "display_name": "Nadia Rahman" }], "stats": { "views": 7300, "comments": 22, "shares": 98 }, "published_at": "2026-06-21T23:55:00Z" },
+    { "id": "lm9", "slug": "lm-9", "title": "Liga basket pelajar Aceh gelar musim baru pekan depan", "excerpt": "Sejumlah sekolah melakukan perombakan besar di sektor pemain, memunculkan persaingan yang diprediksi lebih ketat dari musim lalu.", "featured_image": "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=480&q=70", "category": "OLAHRAGA", "category_color": "#f59e00", "authors": [{ "display_name": "Yoga Mahendra" }], "stats": { "views": 13900, "comments": 58, "shares": 264 }, "published_at": "2026-06-21T23:30:00Z" },
+    { "id": "lm10", "slug": "lm-10", "title": "Pameran seni rupa Aceh hadirkan instalasi interaktif", "excerpt": "Pengunjung diajak menjadi bagian dari karya melalui sensor gerak dan proyeksi cahaya yang merespons kehadiran mereka.", "featured_image": "https://images.unsplash.com/photo-1531913764164-f85c52e6e654?auto=format&fit=crop&w=480&q=70", "category": "HIBURAN", "category_color": "#7c3aed", "authors": [{ "display_name": "Daniel Okoro" }], "stats": { "views": 6100, "comments": 19, "shares": 87 }, "published_at": "2026-06-21T23:05:00Z" }
+  ],
+  "secondaryNav": [
+    { "id": "sn-aceh", "label": "Aceh", "url": "/", "source": "category", "children": [] },
+    { "id": "sn-politik", "label": "Politik", "url": "/", "source": "category", "children": [] },
+    { "id": "sn-ekonomi", "label": "Ekonomi", "url": "/", "source": "category", "children": [] },
+    { "id": "sn-teknologi", "label": "Teknologi", "url": "/", "source": "category", "children": [] },
+    { "id": "sn-olahraga", "label": "Olahraga", "url": "/", "source": "category", "children": [] },
+    { "id": "sn-nasional", "label": "Nasional", "url": "/", "source": "category", "children": [] },
+    { "id": "sn-kesehatan", "label": "Kesehatan", "url": "/", "source": "category", "children": [] },
+    { "id": "sn-lingkungan", "label": "Lingkungan", "url": "/", "source": "category", "children": [] },
+    { "id": "sn-hiburan", "label": "Hiburan", "url": "/", "source": "category", "children": [] },
+    { "id": "sn-otomotif", "label": "Otomotif", "url": "/", "source": "category", "children": [] },
+    { "id": "sn-sains", "label": "Sains", "url": "/", "source": "category", "children": [] },
+    { "id": "sn-pendidikan", "label": "Pendidikan", "url": "/", "source": "category", "children": [] },
+    { "id": "sn-hukum", "label": "Hukum", "url": "/", "source": "category", "children": [] },
+    { "id": "sn-travel", "label": "Travel", "url": "/", "source": "category", "children": [] }
   ],
   "popular": [
-    { "id": "p1", "slug": "pop-1", "title": "The quiet diplomacy that changed everything", "views": 42100 },
-    { "id": "p2", "slug": "pop-2", "title": "Why this rate cut caught economists off guard", "views": 38400 },
-    { "id": "p3", "slug": "pop-3", "title": "Inside the summit: five takeaways", "views": 29700 },
-    { "id": "p4", "slug": "pop-4", "title": "The vaccine trial results, explained", "views": 24800 },
-    { "id": "p5", "slug": "pop-5", "title": "How the underdogs pulled off the upset", "views": 19500 }
+    { "id": "p1", "slug": "pop-1", "title": "Diplomasi senyap di balik proyek Pelabuhan Malahayati", "views": 42100 },
+    { "id": "p2", "slug": "pop-2", "title": "Mengapa kopi Gayo tiba-tiba diburu pasar Eropa", "views": 38400 },
+    { "id": "p3", "slug": "pop-3", "title": "Di balik konferensi kelautan Aceh: lima poin penting", "views": 29700 },
+    { "id": "p4", "slug": "pop-4", "title": "Uji vaksin tropis Unsyiah, dijelaskan", "views": 24800 },
+    { "id": "p5", "slug": "pop-5", "title": "Bagaimana Persiraja membalikkan keadaan di final", "views": 19500 }
   ],
   "videos": [
-    { "id": "v1", "slug": "vid-1", "title": "Watch: Mediators arrive for overnight talks", "featured_image": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=480&q=60", "metas": { "duration": "12:58" } },
-    { "id": "v2", "slug": "vid-2", "title": "Explainer: The accord in two minutes", "featured_image": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=480&q=60", "metas": { "duration": "02:14" } },
-    { "id": "v3", "slug": "vid-3", "title": "On the ground: reopening the corridor", "featured_image": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=480&q=60", "metas": { "duration": "06:31" } }
+    { "id": "v1", "slug": "vid-1", "title": "Tonton: alur pengerukan Pelabuhan Malahayati", "featured_image": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=480&q=70", "metas": { "duration": "12:58" } },
+    { "id": "v2", "slug": "vid-2", "title": "Penjelasan: ekspor kopi Gayo dalam dua menit", "featured_image": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=480&q=70", "metas": { "duration": "02:14" } },
+    { "id": "v3", "slug": "vid-3", "title": "Di lapangan: pemulihan terumbu karang Sabang", "featured_image": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=480&q=70", "metas": { "duration": "06:31" } }
   ],
   "opinions": [
-    { "id": "o1", "slug": "op-1", "title": "The peace deal is fragile — here’s why it might hold", "authors": [{ "display_name": "Nadia Rahman", "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&crop=faces&w=96&h=96&q=70" }] },
-    { "id": "o2", "slug": "op-2", "title": "Rate cuts won’t fix the real economy", "authors": [{ "display_name": "Daniel Okoro", "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&crop=faces&w=96&h=96&q=70" }] },
-    { "id": "o3", "slug": "op-3", "title": "What the summit forgot about the global south", "authors": [{ "display_name": "Mei Lin", "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&crop=faces&w=96&h=96&q=70" }] }
+    { "id": "o1", "slug": "op-1", "title": "Ekonomi syariah Aceh rapuh — inilah alasannya tetap bertahan", "authors": [{ "display_name": "Nadia Rahman", "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&crop=faces&w=96&h=96&q=70" }] },
+    { "id": "o2", "slug": "op-2", "title": "Dana otsus takkan menyelesaikan masalah riil Aceh", "authors": [{ "display_name": "Daniel Okoro", "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&crop=faces&w=96&h=96&q=70" }] },
+    { "id": "o3", "slug": "op-3", "title": "Apa yang dilupakan dari pembangunan pesisir Aceh", "authors": [{ "display_name": "Mei Lin", "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&crop=faces&w=96&h=96&q=70" }] }
   ],
   "ads": [
     { "id": "ad1", "name": "Leaderboard top", "kind": "image", "position": "floating_top_nav", "active": true, "sort_order": 1, "config": { "image_url": "https://placehold.co/970x90/15130f/eceae4?text=ADVERTISEMENT+970x90", "target_url": "#", "alt": "Iklan top" }, "options": {} },
+    { "id": "ad1m", "name": "Top mobile 300px", "kind": "image", "position": "floating_top_nav_mobile", "active": true, "sort_order": 1, "config": { "image_url": "https://placehold.co/720x600/15130f/eceae4?text=ADVERTISEMENT+MOBILE+300px", "target_url": "#", "alt": "Iklan top mobile" }, "options": {} },
     { "id": "ad2", "name": "Sidebar box", "kind": "image", "position": "post_sidebar_left", "active": true, "sort_order": 1, "config": { "image_url": "https://placehold.co/300x250/e11a33/ffffff?text=AD+300x250", "target_url": "#", "alt": "Iklan sidebar" }, "options": {} },
-    { "id": "ad3", "name": "In-feed leaderboard", "kind": "image", "position": "in_post_below_title", "active": true, "sort_order": 1, "config": { "image_url": "https://placehold.co/728x90/f59e00/15130f?text=AD+728x90", "target_url": "#", "alt": "Iklan in-feed" }, "options": {} }
+    { "id": "ad3", "name": "In-feed leaderboard", "kind": "image", "position": "in_post_below_title", "active": true, "sort_order": 1, "config": { "image_url": "https://placehold.co/728x90/f59e00/15130f?text=AD+728x90", "target_url": "#", "alt": "Iklan in-feed" }, "options": {} },
+    { "id": "ad4", "name": "In-article box", "kind": "image", "position": "in_post_after_paragraph", "active": true, "sort_order": 1, "config": { "image_url": "https://placehold.co/336x280/15130f/eceae4?text=AD+336x280", "target_url": "#", "alt": "Iklan dalam artikel" }, "options": {} },
+    { "id": "ad5", "name": "Sidebar half-page", "kind": "image", "position": "post_sidebar_bottom", "active": true, "sort_order": 1, "config": { "image_url": "https://placehold.co/300x600/e11a33/ffffff?text=AD+300x600", "target_url": "#", "alt": "Iklan sidebar bawah" }, "options": {} },
+    { "id": "ad6", "name": "Pre-comments leaderboard", "kind": "image", "position": "pre_comments", "active": true, "sort_order": 1, "config": { "image_url": "https://placehold.co/728x90/f59e00/15130f?text=AD+728x90", "target_url": "#", "alt": "Iklan sebelum komentar" }, "options": {} }
   ],
   "popups": [],
   "footer": {
     "columns": [
-      { "title": "Berita", "links": [ { "label": "World", "url": "/" }, { "label": "Politics", "url": "/" }, { "label": "Business", "url": "/" }, { "label": "Technology", "url": "/" } ] },
-      { "title": "Topik", "links": [ { "label": "Climate", "url": "/" }, { "label": "Health", "url": "/" }, { "label": "Sport", "url": "/" }, { "label": "Culture", "url": "/" } ] },
+      { "title": "Berita", "links": [ { "label": "Aceh", "url": "/" }, { "label": "Nasional", "url": "/" }, { "label": "Ekonomi", "url": "/" }, { "label": "Teknologi", "url": "/" } ] },
+      { "title": "Topik", "links": [ { "label": "Lingkungan", "url": "/" }, { "label": "Kesehatan", "url": "/" }, { "label": "Olahraga", "url": "/" }, { "label": "Budaya", "url": "/" } ] },
       { "title": "Perusahaan", "links": [ { "label": "Tentang kami", "url": "/" }, { "label": "Kontak", "url": "/" }, { "label": "Karier", "url": "/" }, { "label": "Iklan", "url": "/" } ] },
       { "title": "Legal", "links": [ { "label": "Kebijakan Privasi", "url": "/" }, { "label": "Syarat & Ketentuan", "url": "/" }, { "label": "Cookie", "url": "/" } ] }
     ],
@@ -122,7 +241,7 @@
       { "platform": "youtube", "url": "#" },
       { "platform": "instagram", "url": "#" }
     ],
-    "copyright": "© 2026 NEWSROOM · Semua hak dilindungi"
+    "copyright": "© 2026 WARTAKAN MEDIA · Banda Aceh · Semua hak dilindungi"
   },
   "config": {
     "home.theme": {
@@ -143,7 +262,7 @@
       { "key": "videoRail", "enabled": true, "variant": "default" },
       { "key": "opinionRail", "enabled": true, "variant": "default" },
       { "key": "popular", "enabled": true, "variant": "numbered" },
-      { "key": "moreNews", "enabled": true, "variant": "grid" }
+      { "key": "moreNews", "enabled": true, "variant": "cards" }
     ]
   }
 }
