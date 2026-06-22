@@ -39,13 +39,17 @@
     "excerpt": "Diplomats from three nations gathered overnight, signaling the closest progress in months.",
     "featured_image": "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&w=1200&q=70",
     "label": "BREAKING",
+    "category": "DUNIA",
+    "category_color": "#e11a33",
     "published_at": "2026-06-22T09:40:00Z"
   },
   "liveUpdates": [
     { "id": "l1", "slug": "live-1", "title": "Mediators say technical talks ‘really hard’ but ongoing", "published_at": "2026-06-22T09:34:00Z" },
     { "id": "l2", "slug": "live-2", "title": "If you’re just joining us: here’s what we know so far", "published_at": "2026-06-22T09:19:00Z" },
     { "id": "l3", "slug": "live-3", "title": "Regional airline to lower fares amid fuel price drop", "published_at": "2026-06-22T09:04:00Z" },
-    { "id": "l4", "slug": "live-4", "title": "Officials confirm humanitarian corridor reopened", "published_at": "2026-06-22T08:40:00Z" }
+    { "id": "l4", "slug": "live-4", "title": "Officials confirm humanitarian corridor reopened", "published_at": "2026-06-22T08:40:00Z" },
+    { "id": "l5", "slug": "live-5", "title": "Analysts weigh in: what a deal would mean for markets", "published_at": "2026-06-22T08:12:00Z" },
+    { "id": "l6", "slug": "live-6", "title": "Aid agencies prepare for rapid distribution", "published_at": "2026-06-22T07:45:00Z" }
   ],
   "analysis": {
     "id": "a1",
@@ -53,23 +57,32 @@
     "title": "Analysis: What the new accord really means for the region",
     "excerpt": "Behind the diplomatic language lies a fragile balance of competing interests.",
     "featured_image": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=640&q=70",
+    "category": "ANALISIS",
+    "category_color": "#f59e00",
     "published_at": "2026-06-22T07:30:00Z"
   },
+  "editorsPick": [
+    { "id": "e1", "slug": "ep-1", "title": "Profil: tokoh di balik meja perundingan", "featured_image": "https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?auto=format&fit=crop&w=240&q=60", "category": "PROFIL", "category_color": "#0284c7", "published_at": "2026-06-22T06:20:00Z" },
+    { "id": "e2", "slug": "ep-2", "title": "Lini masa: bagaimana konflik mencapai titik ini", "featured_image": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=240&q=60", "category": "EXPLAINER", "category_color": "#059669", "published_at": "2026-06-22T05:30:00Z" },
+    { "id": "e3", "slug": "ep-3", "title": "Opini: jalan panjang menuju perdamaian berkelanjutan", "featured_image": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=240&q=60", "category": "OPINI", "category_color": "#7c3aed", "published_at": "2026-06-22T04:50:00Z" }
+  ],
   "centerFeatured": {
     "id": "c0",
     "slug": "markets-rally-rate-cut",
     "title": "Markets rally to record highs after surprise rate cut",
     "excerpt": "Investors cheered the central bank’s move, sending major indices up across the board.",
     "featured_image": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=720&q=70",
+    "category": "EKONOMI",
+    "category_color": "#059669",
     "published_at": "2026-06-22T08:10:00Z"
   },
   "centerList": [
-    { "id": "c1", "slug": "summit-accord", "title": "Climate summit reaches landmark accord on emissions", "featured_image": "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?auto=format&fit=crop&w=240&q=60", "published_at": "2026-06-22T07:50:00Z" },
-    { "id": "c2", "slug": "election-debate", "title": "Election results spark fierce debate over turnout figures", "published_at": "2026-06-22T07:20:00Z" },
-    { "id": "c3", "slug": "tech-regulation", "title": "Tech giants brace for sweeping new regulation package", "featured_image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=240&q=60", "published_at": "2026-06-22T06:55:00Z" },
-    { "id": "c4", "slug": "energy-prices", "title": "Energy prices ease as supply concerns fade", "published_at": "2026-06-22T06:30:00Z" },
-    { "id": "c5", "slug": "health-breakthrough", "title": "Researchers report breakthrough in vaccine trial", "featured_image": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=240&q=60", "published_at": "2026-06-22T05:48:00Z" },
-    { "id": "c6", "slug": "sports-final", "title": "Underdogs stun champions in dramatic final", "published_at": "2026-06-22T05:10:00Z" }
+    { "id": "c1", "slug": "summit-accord", "title": "Climate summit reaches landmark accord on emissions", "featured_image": "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?auto=format&fit=crop&w=240&q=60", "category": "LINGKUNGAN", "category_color": "#059669", "published_at": "2026-06-22T07:50:00Z" },
+    { "id": "c2", "slug": "election-debate", "title": "Election results spark fierce debate over turnout figures", "category": "POLITIK", "category_color": "#e11a33", "published_at": "2026-06-22T07:20:00Z" },
+    { "id": "c3", "slug": "tech-regulation", "title": "Tech giants brace for sweeping new regulation package", "featured_image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=240&q=60", "category": "TEKNOLOGI", "category_color": "#0284c7", "published_at": "2026-06-22T06:55:00Z" },
+    { "id": "c4", "slug": "energy-prices", "title": "Energy prices ease as supply concerns fade", "category": "EKONOMI", "category_color": "#059669", "published_at": "2026-06-22T06:30:00Z" },
+    { "id": "c5", "slug": "health-breakthrough", "title": "Researchers report breakthrough in vaccine trial", "featured_image": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=240&q=60", "category": "KESEHATAN", "category_color": "#0284c7", "published_at": "2026-06-22T05:48:00Z" },
+    { "id": "c6", "slug": "sports-final", "title": "Underdogs stun champions in dramatic final", "category": "OLAHRAGA", "category_color": "#f59e00", "published_at": "2026-06-22T05:10:00Z" }
   ],
   "popular": [
     { "id": "p1", "slug": "pop-1", "title": "The quiet diplomacy that changed everything", "views": 42100 },
@@ -123,6 +136,7 @@
       { "key": "hero", "enabled": true, "variant": "overlay" },
       { "key": "live", "enabled": true, "variant": "default" },
       { "key": "analysis", "enabled": true, "variant": "default" },
+      { "key": "editorsPick", "enabled": true, "variant": "default" },
       { "key": "centerFeed", "enabled": true, "variant": "with-thumb" },
       { "key": "videoRail", "enabled": true, "variant": "default" },
       { "key": "opinionRail", "enabled": true, "variant": "default" },

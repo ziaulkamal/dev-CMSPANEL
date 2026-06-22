@@ -36,6 +36,11 @@ export const SECTION_REGISTRY: Record<SectionKey, SectionMeta> = {
     column: 'left',
     variants: [{ value: 'default', label: 'Kartu + dek' }],
   },
+  editorsPick: {
+    label: 'Pilihan Editor',
+    column: 'left',
+    variants: [{ value: 'default', label: 'Daftar + thumbnail' }],
+  },
   centerFeed: {
     label: 'Kolom tengah (feed)',
     column: 'center',
@@ -71,6 +76,7 @@ export const DEFAULT_SECTION_ORDER: SectionKey[] = [
   'hero',
   'live',
   'analysis',
+  'editorsPick',
   'centerFeed',
   'videoRail',
   'opinionRail',

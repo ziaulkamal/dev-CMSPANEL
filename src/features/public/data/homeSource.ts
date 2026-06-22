@@ -17,6 +17,10 @@ export interface MockStory extends ContentSummary {
   featured_image?: string;
   eyebrow?: string;
   label?: string;
+  /** Label kategori (mis. "DUNIA", "EKONOMI") untuk CategoryTag. */
+  category?: string;
+  /** Warna kategori (hex) — fallback ke crimson. */
+  category_color?: string;
   authors?: Array<{ display_name: string; avatar?: string }>;
   metas?: Record<string, string>;
 }
@@ -57,6 +61,7 @@ export type SectionKey =
   | 'hero'
   | 'live'
   | 'analysis'
+  | 'editorsPick'
   | 'centerFeed'
   | 'videoRail'
   | 'opinionRail'
@@ -80,6 +85,7 @@ export interface HomeData {
   hero: MockStory;
   liveUpdates: MockStory[];
   analysis: MockStory;
+  editorsPick: MockStory[];
   centerFeatured: MockStory;
   centerList: MockStory[];
   popular: PopularStory[];

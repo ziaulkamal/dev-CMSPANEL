@@ -17,6 +17,8 @@ import RailModule from './components/RailModule.vue';
 import OpinionItem from './components/OpinionItem.vue';
 import VideoThumb from './components/VideoThumb.vue';
 import PopularList from './components/PopularList.vue';
+import EditorsPick from './components/EditorsPick.vue';
+import SectionHeader from './components/SectionHeader.vue';
 import AdSlotRenderer from '@/features/public/shared/AdSlotRenderer.vue';
 
 import {
@@ -49,8 +51,11 @@ const posts = computed<MockStory[]>(() => (postsRes.value ?? []) as MockStory[])
 const hero = computed(() => (USE_MOCK ? mock.hero : posts.value[0]));
 const liveItems = computed(() => (USE_MOCK ? mock.liveUpdates : posts.value.slice(1, 5)));
 const analysis = computed(() => (USE_MOCK ? mock.analysis : posts.value[5]));
-const centerFeatured = computed(() => (USE_MOCK ? mock.centerFeatured : posts.value[6]));
-const centerList = computed(() => (USE_MOCK ? mock.centerList : posts.value.slice(7, 13)));
+const editorsPick = computed<MockStory[]>(() =>
+  USE_MOCK ? mock.editorsPick : (posts.value.slice(6, 9) as MockStory[]),
+);
+const centerFeatured = computed(() => (USE_MOCK ? mock.centerFeatured : posts.value[9]));
+const centerList = computed(() => (USE_MOCK ? mock.centerList : posts.value.slice(10, 16)));
 const popular = computed(() => (USE_MOCK ? mock.popular : []));
 
 const { data: videoRes } = useQuery({
@@ -110,7 +115,7 @@ const moreItems = computed<MockStory[]>(() => {
       <!-- Grid 3 kolom asimetris: 48% / 27% / 25% (→ 2 → 1 saat menyempit) -->
       <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8 lg:[grid-template-columns:48%_27%_25%]">
         <!-- ── Kolom kiri (48%) ── -->
-        <section class="flex flex-col gap-5">
+        <section class="flex flex-col gap-6">
           <template v-for="key in leftKeys" :key="key">
             <HeroBreaking
               v-if="key === 'hero' && hero"
@@ -120,17 +125,24 @@ const moreItems = computed<MockStory[]>(() => {
             <LiveUpdates v-else-if="key === 'live'" :items="liveItems" />
             <div
               v-else-if="key === 'analysis' && analysis"
-              :style="{ borderTop: '1px solid var(--color-pub-line)' }"
+              class="rounded-lg p-4"
+              :style="{ border: '1px solid var(--color-pub-line)', backgroundColor: 'var(--color-pub-paper)' }"
             >
-              <StoryCard :item="analysis" eyebrow="ANALYSIS" show-excerpt />
+              <StoryCard :item="analysis" eyebrow="ANALYSIS" show-excerpt class="!py-0" />
             </div>
+            <EditorsPick v-else-if="key === 'editorsPick'" :items="editorsPick" />
           </template>
         </section>
 
         <!-- ── Kolom tengah (27%) ── -->
         <section class="flex flex-col">
           <template v-for="key in centerKeys" :key="key">
-            <template v-if="key === 'centerFeed'">
+            <div
+              v-if="key === 'centerFeed'"
+              class="rounded-lg px-4 py-1"
+              :style="{ border: '1px solid var(--color-pub-line)', backgroundColor: 'var(--color-pub-paper)' }"
+            >
+              <SectionHeader title="Terbaru" accent="var(--color-pub-crimson)" see-all />
               <StoryCard
                 v-if="centerFeatured"
                 :item="centerFeatured"
@@ -143,7 +155,7 @@ const moreItems = computed<MockStory[]>(() => {
               >
                 <StoryCard :item="it" :force-text-only="variantOf('centerFeed') === 'text-only'" />
               </div>
-            </template>
+            </div>
           </template>
         </section>
 
@@ -179,17 +191,14 @@ const moreItems = computed<MockStory[]>(() => {
         <AdSlotRenderer position="in_post_below_title" />
       </div>
 
-      <!-- ── Berita lainnya (full width) ── -->
-      <div
-        v-for="key in fullKeys"
-        :key="key"
-      >
+      <!-- ── Berita lainnya (full width, card) ── -->
+      <div v-for="key in fullKeys" :key="key">
         <div
           v-if="key === 'moreNews' && moreItems.length"
-          class="mt-8 border-t pt-6"
-          :style="{ borderColor: 'var(--color-pub-line)' }"
+          class="mt-8 rounded-lg p-5"
+          :style="{ border: '1px solid var(--color-pub-line)', backgroundColor: 'var(--color-pub-paper)' }"
         >
-          <h2 class="pub-eyebrow mb-4">Berita lainnya</h2>
+          <SectionHeader title="Berita lainnya" accent="var(--color-pub-amber)" see-all />
           <div class="grid grid-cols-1 gap-x-8 sm:grid-cols-2">
             <div
               v-for="it in moreItems"
