@@ -9,15 +9,18 @@ import { ref, computed, watch, onBeforeUnmount } from 'vue';
 import { useQuery } from '@tanstack/vue-query';
 import { popupService, type Popup } from '@/services/popup.service';
 import { resolveMediaUrl } from '@/lib/media';
+import { USE_MOCK } from '@/features/public/data/homeSource';
 import AppModal from '@/components/app/AppModal.vue';
 
 const STORAGE_PREFIX = 'cms.popup.seen.';
 
+// Mock belum menyertakan popup → matikan query agar tak ada panggilan sia-sia.
 const { data } = useQuery({
   queryKey: ['public-popups'],
   queryFn: () => popupService.list(),
   retry: false,
   staleTime: 5 * 60_000,
+  enabled: !USE_MOCK,
 });
 
 /** Popup pertama yang aktif, ber-scope publik, dan belum lewat frekuensinya. */

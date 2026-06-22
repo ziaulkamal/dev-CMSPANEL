@@ -9,6 +9,8 @@ interface ImportMetaEnv {
    * Opsional — kosongkan bila file_url sudah absolut.
    */
   readonly VITE_MEDIA_BASE_URL?: string;
+  /** "true" → beranda publik memakai dummy data JSON; selain itu ambil dari API. */
+  readonly VITE_USE_MOCK?: string;
 }
 
 interface ImportMeta {

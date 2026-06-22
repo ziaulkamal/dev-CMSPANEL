@@ -16,10 +16,13 @@ const props = defineProps<{
   eyebrow?: string;
   /** Tampilkan excerpt (dek) di bawah judul. Default: false (padat). */
   showExcerpt?: boolean;
+  /** Paksa varian teks-saja (sembunyikan thumbnail) — dipakai varian centerFeed. */
+  forceTextOnly?: boolean;
 }>();
 
 /** Backend feed belum tentu mengirim gambar; toleran terhadap field longgar. */
 const thumbUrl = computed(() => {
+  if (props.forceTextOnly) return '';
   const raw = pickMediaUrl((props.item as unknown as Record<string, unknown>).featured_image);
   return raw ? resolveMediaUrl(raw) : '';
 });

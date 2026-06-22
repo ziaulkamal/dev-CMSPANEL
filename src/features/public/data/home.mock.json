@@ -1,0 +1,133 @@
+{
+  "nav": [
+    {
+      "id": "news",
+      "label": "News",
+      "url": "/",
+      "children": [
+        { "id": "world", "label": "World", "url": "/" },
+        { "id": "politics", "label": "Politics", "url": "/" },
+        { "id": "business", "label": "Business", "url": "/" },
+        { "id": "tech", "label": "Technology", "url": "/" }
+      ]
+    },
+    { "id": "opinion", "label": "Opinion", "url": "/", "children": [] },
+    { "id": "sport", "label": "Sport", "url": "/", "children": [] },
+    { "id": "video", "label": "Video", "url": "/", "children": [] },
+    {
+      "id": "more",
+      "label": "More",
+      "url": "/",
+      "children": [
+        { "id": "explained", "label": "Explained", "url": "/" },
+        { "id": "podcast", "label": "Podcast", "url": "/" },
+        { "id": "investigations", "label": "Investigations", "url": "/" }
+      ]
+    }
+  ],
+  "trending": [
+    "Gaza ceasefire talks resume",
+    "Global markets rally after rate cut",
+    "Climate summit reaches new accord",
+    "Election results spark debate",
+    "Tech giants face new regulation"
+  ],
+  "hero": {
+    "id": "h1",
+    "slug": "ceasefire-negotiations-enter-decisive-phase",
+    "title": "Ceasefire negotiations enter a decisive phase as mediators push for deal",
+    "excerpt": "Diplomats from three nations gathered overnight, signaling the closest progress in months.",
+    "featured_image": "https://picsum.photos/seed/news-hero/1200/750",
+    "label": "BREAKING",
+    "published_at": "2026-06-22T09:40:00Z"
+  },
+  "liveUpdates": [
+    { "id": "l1", "slug": "live-1", "title": "Mediators say technical talks ‘really hard’ but ongoing", "published_at": "2026-06-22T09:34:00Z" },
+    { "id": "l2", "slug": "live-2", "title": "If you’re just joining us: here’s what we know so far", "published_at": "2026-06-22T09:19:00Z" },
+    { "id": "l3", "slug": "live-3", "title": "Regional airline to lower fares amid fuel price drop", "published_at": "2026-06-22T09:04:00Z" },
+    { "id": "l4", "slug": "live-4", "title": "Officials confirm humanitarian corridor reopened", "published_at": "2026-06-22T08:40:00Z" }
+  ],
+  "analysis": {
+    "id": "a1",
+    "slug": "what-the-new-accord-means",
+    "title": "Analysis: What the new accord really means for the region",
+    "excerpt": "Behind the diplomatic language lies a fragile balance of competing interests.",
+    "featured_image": "https://picsum.photos/seed/news-analysis/640/400",
+    "published_at": "2026-06-22T07:30:00Z"
+  },
+  "centerFeatured": {
+    "id": "c0",
+    "slug": "markets-rally-rate-cut",
+    "title": "Markets rally to record highs after surprise rate cut",
+    "excerpt": "Investors cheered the central bank’s move, sending major indices up across the board.",
+    "featured_image": "https://picsum.photos/seed/news-center/720/440",
+    "published_at": "2026-06-22T08:10:00Z"
+  },
+  "centerList": [
+    { "id": "c1", "slug": "summit-accord", "title": "Climate summit reaches landmark accord on emissions", "featured_image": "https://picsum.photos/seed/news-c1/200/140", "published_at": "2026-06-22T07:50:00Z" },
+    { "id": "c2", "slug": "election-debate", "title": "Election results spark fierce debate over turnout figures", "published_at": "2026-06-22T07:20:00Z" },
+    { "id": "c3", "slug": "tech-regulation", "title": "Tech giants brace for sweeping new regulation package", "featured_image": "https://picsum.photos/seed/news-c3/200/140", "published_at": "2026-06-22T06:55:00Z" },
+    { "id": "c4", "slug": "energy-prices", "title": "Energy prices ease as supply concerns fade", "published_at": "2026-06-22T06:30:00Z" },
+    { "id": "c5", "slug": "health-breakthrough", "title": "Researchers report breakthrough in vaccine trial", "featured_image": "https://picsum.photos/seed/news-c5/200/140", "published_at": "2026-06-22T05:48:00Z" },
+    { "id": "c6", "slug": "sports-final", "title": "Underdogs stun champions in dramatic final", "published_at": "2026-06-22T05:10:00Z" }
+  ],
+  "popular": [
+    { "id": "p1", "slug": "pop-1", "title": "The quiet diplomacy that changed everything", "views": 42100 },
+    { "id": "p2", "slug": "pop-2", "title": "Why this rate cut caught economists off guard", "views": 38400 },
+    { "id": "p3", "slug": "pop-3", "title": "Inside the summit: five takeaways", "views": 29700 },
+    { "id": "p4", "slug": "pop-4", "title": "The vaccine trial results, explained", "views": 24800 },
+    { "id": "p5", "slug": "pop-5", "title": "How the underdogs pulled off the upset", "views": 19500 }
+  ],
+  "videos": [
+    { "id": "v1", "slug": "vid-1", "title": "Watch: Mediators arrive for overnight talks", "featured_image": "https://picsum.photos/seed/news-v1/640/360", "metas": { "duration": "12:58" } },
+    { "id": "v2", "slug": "vid-2", "title": "Explainer: The accord in two minutes", "featured_image": "https://picsum.photos/seed/news-v2/640/360", "metas": { "duration": "02:14" } },
+    { "id": "v3", "slug": "vid-3", "title": "On the ground: reopening the corridor", "featured_image": "https://picsum.photos/seed/news-v3/640/360", "metas": { "duration": "06:31" } }
+  ],
+  "opinions": [
+    { "id": "o1", "slug": "op-1", "title": "The peace deal is fragile — here’s why it might hold", "authors": [{ "display_name": "Nadia Rahman", "avatar": "https://i.pravatar.cc/96?img=5" }] },
+    { "id": "o2", "slug": "op-2", "title": "Rate cuts won’t fix the real economy", "authors": [{ "display_name": "Daniel Okoro", "avatar": "https://i.pravatar.cc/96?img=12" }] },
+    { "id": "o3", "slug": "op-3", "title": "What the summit forgot about the global south", "authors": [{ "display_name": "Mei Lin", "avatar": "https://i.pravatar.cc/96?img=32" }] }
+  ],
+  "ads": [
+    { "id": "ad1", "name": "Leaderboard top", "kind": "image", "position": "floating_top_nav", "active": true, "sort_order": 1, "config": { "image_url": "https://placehold.co/970x90/15130f/eceae4?text=ADVERTISEMENT+970x90", "target_url": "#", "alt": "Iklan top" }, "options": {} },
+    { "id": "ad2", "name": "Sidebar box", "kind": "image", "position": "post_sidebar_left", "active": true, "sort_order": 1, "config": { "image_url": "https://placehold.co/300x250/e11a33/ffffff?text=AD+300x250", "target_url": "#", "alt": "Iklan sidebar" }, "options": {} },
+    { "id": "ad3", "name": "In-feed leaderboard", "kind": "image", "position": "in_post_below_title", "active": true, "sort_order": 1, "config": { "image_url": "https://placehold.co/728x90/f59e00/15130f?text=AD+728x90", "target_url": "#", "alt": "Iklan in-feed" }, "options": {} }
+  ],
+  "popups": [],
+  "footer": {
+    "columns": [
+      { "title": "Berita", "links": [ { "label": "World", "url": "/" }, { "label": "Politics", "url": "/" }, { "label": "Business", "url": "/" }, { "label": "Technology", "url": "/" } ] },
+      { "title": "Topik", "links": [ { "label": "Climate", "url": "/" }, { "label": "Health", "url": "/" }, { "label": "Sport", "url": "/" }, { "label": "Culture", "url": "/" } ] },
+      { "title": "Perusahaan", "links": [ { "label": "Tentang kami", "url": "/" }, { "label": "Kontak", "url": "/" }, { "label": "Karier", "url": "/" }, { "label": "Iklan", "url": "/" } ] },
+      { "title": "Legal", "links": [ { "label": "Kebijakan Privasi", "url": "/" }, { "label": "Syarat & Ketentuan", "url": "/" }, { "label": "Cookie", "url": "/" } ] }
+    ],
+    "social": [
+      { "platform": "twitter", "url": "#" },
+      { "platform": "facebook", "url": "#" },
+      { "platform": "youtube", "url": "#" },
+      { "platform": "instagram", "url": "#" }
+    ],
+    "copyright": "© 2026 NEWSROOM · Semua hak dilindungi"
+  },
+  "config": {
+    "home.theme": {
+      "crimson": "#e11a33",
+      "amber": "#f59e00",
+      "ink": "#15130f",
+      "muted": "#6b6b6b",
+      "paper": "#ffffff",
+      "canvas": "#eceae4",
+      "line": "#e5e2dc"
+    },
+    "home.sections": [
+      { "key": "hero", "enabled": true, "variant": "overlay" },
+      { "key": "live", "enabled": true, "variant": "default" },
+      { "key": "analysis", "enabled": true, "variant": "default" },
+      { "key": "centerFeed", "enabled": true, "variant": "with-thumb" },
+      { "key": "videoRail", "enabled": true, "variant": "default" },
+      { "key": "opinionRail", "enabled": true, "variant": "default" },
+      { "key": "popular", "enabled": true, "variant": "numbered" },
+      { "key": "moreNews", "enabled": true, "variant": "grid" }
+    ]
+  }
+}

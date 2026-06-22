@@ -6,8 +6,13 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/vue-query';
-import { Plus, Trash2, Link2, Globe, AtSign, Hash, Share2, Rss } from '@lucide/vue';
+import { Plus, Trash2, Link2, Globe, AtSign, Hash, Share2, Rss, ChevronUp, ChevronDown } from '@lucide/vue';
 import { settingsService, type SettingsMap } from '@/services/settings.service';
+import {
+  SECTION_REGISTRY,
+  DEFAULT_SECTION_ORDER,
+} from '@/features/public/home/sectionRegistry';
+import type { PublicThemeColors, SectionConfig } from '@/features/public/data/homeSource';
 import { useToast } from '@/composables/useToast';
 import { useIsMobile } from '@/composables/useIsMobile';
 import AppCard from '@/components/app/AppCard.vue';
@@ -46,6 +51,57 @@ const general = reactive({
 const social = ref<SocialLink[]>([]);
 
 const feed = reactive({ rss_enabled: false, atom_enabled: false, sitemap_enabled: false });
+
+// ── Beranda: tema warna + section (aktif/varian/urutan) ───────────
+const DEFAULT_THEME: PublicThemeColors = {
+  crimson: '#e11a33',
+  amber: '#f59e00',
+  ink: '#15130f',
+  muted: '#6b6b6b',
+  paper: '#ffffff',
+  canvas: '#eceae4',
+  line: '#e5e2dc',
+};
+
+const homeTheme = reactive<PublicThemeColors>({ ...DEFAULT_THEME });
+
+const THEME_FIELDS: Array<{ key: keyof PublicThemeColors; label: string }> = [
+  { key: 'crimson', label: 'Crimson (breaking/live)' },
+  { key: 'amber', label: 'Amber (penanda seksi)' },
+  { key: 'ink', label: 'Ink (teks/CTA)' },
+  { key: 'muted', label: 'Muted (meta)' },
+  { key: 'paper', label: 'Paper (latar konten)' },
+  { key: 'canvas', label: 'Canvas (latar halaman)' },
+  { key: 'line', label: 'Line (divider)' },
+];
+
+/** Urutan default semua section (semua aktif, varian pertama dari registry). */
+function defaultSections(): SectionConfig[] {
+  return DEFAULT_SECTION_ORDER.map((key) => ({
+    key,
+    enabled: true,
+    variant: SECTION_REGISTRY[key].variants[0]?.value ?? 'default',
+  }));
+}
+
+const homeSections = ref<SectionConfig[]>(defaultSections());
+
+function sectionLabel(key: SectionConfig['key']): string {
+  return SECTION_REGISTRY[key].label;
+}
+function variantOptions(key: SectionConfig['key']) {
+  return SECTION_REGISTRY[key].variants;
+}
+function moveSectionUp(i: number): void {
+  if (i <= 0) return;
+  const arr = homeSections.value;
+  [arr[i - 1], arr[i]] = [arr[i], arr[i - 1]];
+}
+function moveSectionDown(i: number): void {
+  const arr = homeSections.value;
+  if (i >= arr.length - 1) return;
+  [arr[i + 1], arr[i]] = [arr[i], arr[i + 1]];
+}
 
 const permalinkOptions = [
   { value: '/%postname%', label: '/nama-artikel' },
@@ -97,6 +153,13 @@ watch(
     feed.rss_enabled = bool('feed.rss_enabled');
     feed.atom_enabled = bool('feed.atom_enabled');
     feed.sitemap_enabled = bool('feed.sitemap_enabled');
+
+    // Beranda
+    const savedTheme = s['home.theme'] as Partial<PublicThemeColors> | undefined;
+    Object.assign(homeTheme, DEFAULT_THEME, savedTheme ?? {});
+    const savedSections = s['home.sections'] as SectionConfig[] | undefined;
+    homeSections.value =
+      Array.isArray(savedSections) && savedSections.length ? savedSections : defaultSections();
   },
   { immediate: true },
 );
@@ -118,6 +181,7 @@ const tabs = [
   { value: 'general', label: 'Umum' },
   { value: 'social', label: 'Sosial Media' },
   { value: 'feed', label: 'Feed' },
+  { value: 'home', label: 'Beranda' },
 ];
 const activeTab = ref('general');
 
@@ -134,6 +198,8 @@ const payload = computed<SettingsMap>(() => ({
   'feed.rss_enabled': feed.rss_enabled,
   'feed.atom_enabled': feed.atom_enabled,
   'feed.sitemap_enabled': feed.sitemap_enabled,
+  'home.theme': { ...homeTheme },
+  'home.sections': homeSections.value,
 }));
 
 const saveMutation = useMutation({
@@ -248,6 +314,80 @@ const saveMutation = useMutation({
                 <a v-if="feed.sitemap_enabled" :href="feedUrl('sitemap.xml')" target="_blank" class="feed-url">
                   <Link2 :size="12" /> {{ feedUrl('sitemap.xml') }}
                 </a>
+              </div>
+            </div>
+          </div>
+        </template>
+
+        <!-- ── Tab Beranda ── -->
+        <template #home>
+          <div class="flex flex-col gap-8 pt-4">
+            <!-- Warna tema publik -->
+            <div>
+              <h3 class="mb-1 text-sm font-bold text-text-primary">Warna tema beranda</h3>
+              <p class="mb-3 text-xs text-text-muted">
+                Mengatur tampilan halaman publik (tidak memengaruhi panel admin).
+              </p>
+              <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div v-for="f in THEME_FIELDS" :key="f.key" class="flex items-center gap-3">
+                  <input
+                    type="color"
+                    :value="homeTheme[f.key]"
+                    class="h-9 w-12 flex-none cursor-pointer rounded border border-border bg-surface"
+                    @input="homeTheme[f.key] = ($event.target as HTMLInputElement).value"
+                  />
+                  <div class="min-w-0 flex-1">
+                    <span class="block text-xs font-medium text-text-primary">{{ f.label }}</span>
+                    <AppInput v-model="homeTheme[f.key]" placeholder="#000000" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Section: aktif / varian / urutan -->
+            <div>
+              <h3 class="mb-1 text-sm font-bold text-text-primary">Section beranda</h3>
+              <p class="mb-3 text-xs text-text-muted">
+                Aktifkan/nonaktifkan, pilih varian, dan atur urutan tampil tiap bagian.
+              </p>
+              <div class="flex flex-col gap-2">
+                <div
+                  v-for="(sec, i) in homeSections"
+                  :key="sec.key"
+                  class="flex flex-wrap items-center gap-3 rounded-lg border border-border bg-surface p-3"
+                >
+                  <div class="flex flex-none flex-col">
+                    <AppButton
+                      variant="ghost"
+                      size="xs"
+                      icon-only
+                      aria-label="Naik"
+                      :disabled="i === 0"
+                      @click="moveSectionUp(i)"
+                    >
+                      <template #icon><ChevronUp :size="14" /></template>
+                    </AppButton>
+                    <AppButton
+                      variant="ghost"
+                      size="xs"
+                      icon-only
+                      aria-label="Turun"
+                      :disabled="i === homeSections.length - 1"
+                      @click="moveSectionDown(i)"
+                    >
+                      <template #icon><ChevronDown :size="14" /></template>
+                    </AppButton>
+                  </div>
+                  <span class="min-w-[140px] flex-1 text-sm font-semibold text-text-primary">
+                    {{ sectionLabel(sec.key) }}
+                  </span>
+                  <AppSelect
+                    v-model="sec.variant"
+                    :options="variantOptions(sec.key)"
+                    class="w-full sm:w-56"
+                  />
+                  <AppToggle v-model="sec.enabled" label="Aktif" />
+                </div>
               </div>
             </div>
           </div>

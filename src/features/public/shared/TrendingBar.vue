@@ -7,6 +7,7 @@ import { computed } from 'vue';
 import { useQuery } from '@tanstack/vue-query';
 import { RouterLink } from 'vue-router';
 import { contentService } from '@/services/content.service';
+import { USE_MOCK, getHomeMock } from '@/features/public/data/homeSource';
 
 const { data } = useQuery({
   queryKey: ['public-trending'],
@@ -16,9 +17,16 @@ const { data } = useQuery({
       .then((r) => r.data),
   retry: false,
   staleTime: 5 * 60_000,
+  enabled: !USE_MOCK,
 });
 
-const items = computed(() => data.value ?? []);
+/** Mode mock: judul trending dari JSON (string). Mode live: judul dari feed. */
+const items = computed<Array<{ id: string; slug: string; title: string }>>(() => {
+  if (USE_MOCK) {
+    return getHomeMock().trending.map((title, i) => ({ id: `t${i}`, slug: '', title }));
+  }
+  return (data.value ?? []).map((c) => ({ id: c.id, slug: c.slug, title: c.title }));
+});
 </script>
 
 <template>
@@ -30,13 +38,19 @@ const items = computed(() => data.value ?? []);
       <span class="flex-none text-xs font-extrabold uppercase tracking-[0.1em]" :style="{ color: 'var(--color-pub-crimson)' }">
         Trending
       </span>
-      <RouterLink
-        v-for="it in items"
-        :key="it.id"
-        :to="{ name: 'article', params: { id: it.id, slug: it.slug } }"
-        class="pub-link-title flex-none whitespace-nowrap text-xs font-medium"
-        :style="{ color: 'var(--color-pub-muted)' }"
-      >{{ it.title }}</RouterLink>
+      <template v-for="it in items" :key="it.id">
+        <RouterLink
+          v-if="it.slug"
+          :to="{ name: 'article', params: { id: it.id, slug: it.slug } }"
+          class="pub-link-title flex-none whitespace-nowrap text-xs font-medium"
+          :style="{ color: 'var(--color-pub-muted)' }"
+        >{{ it.title }}</RouterLink>
+        <span
+          v-else
+          class="flex-none whitespace-nowrap text-xs font-medium"
+          :style="{ color: 'var(--color-pub-muted)' }"
+        >{{ it.title }}</span>
+      </template>
     </div>
   </div>
 </template>

@@ -11,6 +11,7 @@ import { computed } from 'vue';
 import { useQuery } from '@tanstack/vue-query';
 import { adsService, type AdSlot, type AdPosition } from '@/services/ads.service';
 import { resolveMediaUrl } from '@/lib/media';
+import { USE_MOCK, getMockAdsByPosition } from '@/features/public/data/homeSource';
 
 const props = defineProps<{ position: AdPosition }>();
 
@@ -19,13 +20,15 @@ const { data } = useQuery({
   queryFn: () => adsService.list(),
   retry: false,
   staleTime: 5 * 60_000,
+  enabled: !USE_MOCK,
 });
 
-const slots = computed<AdSlot[]>(() =>
-  (data.value ?? [])
+const slots = computed<AdSlot[]>(() => {
+  if (USE_MOCK) return getMockAdsByPosition(props.position);
+  return (data.value ?? [])
     .filter((a) => a.active && a.position === props.position)
-    .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0)),
-);
+    .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
+});
 
 function imageSrc(cfg: Record<string, unknown>): string {
   // Backend boleh kirim image_url langsung; jika hanya id, biarkan kosong (perlu resolve BE).

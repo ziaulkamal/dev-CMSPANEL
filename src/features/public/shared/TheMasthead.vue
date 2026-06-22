@@ -1,18 +1,18 @@
 <!--
-  TheMasthead.vue — kepala portal: logo mark geometris + wordmark, nav primer
-  horizontal, indikator LIVE berkedip, ikon cari, tombol pil "Sign up".
-  Nav diambil dari menuService (admin) dengan fallback statis bila endpoint 404.
-  Responsif: < md → tombol hamburger membuka AppDrawer.
+  TheMasthead.vue — kepala portal: logo + nav primer (dropdown untuk item ber-anak)
+  + LIVE pulsing + ikon cari + tombol "Sign up". Sumber nav: mock (USE_MOCK) atau
+  menuService. Responsif: < md → hamburger membuka AppDrawer dengan grup.
 -->
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useQuery } from '@tanstack/vue-query';
 import { RouterLink } from 'vue-router';
-import { Search, Menu } from '@lucide/vue';
+import { Search, Menu, ChevronDown } from '@lucide/vue';
 import { menuService, type MenuItem } from '@/services/menu.service';
+import { USE_MOCK, getHomeMock } from '@/features/public/data/homeSource';
 import AppDrawer from '@/components/app/AppDrawer.vue';
 
-/** Nav default bila backend belum punya /menus. */
+/** Nav default bila backend belum punya /menus dan mock mati. */
 const FALLBACK_NAV: MenuItem[] = [
   { id: 'news', label: 'News', url: '/', source: 'custom', children: [] },
   { id: 'world', label: 'World', url: '/', source: 'custom', children: [] },
@@ -20,15 +20,19 @@ const FALLBACK_NAV: MenuItem[] = [
   { id: 'video', label: 'Video', url: '/', source: 'custom', children: [] },
 ];
 
-// Gagal diam: endpoint menu mungkin belum live → pakai fallback, jangan retry.
 const { data } = useQuery({
   queryKey: ['public-menu'],
   queryFn: () => menuService.get(),
   retry: false,
   staleTime: 5 * 60_000,
+  enabled: !USE_MOCK,
 });
 
-const nav = ref(FALLBACK_NAV);
+const nav = computed<MenuItem[]>(() => {
+  if (USE_MOCK) return getHomeMock().nav;
+  return data.value ?? FALLBACK_NAV;
+});
+
 const mobileOpen = ref(false);
 </script>
 
@@ -45,15 +49,36 @@ const mobileOpen = ref(false);
         </span>
       </RouterLink>
 
-      <!-- Nav primer (desktop) -->
-      <nav class="hidden flex-1 items-center gap-6 md:flex">
-        <a
-          v-for="item in (data ?? nav)"
+      <!-- Nav primer (desktop) dengan dropdown hover -->
+      <nav class="hidden flex-1 items-center gap-1 md:flex">
+        <div
+          v-for="item in nav"
           :key="item.id"
-          :href="item.url || '/'"
-          class="text-sm font-semibold transition-colors hover:opacity-70"
-          :style="{ color: 'var(--color-pub-ink)' }"
-        >{{ item.label }}</a>
+          class="group relative"
+        >
+          <a
+            :href="item.url || '/'"
+            class="flex items-center gap-1 px-3 py-2 text-sm font-semibold transition-colors hover:opacity-70"
+            :style="{ color: 'var(--color-pub-ink)' }"
+          >
+            {{ item.label }}
+            <ChevronDown v-if="item.children?.length" :size="14" class="opacity-60" />
+          </a>
+          <!-- Dropdown -->
+          <div
+            v-if="item.children?.length"
+            class="invisible absolute left-0 top-full z-30 min-w-[200px] -translate-y-1 opacity-0 shadow-lg transition-all group-hover:visible group-hover:translate-y-0 group-hover:opacity-100"
+            :style="{ backgroundColor: 'var(--color-pub-paper)', border: '1px solid var(--color-pub-line)' }"
+          >
+            <a
+              v-for="child in item.children"
+              :key="child.id"
+              :href="child.url || '/'"
+              class="block px-4 py-2.5 text-sm font-medium transition-colors hover:bg-black/5"
+              :style="{ color: 'var(--color-pub-ink)' }"
+            >{{ child.label }}</a>
+          </div>
+        </div>
       </nav>
 
       <!-- Aksi kanan -->
@@ -76,17 +101,25 @@ const mobileOpen = ref(false);
       </div>
     </div>
 
-    <!-- Drawer nav (mobile) -->
+    <!-- Drawer nav (mobile) dengan grup -->
     <AppDrawer v-model="mobileOpen" side="right" size="sm" title="Menu">
       <nav class="flex flex-col gap-1 p-2">
-        <a
-          v-for="item in (data ?? nav)"
-          :key="item.id"
-          :href="item.url || '/'"
-          class="rounded px-3 py-2.5 text-sm font-semibold hover:bg-black/5"
-          :style="{ color: 'var(--color-pub-ink)' }"
-          @click="mobileOpen = false"
-        >{{ item.label }}</a>
+        <template v-for="item in nav" :key="item.id">
+          <a
+            :href="item.url || '/'"
+            class="rounded px-3 py-2.5 text-sm font-bold hover:bg-black/5"
+            :style="{ color: 'var(--color-pub-ink)' }"
+            @click="mobileOpen = false"
+          >{{ item.label }}</a>
+          <a
+            v-for="child in (item.children ?? [])"
+            :key="child.id"
+            :href="child.url || '/'"
+            class="rounded px-6 py-2 text-sm font-medium hover:bg-black/5"
+            :style="{ color: 'var(--color-pub-muted)' }"
+            @click="mobileOpen = false"
+          >{{ child.label }}</a>
+        </template>
         <RouterLink
           :to="{ name: 'login' }"
           class="mt-2 rounded-full px-4 py-2 text-center text-xs font-bold text-white"
