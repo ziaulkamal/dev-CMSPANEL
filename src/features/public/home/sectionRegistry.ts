@@ -38,12 +38,12 @@ export const SECTION_REGISTRY: Record<SectionKey, SectionMeta> = {
   },
   editorsPick: {
     label: 'Pilihan Editor',
-    column: 'left',
+    column: 'center',
     variants: [{ value: 'default', label: 'Daftar + thumbnail' }],
   },
   centerFeed: {
-    label: 'Kolom tengah (feed)',
-    column: 'center',
+    label: 'Terbaru (feed)',
+    column: 'left',
     variants: [
       { value: 'with-thumb', label: 'Dengan thumbnail' },
       { value: 'text-only', label: 'Teks saja' },

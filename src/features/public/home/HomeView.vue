@@ -130,15 +130,8 @@ const moreItems = computed<MockStory[]>(() => {
             >
               <StoryCard :item="analysis" eyebrow="ANALYSIS" show-excerpt class="!py-0" />
             </div>
-            <EditorsPick v-else-if="key === 'editorsPick'" :items="editorsPick" />
-          </template>
-        </section>
-
-        <!-- ── Kolom tengah (27%) ── -->
-        <section class="flex flex-col">
-          <template v-for="key in centerKeys" :key="key">
             <div
-              v-if="key === 'centerFeed'"
+              v-else-if="key === 'centerFeed'"
               class="rounded-lg px-4 py-1"
               :style="{ border: '1px solid var(--color-pub-line)', backgroundColor: 'var(--color-pub-paper)' }"
             >
@@ -156,6 +149,13 @@ const moreItems = computed<MockStory[]>(() => {
                 <StoryCard :item="it" :force-text-only="variantOf('centerFeed') === 'text-only'" />
               </div>
             </div>
+          </template>
+        </section>
+
+        <!-- ── Kolom tengah (27%) ── -->
+        <section class="flex flex-col">
+          <template v-for="key in centerKeys" :key="key">
+            <EditorsPick v-if="key === 'editorsPick'" :items="editorsPick" />
           </template>
         </section>
 
