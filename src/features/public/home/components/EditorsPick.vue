@@ -21,13 +21,14 @@ const top5 = computed(() => props.items.slice(0, 5));
     :style="{ border: '1px solid var(--color-pub-line)', backgroundColor: 'var(--color-pub-paper)' }"
   >
     <SectionHeader title="Pilihan Editor" accent="var(--color-pub-crimson)" see-all />
-    <div class="-my-2 flex flex-col">
+    <div class="flex flex-col">
       <div
         v-for="(it, i) in top5"
         :key="it.id"
+        class="py-[5px]"
         :style="i ? { borderTop: '1px solid var(--color-pub-line)' } : {}"
       >
-        <StoryCard :item="it" force-text-only />
+        <StoryCard :item="it" force-text-only padding-class="py-0" title-class="text-[19px]" />
       </div>
     </div>
   </section>

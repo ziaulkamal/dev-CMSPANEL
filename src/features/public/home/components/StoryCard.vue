@@ -21,6 +21,10 @@ const props = defineProps<{
   forceTextOnly?: boolean;
   /** Sembunyikan label kategori (mis. saat eyebrow dipakai). */
   hideCategory?: boolean;
+  /** Kelas padding vertikal kustom untuk article (default py-4). */
+  paddingClass?: string;
+  /** Kelas ukuran judul kustom (default text-[19px]). */
+  titleClass?: string;
 }>();
 
 const loose = computed(() => props.item as unknown as Record<string, unknown>);
@@ -37,7 +41,7 @@ const meta = computed(() => relativeTime(props.item.published_at));
 </script>
 
 <template>
-  <article class="group flex items-start gap-4 py-4">
+  <article class="group flex items-start gap-4" :class="paddingClass ?? 'py-4'">
     <div class="min-w-0 flex-1">
       <span v-if="eyebrow" class="pub-eyebrow mb-1.5 block">{{ eyebrow }}</span>
       <CategoryTag
@@ -48,7 +52,8 @@ const meta = computed(() => relativeTime(props.item.published_at));
       />
       <RouterLink
         :to="{ name: 'article', params: { id: item.id, slug: item.slug } }"
-        class="pub-link-title block text-[19px] font-semibold leading-snug"
+        class="pub-link-title block font-semibold leading-snug"
+        :class="titleClass ?? 'text-[19px]'"
       >
         {{ item.title }}
       </RouterLink>
