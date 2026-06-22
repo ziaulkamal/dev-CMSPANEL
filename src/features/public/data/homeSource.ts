@@ -90,8 +90,12 @@ export interface HomeData {
   config: HomeConfig;
 }
 
-/** Flag global: pakai dummy data. Default true di .env.development. */
-export const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true';
+/**
+ * Flag global: pakai dummy data beranda. Default TRUE (mode demo) kecuali
+ * di-set eksplisit "false" lewat VITE_USE_MOCK — agar visual selalu terisi
+ * tanpa bergantung pada backend atau pemuatan env yang rapuh saat restart.
+ */
+export const USE_MOCK = import.meta.env.VITE_USE_MOCK !== 'false';
 
 const data = mock as unknown as HomeData;
 

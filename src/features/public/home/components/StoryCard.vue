@@ -7,7 +7,7 @@
 import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
 import type { ContentSummary } from '@/types/domain';
-import { resolveMediaUrl, pickMediaUrl } from '@/lib/media';
+import { resolveFeaturedImage } from '@/lib/media';
 import { relativeTime } from '@/lib/datetime';
 
 const props = defineProps<{
@@ -23,8 +23,7 @@ const props = defineProps<{
 /** Backend feed belum tentu mengirim gambar; toleran terhadap field longgar. */
 const thumbUrl = computed(() => {
   if (props.forceTextOnly) return '';
-  const raw = pickMediaUrl((props.item as unknown as Record<string, unknown>).featured_image);
-  return raw ? resolveMediaUrl(raw) : '';
+  return resolveFeaturedImage((props.item as unknown as Record<string, unknown>).featured_image);
 });
 
 const meta = computed(() => relativeTime(props.item.published_at));

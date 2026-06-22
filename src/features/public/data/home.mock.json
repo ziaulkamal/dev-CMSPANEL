@@ -37,7 +37,7 @@
     "slug": "ceasefire-negotiations-enter-decisive-phase",
     "title": "Ceasefire negotiations enter a decisive phase as mediators push for deal",
     "excerpt": "Diplomats from three nations gathered overnight, signaling the closest progress in months.",
-    "featured_image": "https://picsum.photos/seed/news-hero/1200/750",
+    "featured_image": "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&w=1200&q=70",
     "label": "BREAKING",
     "published_at": "2026-06-22T09:40:00Z"
   },
@@ -52,7 +52,7 @@
     "slug": "what-the-new-accord-means",
     "title": "Analysis: What the new accord really means for the region",
     "excerpt": "Behind the diplomatic language lies a fragile balance of competing interests.",
-    "featured_image": "https://picsum.photos/seed/news-analysis/640/400",
+    "featured_image": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=640&q=70",
     "published_at": "2026-06-22T07:30:00Z"
   },
   "centerFeatured": {
@@ -60,15 +60,15 @@
     "slug": "markets-rally-rate-cut",
     "title": "Markets rally to record highs after surprise rate cut",
     "excerpt": "Investors cheered the central bank’s move, sending major indices up across the board.",
-    "featured_image": "https://picsum.photos/seed/news-center/720/440",
+    "featured_image": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=720&q=70",
     "published_at": "2026-06-22T08:10:00Z"
   },
   "centerList": [
-    { "id": "c1", "slug": "summit-accord", "title": "Climate summit reaches landmark accord on emissions", "featured_image": "https://picsum.photos/seed/news-c1/200/140", "published_at": "2026-06-22T07:50:00Z" },
+    { "id": "c1", "slug": "summit-accord", "title": "Climate summit reaches landmark accord on emissions", "featured_image": "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?auto=format&fit=crop&w=240&q=60", "published_at": "2026-06-22T07:50:00Z" },
     { "id": "c2", "slug": "election-debate", "title": "Election results spark fierce debate over turnout figures", "published_at": "2026-06-22T07:20:00Z" },
-    { "id": "c3", "slug": "tech-regulation", "title": "Tech giants brace for sweeping new regulation package", "featured_image": "https://picsum.photos/seed/news-c3/200/140", "published_at": "2026-06-22T06:55:00Z" },
+    { "id": "c3", "slug": "tech-regulation", "title": "Tech giants brace for sweeping new regulation package", "featured_image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=240&q=60", "published_at": "2026-06-22T06:55:00Z" },
     { "id": "c4", "slug": "energy-prices", "title": "Energy prices ease as supply concerns fade", "published_at": "2026-06-22T06:30:00Z" },
-    { "id": "c5", "slug": "health-breakthrough", "title": "Researchers report breakthrough in vaccine trial", "featured_image": "https://picsum.photos/seed/news-c5/200/140", "published_at": "2026-06-22T05:48:00Z" },
+    { "id": "c5", "slug": "health-breakthrough", "title": "Researchers report breakthrough in vaccine trial", "featured_image": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=240&q=60", "published_at": "2026-06-22T05:48:00Z" },
     { "id": "c6", "slug": "sports-final", "title": "Underdogs stun champions in dramatic final", "published_at": "2026-06-22T05:10:00Z" }
   ],
   "popular": [
@@ -79,14 +79,14 @@
     { "id": "p5", "slug": "pop-5", "title": "How the underdogs pulled off the upset", "views": 19500 }
   ],
   "videos": [
-    { "id": "v1", "slug": "vid-1", "title": "Watch: Mediators arrive for overnight talks", "featured_image": "https://picsum.photos/seed/news-v1/640/360", "metas": { "duration": "12:58" } },
-    { "id": "v2", "slug": "vid-2", "title": "Explainer: The accord in two minutes", "featured_image": "https://picsum.photos/seed/news-v2/640/360", "metas": { "duration": "02:14" } },
-    { "id": "v3", "slug": "vid-3", "title": "On the ground: reopening the corridor", "featured_image": "https://picsum.photos/seed/news-v3/640/360", "metas": { "duration": "06:31" } }
+    { "id": "v1", "slug": "vid-1", "title": "Watch: Mediators arrive for overnight talks", "featured_image": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=480&q=60", "metas": { "duration": "12:58" } },
+    { "id": "v2", "slug": "vid-2", "title": "Explainer: The accord in two minutes", "featured_image": "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=480&q=60", "metas": { "duration": "02:14" } },
+    { "id": "v3", "slug": "vid-3", "title": "On the ground: reopening the corridor", "featured_image": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=480&q=60", "metas": { "duration": "06:31" } }
   ],
   "opinions": [
-    { "id": "o1", "slug": "op-1", "title": "The peace deal is fragile — here’s why it might hold", "authors": [{ "display_name": "Nadia Rahman", "avatar": "https://i.pravatar.cc/96?img=5" }] },
-    { "id": "o2", "slug": "op-2", "title": "Rate cuts won’t fix the real economy", "authors": [{ "display_name": "Daniel Okoro", "avatar": "https://i.pravatar.cc/96?img=12" }] },
-    { "id": "o3", "slug": "op-3", "title": "What the summit forgot about the global south", "authors": [{ "display_name": "Mei Lin", "avatar": "https://i.pravatar.cc/96?img=32" }] }
+    { "id": "o1", "slug": "op-1", "title": "The peace deal is fragile — here’s why it might hold", "authors": [{ "display_name": "Nadia Rahman", "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&crop=faces&w=96&h=96&q=70" }] },
+    { "id": "o2", "slug": "op-2", "title": "Rate cuts won’t fix the real economy", "authors": [{ "display_name": "Daniel Okoro", "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&crop=faces&w=96&h=96&q=70" }] },
+    { "id": "o3", "slug": "op-3", "title": "What the summit forgot about the global south", "authors": [{ "display_name": "Mei Lin", "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&crop=faces&w=96&h=96&q=70" }] }
   ],
   "ads": [
     { "id": "ad1", "name": "Leaderboard top", "kind": "image", "position": "floating_top_nav", "active": true, "sort_order": 1, "config": { "image_url": "https://placehold.co/970x90/15130f/eceae4?text=ADVERTISEMENT+970x90", "target_url": "#", "alt": "Iklan top" }, "options": {} },

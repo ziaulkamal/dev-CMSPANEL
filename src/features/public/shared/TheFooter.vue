@@ -11,7 +11,7 @@ defineProps<{ data: FooterConfig }>();
 
 <template>
   <footer :style="{ backgroundColor: 'var(--color-pub-ink)' }">
-    <div class="mx-auto max-w-[1300px] px-4 py-12 lg:px-6">
+    <div class="mx-auto max-w-[1140px] px-4 py-12 lg:px-6">
       <!-- Brand + kolom tautan -->
       <div class="grid grid-cols-2 gap-8 md:grid-cols-5">
         <div class="col-span-2 md:col-span-1">

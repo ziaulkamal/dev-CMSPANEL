@@ -38,7 +38,7 @@ const mobileOpen = ref(false);
 
 <template>
   <header :style="{ backgroundColor: 'var(--color-pub-paper)', borderBottom: '1px solid var(--color-pub-line)' }">
-    <div class="mx-auto flex h-16 max-w-[1300px] items-center justify-between gap-4 px-4 lg:px-6">
+    <div class="mx-auto flex h-16 max-w-[1140px] items-center justify-between gap-4 px-4 lg:px-6">
       <!-- Logo -->
       <RouterLink :to="{ name: 'home' }" class="flex flex-none items-center gap-2.5">
         <span class="flex h-8 w-8 items-center justify-center" :style="{ backgroundColor: 'var(--color-pub-crimson)' }">

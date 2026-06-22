@@ -26,13 +26,19 @@ const footer = computed(() => getHomeMock().footer);
     <!-- Iklan floating top nav (admin-driven, gagal diam bila kosong) -->
     <AdSlotRenderer position="floating_top_nav" />
 
+    <!-- Masthead & trending: BAR full-width, isi di-center oleh container internal. -->
     <TheMasthead />
     <TrendingBar />
 
-    <main class="mx-auto w-full max-w-[1300px] flex-1 px-4 py-8 lg:px-6">
+    <!-- Area konten: boxed ~1140px, kartu putih di atas kanvas abu (gaya media Indonesia). -->
+    <main
+      class="mx-auto my-6 w-full max-w-[1140px] flex-1 px-4 py-8 lg:px-8"
+      :style="{ backgroundColor: 'var(--color-pub-paper)', boxShadow: 'var(--shadow-sm)' }"
+    >
       <RouterView />
     </main>
 
+    <!-- Footer: bar full-width, isi di-center oleh container internal. -->
     <TheFooter :data="footer" />
 
     <!-- Popup & overlay ad — aktif di seluruh halaman publik -->

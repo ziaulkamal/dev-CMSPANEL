@@ -34,7 +34,7 @@ const items = computed<Array<{ id: string; slug: string; title: string }>>(() =>
     v-if="items.length"
     :style="{ backgroundColor: 'var(--color-pub-paper)', borderBottom: '1px solid var(--color-pub-line)' }"
   >
-    <div class="mx-auto flex max-w-[1300px] items-center gap-4 overflow-x-auto px-4 py-2.5 lg:px-6">
+    <div class="mx-auto flex max-w-[1140px] items-center gap-4 overflow-x-auto px-4 py-2.5 lg:px-6">
       <span class="flex-none text-xs font-extrabold uppercase tracking-[0.1em]" :style="{ color: 'var(--color-pub-crimson)' }">
         Trending
       </span>

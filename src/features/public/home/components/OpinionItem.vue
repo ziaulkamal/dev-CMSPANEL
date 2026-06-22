@@ -6,7 +6,7 @@
 import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
 import type { ContentSummary } from '@/types/domain';
-import { resolveMediaUrl, pickMediaUrl } from '@/lib/media';
+import { resolveFeaturedImage } from '@/lib/media';
 
 const props = defineProps<{ item: ContentSummary }>();
 
@@ -21,11 +21,7 @@ const byline = computed(() => {
   const a = author.value?.[0];
   return (a?.display_name as string) ?? '';
 });
-const avatarUrl = computed(() => {
-  const a = author.value?.[0];
-  const raw = a ? pickMediaUrl(a.avatar) : '';
-  return raw ? resolveMediaUrl(raw) : '';
-});
+const avatarUrl = computed(() => resolveFeaturedImage(author.value?.[0]?.avatar));
 const initial = computed(() => byline.value.trim().charAt(0).toUpperCase() || '·');
 </script>
 

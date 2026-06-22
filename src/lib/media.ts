@@ -47,3 +47,17 @@ export function resolveMediaUrl(raw: string | undefined | null): string {
   if (!base) return url;
   return `${base}/${url.replace(/^\/+/, '')}`;
 }
+
+/**
+ * Resolusi gambar unggulan yang toleran terhadap bentuk: string URL langsung
+ * (dummy/mock), objek media ({file_url,...}), atau key/path relatif. Mengembalikan
+ * URL siap pakai untuk `<img src>` atau '' bila tidak ada.
+ */
+export function resolveFeaturedImage(value: unknown): string {
+  if (!value) return '';
+  // String → langsung resolve (kasus mock & backend yang kirim URL).
+  if (typeof value === 'string') return resolveMediaUrl(value);
+  // Objek media → ambil field URL lalu resolve.
+  const raw = pickMediaUrl(value);
+  return raw ? resolveMediaUrl(raw) : '';
+}

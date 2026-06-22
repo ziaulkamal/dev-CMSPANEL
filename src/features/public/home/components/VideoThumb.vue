@@ -6,14 +6,13 @@
 import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
 import type { ContentSummary } from '@/types/domain';
-import { resolveMediaUrl, pickMediaUrl } from '@/lib/media';
+import { resolveFeaturedImage } from '@/lib/media';
 
 const props = defineProps<{ item: ContentSummary }>();
 
-const imageUrl = computed(() => {
-  const raw = pickMediaUrl((props.item as unknown as Record<string, unknown>).featured_image);
-  return raw ? resolveMediaUrl(raw) : '';
-});
+const imageUrl = computed(() =>
+  resolveFeaturedImage((props.item as unknown as Record<string, unknown>).featured_image),
+);
 
 /** Durasi (mm:ss) bila backend menaruhnya di meta longgar. */
 const duration = computed(() => {

@@ -8,7 +8,7 @@
 import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
 import type { ContentSummary } from '@/types/domain';
-import { resolveMediaUrl, pickMediaUrl } from '@/lib/media';
+import { resolveFeaturedImage } from '@/lib/media';
 
 const props = withDefaults(
   defineProps<{
@@ -19,10 +19,9 @@ const props = withDefaults(
   { variant: 'overlay' },
 );
 
-const imageUrl = computed(() => {
-  const raw = pickMediaUrl((props.item as unknown as Record<string, unknown>).featured_image);
-  return raw ? resolveMediaUrl(raw) : '';
-});
+const imageUrl = computed(() =>
+  resolveFeaturedImage((props.item as unknown as Record<string, unknown>).featured_image),
+);
 const isSplit = computed(() => props.variant === 'split');
 </script>
 
