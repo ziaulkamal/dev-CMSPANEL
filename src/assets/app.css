@@ -4,6 +4,14 @@
 @import '@fontsource-variable/dm-sans';
 @import '@fontsource/jetbrains-mono/400.css';
 
+/* Fonts tema publik (newsroom) — sans grotesque + serif editorial */
+@import '@fontsource/libre-franklin/400.css';
+@import '@fontsource/libre-franklin/600.css';
+@import '@fontsource/libre-franklin/700.css';
+@import '@fontsource/libre-franklin/800.css';
+@import '@fontsource/source-serif-4/400.css';
+@import '@fontsource/source-serif-4/600.css';
+
 /* Tailwind CSS v4 (content auto-detect via @tailwindcss/vite, tanpa @source Laravel) */
 @import 'tailwindcss';
 
@@ -78,6 +86,21 @@
     --ease-in: cubic-bezier(0.4, 0, 1, 1);
     --ease-out: cubic-bezier(0, 0, 0.2, 1);
     --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* ── Tema publik (newsroom wire-service) — terpisah dari token admin ──
+       Dipakai HANYA di segment publik via pembungkus .public-theme.
+       Warna nyaris monokrom; crimson = breaking/live, amber = penanda seksi. */
+    --color-pub-crimson: #e11a33;
+    --color-pub-amber: #f59e00;
+    --color-pub-ink: #15130f;
+    --color-pub-muted: #6b6b6b;
+    --color-pub-paper: #ffffff;
+    --color-pub-canvas: #eceae4;
+    --color-pub-line: #e5e2dc;
+
+    --font-pub-sans: 'Libre Franklin', 'DM Sans Variable', system-ui, sans-serif;
+    --font-pub-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+    --font-pub-mono: 'JetBrains Mono', ui-monospace, monospace;
 }
 
 /* ── Dark Mode Token Overrides ───────────────────────────────── */
@@ -204,4 +227,48 @@
     .sidebar-width { width: var(--sidebar-width); }
     .sidebar-collapsed-width { width: var(--sidebar-collapsed-width); }
     .topbar-height { height: var(--topbar-height); }
+
+    /* ── Tema publik (newsroom) ──────────────────────────────────── */
+    /* Pembungkus segment publik: ganti latar & font dasar, isolasi dari admin. */
+    .public-theme {
+        background-color: var(--color-pub-canvas);
+        color: var(--color-pub-ink);
+        font-family: var(--font-pub-sans);
+    }
+    .public-theme h1, .public-theme h2, .public-theme h3,
+    .public-theme h4, .public-theme h5, .public-theme h6 {
+        font-family: var(--font-pub-sans);
+        color: var(--color-pub-ink);
+    }
+
+    /* Eyebrow/label kapital kecil — mono, crimson, tracking lebar. */
+    .pub-eyebrow {
+        font-family: var(--font-pub-mono);
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--color-pub-crimson);
+    }
+
+    /* Hover judul: underline halus (feedback ringan, tanpa animasi berat). */
+    .pub-link-title { transition: color var(--duration-fast) var(--ease-default); }
+    .pub-link-title:hover { color: var(--color-pub-crimson); text-decoration: underline; }
+
+    /* Titik LIVE berkedip halus. */
+    .pub-live-dot {
+        width: 9px; height: 9px; border-radius: 9999px;
+        background-color: var(--color-pub-crimson);
+        animation: pub-pulse 1.6s var(--ease-default) infinite;
+    }
+}
+
+@keyframes pub-pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(225, 26, 51, 0.5); }
+    50% { opacity: 0.55; box-shadow: 0 0 0 4px rgba(225, 26, 51, 0); }
+}
+
+/* Hormati preferensi pengurangan gerak. */
+@media (prefers-reduced-motion: reduce) {
+    .pub-live-dot { animation: none; }
 }
