@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/vue-query';
-import { Plus, Trash2, Link2, Globe, AtSign, Hash, Share2, Rss, ChevronUp, ChevronDown } from '@lucide/vue';
+import { Plus, Trash2, Link2, Globe, AtSign, Hash, Share2, Rss, ChevronUp, ChevronDown, RotateCcw } from '@lucide/vue';
 import { settingsService, type SettingsMap } from '@/services/settings.service';
 import {
   SECTION_REGISTRY,
@@ -15,6 +15,7 @@ import {
 import type { PublicThemeColors, SectionConfig } from '@/features/public/data/homeSource';
 import { useToast } from '@/composables/useToast';
 import { useIsMobile } from '@/composables/useIsMobile';
+import { useCacheControl } from '@/composables/useCacheControl';
 import AppCard from '@/components/app/AppCard.vue';
 import AppInput from '@/components/app/AppInput.vue';
 import AppSelect from '@/components/app/AppSelect.vue';
@@ -252,6 +253,20 @@ const saveMutation = useMutation({
   },
   onError: () => toast.error('Gagal menyimpan pengaturan.'),
 });
+
+// ── Bersihkan cache data klien (tanpa restart server / reload) ────
+const { clearAll } = useCacheControl();
+const clearingCache = ref(false);
+
+async function handleClearCache(): Promise<void> {
+  clearingCache.value = true;
+  try {
+    clearAll();
+    toast.success('Cache dibersihkan. Data dimuat ulang dari server.');
+  } finally {
+    clearingCache.value = false;
+  }
+}
 </script>
 
 <template>
@@ -262,9 +277,20 @@ const saveMutation = useMutation({
         <p class="mt-1 text-sm text-text-muted">Identitas situs, sosial media, dan feed.</p>
       </div>
       <Teleport to="#admin-action-bar" :disabled="!isMobile">
-        <AppButton variant="primary" :loading="saveMutation.isPending.value" @click="saveMutation.mutate()">
-          Simpan
-        </AppButton>
+        <div class="flex items-center gap-2">
+          <AppButton
+            variant="secondary"
+            :loading="clearingCache"
+            title="Hapus cache data di browser dan muat ulang dari server (tanpa restart)"
+            @click="handleClearCache"
+          >
+            <template #icon><RotateCcw :size="14" /></template>
+            Bersihkan Cache
+          </AppButton>
+          <AppButton variant="primary" :loading="saveMutation.isPending.value" @click="saveMutation.mutate()">
+            Simpan
+          </AppButton>
+        </div>
       </Teleport>
     </header>
 

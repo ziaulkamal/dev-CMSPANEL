@@ -1,7 +1,7 @@
 # compose.yaml — stack DEVELOPMENT panel (Vite hot-reload) untuk Podman.
 # Jalankan: podman compose up -d --build
-# Catatan: VITE_API_BASE_URL dipanggil dari BROWSER (host), jadi tetap
-# http://localhost:3000/v1 — menunjuk port backend dev-CMSCORE yang ter-publish.
+# Catatan: VITE_API_BASE_URL dipanggil dari BROWSER (host), jadi menunjuk
+# http://localhost:40200/v1 — port backend dev-CMSCORE yang ter-publish di host.
 # PENTING: podman-compose 1.6.0 mengabaikan key `dockerfile`, jadi `Dockerfile`
 # default DIBUAT sebagai image DEV (Vite). Image PROD ada di `Dockerfile.prod`.
 
@@ -16,9 +16,15 @@ services:
       # Polling diperlukan agar file-watch andal di volume mount Windows.
       CHOKIDAR_USEPOLLING: "true"
     ports:
-      - "5173:5173"
+      # Host 40201 → container 40201 (Vite dev server, port disamakan).
+      # Bind 127.0.0.1: hanya dari mesin ini. Ubah ke "40201:40201" bila perlu
+      # membuka panel dari device lain di LAN (mis. tes di HP).
+      - "127.0.0.1:40201:40201"
     volumes:
       # Mount source untuk hot-reload; node_modules tetap milik container.
+      # .env di-mount agar Vite membaca VITE_* dari disk (di-exclude .dockerignore,
+      # dan env_file hanya set env OS — Vite butuh file .env di /app untuk client bundle).
+      - ./.env:/app/.env:z
       - ./src:/app/src:z
       - ./index.html:/app/index.html:z
       - ./vite.config.ts:/app/vite.config.ts:z

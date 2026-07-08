@@ -43,6 +43,24 @@ const routes: RouteRecordRaw[] = [
         name: 'infographics',
         component: () => import('@/features/public/infographics/InfographicsView.vue'),
       },
+      {
+        // Halaman 500 (kesalahan server) bergaya publik.
+        path: '500',
+        name: 'server-error',
+        component: () => import('@/features/public/error/ServerErrorView.vue'),
+      },
+      {
+        // Error generik; kode/judul/pesan via query (?code=&title=&message=).
+        path: 'error',
+        name: 'error',
+        component: () => import('@/features/public/error/ErrorView.vue'),
+      },
+      {
+        // 404 di dalam shell publik (masthead/footer/tema ikut tampil).
+        path: ':pathMatch(.*)*',
+        name: 'not-found',
+        component: () => import('@/features/public/NotFoundView.vue'),
+      },
     ],
   },
 
@@ -154,14 +172,18 @@ const routes: RouteRecordRaw[] = [
         meta: { capability: 'manage_settings' },
       },
       {
+        path: 'dummy-data',
+        name: 'admin-dummy-data',
+        component: () => import('@/features/admin/seed/DummyDataView.vue'),
+        meta: { capability: 'manage_settings' },
+      },
+      {
         path: 'forbidden',
         name: 'admin-forbidden',
         component: () => import('@/features/admin/auth/ForbiddenView.vue'),
       },
     ],
   },
-
-  { path: '/:pathMatch(.*)*', name: 'not-found', component: () => import('@/features/public/NotFoundView.vue') },
 ];
 
 export const router = createRouter({

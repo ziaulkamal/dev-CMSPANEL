@@ -1,7 +1,18 @@
-<!-- src/features/public/NotFoundView.vue — fallback 404. -->
+<!-- src/features/public/NotFoundView.vue — halaman 404 bergaya newsroom. -->
+<script setup lang="ts">
+import ErrorState from '@/features/public/error/ErrorState.vue';
+import { useSeoMeta } from '@/composables/useSeoMeta';
+
+useSeoMeta(() => ({
+  title: '404 — Halaman Tidak Ditemukan',
+  description: 'Halaman yang Anda cari tidak ditemukan atau telah dipindahkan.',
+}));
+</script>
+
 <template>
-  <div class="py-20 text-center">
-    <p class="text-3xl font-bold">404</p>
-    <p class="mt-2 text-text-muted">Halaman tidak ditemukan.</p>
-  </div>
+  <ErrorState
+    code="404"
+    title="Halaman Tidak Ditemukan"
+    message="Maaf, halaman yang Anda cari tidak ada, telah dipindahkan, atau tautannya sudah tidak berlaku."
+  />
 </template>

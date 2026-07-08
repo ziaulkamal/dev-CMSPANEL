@@ -3,7 +3,7 @@
  * Definisi menu sidebar admin → dipetakan ke route vue-router (href = path).
  * Item difilter capability di layout sebelum dirender.
  */
-import { LayoutDashboard, FileText, Image, Tags, Users, MessageSquare, Settings, UserCircle, Menu, Megaphone, GalleryThumbnails, LayoutGrid, PenLine } from '@lucide/vue';
+import { LayoutDashboard, FileText, Image, Tags, Users, MessageSquare, Settings, UserCircle, Menu, Megaphone, GalleryThumbnails, LayoutGrid, PenLine, Database } from '@lucide/vue';
 import type { Capability } from '@/types/domain';
 
 export interface AdminNavItem {
@@ -50,6 +50,7 @@ export const adminNavSource: AdminNavGroup[] = [
       { label: 'Pengguna', icon: Users, href: '/admin/users', capability: 'manage_users' },
       { label: 'Profil Saya', icon: UserCircle, href: '/admin/profile' },
       { label: 'Pengaturan', icon: Settings, href: '/admin/settings', capability: 'manage_settings' },
+      { label: 'Data Dummy', icon: Database, href: '/admin/dummy-data', capability: 'manage_settings' },
     ],
   },
 ];

@@ -169,26 +169,35 @@ yang disarankan bila nanti ingin dipindah ke endpoint terdedikasi:
    PRASYARAT mode auto per-kategori: backend perlu menambah filter ?term= /
    ?category= di GET /contents (saat ini hanya type/status/cursor/limit/sort).
 
-8. FILTER LISTING KONTEN (PRASYARAT A1-ideal, A2, A3, B2, B3) — BELUM ADA.
-   GET /contents sekarang whitelist: type, status, cursor, limit, sort.
-   Tambahan yang dibutuhkan public:
-     ?term=<id|slug>  (atau ?taxonomy=&term=) -> widget taxonomy, halaman kategori,
-                        infografis, SecondaryNav berbasis data nyata.
-     ?author=<id>     -> daftar artikel di halaman penulis (AuthorView).
-     ?q=<keyword>     -> pencarian relevan server-side (kini difilter di klien).
-     GET /contents/by-slug/:slug -> ArticleView pakai id (slug hiasan).
-   Dampak FE saat tersedia: ganti penyaringan klien di useWidgets (taxonomy),
-   TaxonomyView, InfographicsView, AuthorView, useSearch -> query param langsung.
+8. [x] FILTER LISTING KONTEN (PRASYARAT A1-ideal, A2, A3, B2, B3) — SELESAI di dev-CMSCORE.
+   GET /contents kini menerima (selain type/status/cursor/limit/sort):
+     ?term=<id|slug>  (+ ?taxonomy=<slug> untuk membatasi) -> widget taxonomy,
+                        halaman kategori, infografis, SecondaryNav data nyata.
+     ?author=<id>     -> daftar artikel penulis (cocok primary ATAU co-author).
+     ?q=<keyword>     -> cari di judul/excerpt (contains, case-insensitive).
+     GET /contents/by-slug/:slug (+ ?type=) -> ArticleView pakai slug langsung.
+   Impl: content/dto/list-content.query.ts, content.service.ts (where builder +
+     findBySlug), content.repository.ts (findBySlug), content.controller.ts.
+   AKSI FE (sisa, sesi berikutnya): ganti penyaringan klien di useWidgets (taxonomy),
+   TaxonomyView, InfographicsView, AuthorView, useSearch -> query param langsung;
+   ArticleView pindah ke route /:slug via by-slug.
 
-9. AUTHORS — DELETE belum ada.
-   author.service.ts hanya list/create/update. UI admin (B1) belum bisa hapus.
-   Arah ideal: DELETE /v1/authors/:id (cek pemakaian byline sebelum hapus).
-   Bila ada: tambah authorService.remove() + tombol hapus + ConfirmDialog.
+9. [x] AUTHORS — DELETE — SELESAI di dev-CMSCORE.
+   DELETE /v1/authors/:id (capability manage_users). Menolak 409 'AUTHOR_IN_USE'
+   bila masih dipakai byline (primaryAuthorId ATAU contentAuthor). Impl:
+   authors.service.ts remove(), authors.controller.ts.
+   AKSI FE (sisa): authorService.remove() + tombol hapus + ConfirmDialog +
+   tangani 409 (tampilkan jumlah konten pemakai dari details {primary, byline}).
 
-10. TERM BERWARNA (opsional, untuk B3).
-    Public memakai category_color (hardcode di mock). Bila Term punya field warna
-    (mis. meta 'color'), ArticleView & kartu kategori bisa konsisten tanpa mock.
-    Arah: tambah kolom/meta warna pada Term di backend.
+10. [x] TERM BERWARNA — SELESAI di dev-CMSCORE.
+    Kolom `color` (hex, opsional) ditambah ke model Term. Ikut di response term
+    (POST/PUT/GET terms) & terms[] pada detail konten. Impl: prisma schema (color),
+    taxonomy.dto.ts (CreateTermDto/UpdateTermDto + @IsHexColor), taxonomies.service.ts
+    (TermRow/toTermDto/createTerm/updateTerm).
+    CATATAN DB: jalankan `pnpm prisma db push` saat stack Docker hidup (host
+    'postgres:5432' hanya reachable di dalam compose) untuk membuat kolom.
+    AKSI FE (sisa): ArticleView & kartu kategori pakai term.color (fallback ke
+    category_color lama) -> buka B3.
 
 ================================================================
  CATATAN UJI (mode data)

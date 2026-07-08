@@ -12,7 +12,7 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml* ./
 RUN pnpm install --frozen-lockfile || pnpm install
 
-EXPOSE 5173
+EXPOSE 40201
 
 # --host agar Vite dengar di 0.0.0.0 (terjangkau dari host).
 CMD ["pnpm", "run", "dev", "--", "--host", "0.0.0.0"]

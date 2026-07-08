@@ -49,6 +49,7 @@ import {
 
 import { contentService } from '@/services/content.service';
 import { authorService } from '@/services/author.service';
+import { useAuthStore } from '@/stores/auth';
 import { useContentLock } from '@/composables/useContentLock';
 import { useToast } from '@/composables/useToast';
 import { useIsMobile } from '@/composables/useIsMobile';
@@ -134,6 +135,19 @@ const coAuthorOptions = computed(() =>
   authorOptions.value.filter((o) => o.value !== form.primary_author_id),
 );
 
+// Default penulis utama = penulis yang ter-link ke user login (untuk konten baru).
+// Backend juga menetapkan ini bila kosong; di sini sekadar prefill UI agar terlihat.
+const auth = useAuthStore();
+watch(
+  () => [authorsQuery.data.value, auth.me] as const,
+  ([list, me]) => {
+    if (isEdit.value || form.primary_author_id || !me) return;
+    const mine = (list ?? []).find((a) => a.linked_user_id === me.id);
+    if (mine) form.primary_author_id = mine.id;
+  },
+  { immediate: true },
+);
+
 // ── Type options & tata letak per tipe ────────────────────────────
 const typeOptions = [...CONTENT_TYPE_OPTIONS];
 const hasTypeSettings = computed<boolean>(() => typeMetaFields(form.type).length > 0);
@@ -216,32 +230,48 @@ function allTermIds(): string[] {
   return Object.values(terms.value).flat();
 }
 
+/**
+ * Tangani error validasi backend: petakan ke fieldErrors (highlight per-field) +
+ * toast ringkas yang menyebut field mana yang gagal. Tangani VALIDATION_ERROR
+ * maupun BAD_REQUEST (validasi DTO/whitelist) agar pesan tak pernah generik.
+ */
 function applyValidationError(err: unknown): boolean {
-  const ax = err as AxiosError<ApiError>;
-  if (ax.response?.data?.error?.code === 'VALIDATION_ERROR') {
-    const details = ax.response.data.error.details ?? {};
-    const mapped: Record<string, string> = {};
-    for (const [key, val] of Object.entries(details)) {
-      mapped[key] = Array.isArray(val) ? String(val[0]) : String(val);
-    }
-    fieldErrors.value = mapped;
-    toast.error('Periksa kembali isian form.');
-    return true;
+  const error = (err as AxiosError<ApiError>).response?.data?.error;
+  if (!error) return false;
+  const isValidation = error.code === 'VALIDATION_ERROR' || error.code === 'BAD_REQUEST';
+  if (!isValidation) return false;
+
+  const details = error.details ?? {};
+  const mapped: Record<string, string> = {};
+  for (const [key, val] of Object.entries(details)) {
+    // Field backend → key UI (mis. terms → terms; nested 'meta.x' → bagian akhir).
+    const uiKey = FIELD_KEY_ALIAS[key] ?? key;
+    mapped[uiKey] = Array.isArray(val) ? String(val[0]) : String(val);
   }
-  return false;
+  fieldErrors.value = mapped;
+
+  const failedLabels = Object.keys(mapped).map((k) => FIELD_LABELS[k] ?? k);
+  if (failedLabels.length) {
+    toast.error(`Periksa kembali: ${failedLabels.join(', ')}.`, { duration: 6000 });
+  } else {
+    // Tak ada detail per-field → tampilkan pesan backend apa adanya.
+    toast.error(error.message || 'Periksa kembali isian form.', { duration: 6000 });
+  }
+  return true;
 }
 
 const saveMutation = useMutation({
   mutationFn: async (): Promise<Content> => {
     // Gambar sudah di-upload saat dipilih → body & meta berisi URL nyata.
+    // Hanya kirim field yang dikenal CreateContentDto/UpdateContentDto (backend
+    // menolak field tak dikenal). slug di-generate backend; jadwal (published_at)
+    // diatur lewat transisi status, bukan create/update.
     const base = {
       title: form.title,
       body: form.body,
       primary_author_id: form.primary_author_id,
       co_author_ids: form.co_author_ids,
-      term_ids: allTermIds(),
-      ...(form.published_at ? { published_at: new Date(form.published_at).toISOString() } : {}),
-      ...(slug.value ? { slug: slug.value } : {}),
+      terms: allTermIds(),
     };
     const metaPayload = trimmedMeta();
 
@@ -331,9 +361,19 @@ const FIELD_LABELS: Record<string, string> = {
   body: 'Isi Konten',
   slug: 'Permalink',
   primary_author_id: 'Penulis Utama',
+  co_author_ids: 'Co-Author',
+  terms: 'Kategori/Tag',
   published_at: 'Tanggal Terbit',
+  featured_media_id: 'Gambar Unggulan',
+  parent_id: 'Konten Induk',
+  meta: 'Field Tambahan',
   seo_title: 'SEO Title',
   seo_description: 'Meta Description',
+};
+
+/** Alias nama field backend → key UI (bila berbeda). */
+const FIELD_KEY_ALIAS: Record<string, string> = {
+  term_ids: 'terms',
 };
 const errorSummary = computed<{ key: string; label: string; message: string }[]>(() =>
   Object.entries(fieldErrors.value).map(([key, message]) => ({

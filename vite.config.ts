@@ -10,5 +10,5 @@ export default defineConfig({
     alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
   },
   // host:true → server dengar di 0.0.0.0 agar terjangkau dari luar container.
-  server: { host: true, port: 5173 },
+  server: { host: true, port: 40201 },
 });

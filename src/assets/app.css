@@ -25,7 +25,14 @@ html {
   touch-action: pan-x pan-y;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  /* Default terang; .dark menimpanya di bawah. color-scheme mengatur rendering
+     kontrol native oleh browser (popup <option> <select>, scrollbar, dsb.) —
+     tanpa ini, dropdown native tampil putih/light meski dark mode aktif. */
+  color-scheme: light;
 }
+
+/* Dark mode admin (class .dark di <html>) → kontrol native ikut gelap. */
+.dark, html.dark { color-scheme: dark; }
 
 /* ── Design Tokens ───────────────────────────────────────────── */
 @theme {
@@ -248,6 +255,25 @@ html {
     .public-theme h4, .public-theme h5, .public-theme h6 {
         font-family: var(--font-pub-sans);
         color: var(--color-pub-ink);
+    }
+
+    /* Remap token admin → token publik di dalam segmen publik.
+       Komponen bersama (AppInput/AppTextarea/AppButton/AppModal) memakai token
+       admin (--color-text-*, --color-surface, --color-border) yang hanya gelap
+       saat class .dark aktif. Segmen publik TIDAK memasang .dark (lihat
+       usePublicColorScheme.ts) dan mengganti mode via --color-pub-* inline.
+       Tanpa remap ini, form komentar dsb. memakai warna light saat dark mode
+       publik → teks/latar tak kontras. Karena --color-pub-* sudah dipasang
+       inline sesuai mode, token di bawah otomatis ikut light/dark publik. */
+    .public-theme {
+        --color-text-primary: var(--color-pub-ink);
+        --color-text-muted: var(--color-pub-muted);
+        --color-text-subtle: var(--color-pub-muted);
+        --color-surface: var(--color-pub-paper);
+        --color-bg: var(--color-pub-canvas);
+        --color-bg-subtle: var(--color-pub-canvas);
+        --color-border: var(--color-pub-line);
+        --color-border-strong: var(--color-pub-line);
     }
 
     /* Eyebrow/label kapital kecil — mono, crimson, tracking lebar. */
