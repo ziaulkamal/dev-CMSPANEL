@@ -80,7 +80,7 @@
 
 <script setup lang="ts">
 // @ts-nocheck — komponen vendor (Laravel-Vue-Starter-E-GOV), tidak di-strict-check
-import { ref, computed } from 'vue';
+import { ref, computed, useId } from 'vue';
 
 const props = defineProps({
     modelValue: { type: String,  default: '' },
@@ -98,8 +98,7 @@ const props = defineProps({
 defineEmits(['update:modelValue']);
 defineOptions({ inheritAttrs: false });
 
-let _id = 0;
-const inputId      = `app-input-${++_id}`;
+const inputId      = `app-input-${useId()}`;
 const inputRef     = ref<HTMLInputElement | null>(null);
 const isFocused    = ref(false);
 const showPassword = ref(false);

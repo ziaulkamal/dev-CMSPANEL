@@ -21,14 +21,13 @@ services:
       # membuka panel dari device lain di LAN (mis. tes di HP).
       - "127.0.0.1:40201:40201"
     volumes:
-      # Mount source untuk hot-reload; node_modules tetap milik container.
-      # .env di-mount agar Vite membaca VITE_* dari disk (di-exclude .dockerignore,
-      # dan env_file hanya set env OS — Vite butuh file .env di /app untuk client bundle).
-      - ./.env:/app/.env:z
-      - ./src:/app/src:z
-      - ./index.html:/app/index.html:z
-      - ./vite.config.ts:/app/vite.config.ts:z
-      - ./tsconfig.json:/app/tsconfig.json:z
-      - ./tsconfig.node.json:/app/tsconfig.node.json:z
-      - ./env.d.ts:/app/env.d.ts:z
+      # Mount SELURUH root project sebagai satu bind (bukan per-file). Bind file
+      # tunggal di Podman-Windows tidak stabil: saat Vite reload vite.config.ts
+      # setelah HMR, mount melapor "input/output error" → server restart gagal,
+      # HMR menumpuk (terasa nge-buffer), dan halaman front bisa gagal terbuka.
+      # Bind direktori jauh lebih andal untuk file-watch di virtiofs/9p Windows.
+      - .:/app:z
+      # Anonymous volume menutupi /app/node_modules agar deps milik CONTAINER
+      # (hasil pnpm install saat build) tidak tertimpa host yang tak punya deps.
+      - /app/node_modules
     restart: unless-stopped

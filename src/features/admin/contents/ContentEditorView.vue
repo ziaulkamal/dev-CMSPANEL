@@ -277,14 +277,14 @@ const saveMutation = useMutation({
 
     if (isEdit.value) {
       const id = contentId.value as string;
-      const updated = await contentService.update(id, base as Partial<Content>);
+      const updated = await contentService.update(id, base);
       await contentService.upsertMeta(id, metaPayload);
       return updated;
     }
     const created = await contentService.create({
       type: form.type,
       ...base,
-    } as Partial<Content> & { type: string; title: string });
+    });
     await contentService.upsertMeta(created.id, metaPayload);
     return created;
   },

@@ -104,7 +104,7 @@
 
 <script setup lang="ts">
 // @ts-nocheck — komponen vendor (Laravel-Vue-Starter-E-GOV), tidak di-strict-check
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted, useId } from 'vue';
 
 type SelectOption = { value?: string | number; label?: string; disabled?: boolean; icon?: unknown } | string | number;
 
@@ -124,8 +124,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 defineOptions({ inheritAttrs: false });
 
-let _id = 0;
-const selId     = `app-sel-${++_id}`;
+const selId     = `app-sel-${useId()}`;
 const isFocused = ref(false);
 const isOpen    = ref(false);
 

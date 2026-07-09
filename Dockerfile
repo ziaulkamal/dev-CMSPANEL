@@ -14,5 +14,6 @@ RUN pnpm install --frozen-lockfile || pnpm install
 
 EXPOSE 40201
 
-# --host agar Vite dengar di 0.0.0.0 (terjangkau dari host).
-CMD ["pnpm", "run", "dev", "--", "--host", "0.0.0.0"]
+# Port & host:true sudah diset di vite.config.ts (dengar 0.0.0.0:40201),
+# jadi cukup jalankan `pnpm dev` tanpa flag tambahan.
+CMD ["pnpm", "run", "dev"]

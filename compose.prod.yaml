@@ -1,9 +1,9 @@
 # compose.prod.yaml — stack PRODUKSI panel (build statis + Nginx) untuk Podman.
 # CATATAN: podman-compose 1.6.0 mengabaikan key `dockerfile`. Karena `Dockerfile`
 # default kini = DEV, JANGAN andalkan `podman compose -f compose.prod.yaml up --build`.
-# Jalur prod yang andal = build manual (lihat README):
-#   podman build -f Dockerfile.prod --build-arg VITE_API_BASE_URL=<url> -t cms-panel .
-#   podman run -d -p 8080:80 --name cms-panel cms-panel
+# Jalur prod yang andal = BUILD MANUAL image dulu, lalu compose up pakai image itu:
+#   podman build -f Dockerfile.prod --build-arg VITE_API_BASE_URL=<url> -t cms-panel-prod .
+#   podman compose -f compose.prod.yaml up -d
 # File ini tetap valid bila pakai Docker Compose asli atau podman-compose yang sudah fix.
 # VITE_API_BASE_URL di-bake saat build → set sesuai domain API produksi.
 
@@ -13,8 +13,11 @@ services:
       context: .
       dockerfile: Dockerfile.prod
       args:
-        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:3000/v1}
-    image: cms-panel
+        # Default menunjuk API backend dev-CMSCORE yang ter-publish di host (40200).
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:40200/v1}
+    # Samakan dengan tag build manual agar compose memakai image yang sudah jadi.
+    image: cms-panel-prod
     ports:
-      - "8080:80"
+      # Bind 127.0.0.1: di Podman-Windows, publish ke 0.0.0.0 tak ter-forward ke host.
+      - "127.0.0.1:8080:80"
     restart: unless-stopped

@@ -9,7 +9,6 @@
  *   GET  /settings → { 'home.menu': { top, secondary, footer } }
  *   PUT  /settings → simpan map ber-namespace
  */
-import { http } from '@/lib/http';
 import { settingsService } from '@/services/settings.service';
 
 /** Sumber item menu: tautan manual, halaman (page), atau kategori (taxonomy term). */

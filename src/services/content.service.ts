@@ -18,6 +18,15 @@ export interface ContentListParams {
   sort?: string;
 }
 
+/**
+ * Payload create/update konten. Bentuknya DTO (bukan entity `Content`):
+ * `terms` dikirim sebagai daftar ID (`string[]`), bukan objek `Term[]` seperti
+ * pada entity. Field lain mengikuti Content secara parsial.
+ */
+export type ContentWritePayload = Omit<Partial<Content>, 'terms'> & {
+  terms?: string[];
+};
+
 export const contentService = {
   /** Feed/listing cursor-based. Anonim hanya menerima `published`. */
   list(params?: ContentListParams) {
@@ -29,10 +38,10 @@ export const contentService = {
   meta(id: string) {
     return http.get<Record<string, string>>(`/contents/${id}/meta`);
   },
-  create(payload: Partial<Content> & { type: string; title: string }) {
+  create(payload: ContentWritePayload & { type: string; title: string }) {
     return http.post<Content>('/contents', payload);
   },
-  update(id: string, payload: Partial<Content>) {
+  update(id: string, payload: ContentWritePayload) {
     return http.put<Content>(`/contents/${id}`, payload);
   },
   remove(id: string) {

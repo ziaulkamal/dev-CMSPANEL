@@ -6,7 +6,7 @@
 -->
 <script setup lang="ts">
 import { ref, watch, nextTick } from 'vue';
-import { useRouter, RouterLink } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { Search, X } from '@lucide/vue';
 import { useSearchOverlay } from './useSearchOverlay';
 import { useSearch, MIN_CHARS } from './useSearch';

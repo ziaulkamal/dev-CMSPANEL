@@ -13,8 +13,10 @@ import { tokenStore } from './tokenStore';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
-/** Instance mentah; jangan dipakai langsung di komponen — pakai lewat services. */
-const raw: AxiosInstance = axios.create({ baseURL });
+/** Instance mentah; jangan dipakai langsung di komponen — pakai lewat services.
+ *  timeout: cegah request menggantung tanpa batas bila backend tak terjangkau
+ *  (gejala "halaman tak kunjung terbuka"); gagal cepat lalu tampilkan error. */
+const raw: AxiosInstance = axios.create({ baseURL, timeout: 15_000 });
 
 raw.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const token = tokenStore.access;
