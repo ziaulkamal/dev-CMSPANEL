@@ -10,6 +10,7 @@ import axios, {
 import type { ApiError, ApiSuccess } from '@/types/api';
 import type { AuthTokens } from '@/types/domain';
 import { tokenStore } from './tokenStore';
+import { keysToSnake } from './caseConvert';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
@@ -21,7 +22,24 @@ const raw: AxiosInstance = axios.create({ baseURL, timeout: 15_000 });
 raw.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const token = tokenStore.access;
   if (token) config.headers.Authorization = `Bearer ${token}`;
+  // CATATAN: body TIDAK dikonversi ke camelCase. Kontrak INPUT backend
+  // dev-CMSCORE memakai snake_case (DTO: refresh_token, featured_media_id,
+  // co_author_ids, alt_text, …) dengan forbidNonWhitelisted → camelCase DITOLAK
+  // 422. Payload frontend sudah snake_case, jadi dikirim apa adanya. (Output
+  // backend camelCase tetap dikonversi ke snake_case di interceptor response.)
   return config;
+});
+
+// Response camelCase→snake_case agar seluruh frontend (tipe domain snake_case)
+// tak perlu diubah. `meta.next_cursor` yang sudah snake_case tetap aman (idempoten).
+// Hanya envelope JSON biasa yang dikonversi; blob/arraybuffer dilewati.
+raw.interceptors.response.use((res) => {
+  const ct = String(res.headers?.['content-type'] ?? '');
+  const isJson = ct.includes('application/json');
+  if (isJson && res.data && typeof res.data === 'object') {
+    res.data = keysToSnake(res.data);
+  }
+  return res;
 });
 
 /** Refresh token sekali pakai (rotation); cegah badai refresh paralel. */
@@ -31,12 +49,15 @@ async function refreshAccessToken(): Promise<string | null> {
   const refresh_token = tokenStore.refresh;
   if (!refresh_token) return null;
   try {
-    const res = await axios.post<ApiSuccess<AuthTokens>>(
+    // Panggilan mentah (bukan `raw`) agar tak memicu rekursi refresh. Kirim
+    // body snake_case apa adanya (kontrak input backend), baca balik snake_case.
+    const res = await axios.post<ApiSuccess<unknown>>(
       `${baseURL}/auth/refresh`,
       { refresh_token },
     );
-    tokenStore.set(res.data.data);
-    return res.data.data.access_token;
+    const tokens = keysToSnake<ApiSuccess<AuthTokens>>(res.data).data;
+    tokenStore.set(tokens);
+    return tokens.access_token;
   } catch {
     tokenStore.clear();
     return null;
