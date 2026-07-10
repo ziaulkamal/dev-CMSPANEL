@@ -127,7 +127,10 @@ html {
 
     --color-surface: #1e293b;
     --color-bg: #0f172a;
-    --color-bg-subtle: #1e293b;
+    /* Sedikit lebih terang dari surface agar fill hover (mis. opsi dropdown
+       AppSelect di atas panel --color-surface) terlihat jelas di dark mode.
+       Sebelumnya sama dg surface → hover tak tampak. */
+    --color-bg-subtle: #334155;
 
     --color-border: #334155;
     --color-border-strong: #475569;

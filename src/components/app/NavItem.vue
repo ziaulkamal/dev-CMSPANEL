@@ -156,11 +156,20 @@ const emit = defineEmits(['toggle', 'expand-sidebar']);
 // Unique key for this dropdown item
 const itemKey = computed<string>(() => `${props.depth}-${props.item.label}`);
 
+// Root section yang tak boleh menyerap child-nya via prefix-match: hanya aktif
+// saat path PERSIS sama. '/admin' (Dashboard) & '/' diperlakukan sebagai index.
+const INDEX_PATHS = new Set(['/', '/admin']);
+
 // Active state computed from URL (overrides static prop)
 const isActive = computed<boolean>(() => {
     if (!props.currentPath || !props.item.href) return !!props.item.active;
     const path = props.item.href;
-    return props.currentPath === path || (path !== '/' && props.currentPath.startsWith(path));
+    // Index/root: exact match saja, agar tak ikut aktif di semua sub-halaman.
+    if (INDEX_PATHS.has(path)) return props.currentPath === path;
+    // Item lain: cocok bila persis, atau sebagai prefix BERBATAS SEGMEN
+    // (mis. /admin/contents cocok untuk /admin/contents/new, tapi /admin tidak
+    //  menyerap /admin/contents).
+    return props.currentPath === path || props.currentPath.startsWith(path + '/');
 });
 
 const hasChildren = computed<boolean>(() => Array.isArray(props.item.children) && props.item.children!.length > 0);

@@ -200,7 +200,7 @@ onUnmounted(() => document.removeEventListener('click', onOutsideClick));
 .app-sel__option:hover:not(:disabled) { background: var(--color-bg-subtle); }
 .app-sel__option--active { color: #6366f1; font-weight: 500; }
 .app-sel__option--placeholder { color: var(--color-text-subtle); font-style: italic; }
-.app-sel__option--disabled { opacity: 0.45; cursor: not-allowed; }
+.app-sel__option--disabled { opacity: 0.55; cursor: not-allowed; }
 .app-sel__opt-icon { display: flex; align-items: center; color: var(--color-text-muted); }
 
 .app-sel__msg { font-size: 11.5px; }
