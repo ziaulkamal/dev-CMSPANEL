@@ -30,7 +30,7 @@ export function useHomeConfig() {
   // Mode live: baca dari /settings (key-value ber-namespace). Mock: query mati.
   const { data } = useQuery({
     queryKey: ['public-home-config'],
-    queryFn: () => settingsService.get(),
+    queryFn: () => settingsService.getPublic(),
     retry: false,
     staleTime: 5 * 60_000,
     enabled: !USE_MOCK,

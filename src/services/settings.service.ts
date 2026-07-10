@@ -8,8 +8,13 @@ import { http } from '@/lib/http';
 export type SettingsMap = Record<string, unknown>;
 
 export const settingsService = {
+  /** Semua settings (butuh auth manage_settings) — dipakai admin. */
   get() {
     return http.get<SettingsMap>('/settings');
+  },
+  /** Subset publik (namespace site./home./social.) tanpa auth — dipakai situs publik. */
+  getPublic() {
+    return http.get<SettingsMap>('/settings/public');
   },
   update(settings: SettingsMap) {
     return http.put<SettingsMap>('/settings', { settings });

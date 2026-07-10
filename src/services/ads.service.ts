@@ -53,8 +53,13 @@ export interface AdSlotPayload {
 }
 
 export const adsService = {
+  /** Semua slot (admin, butuh auth manage_settings). */
   list() {
     return http.get<AdSlot[]>('/ads');
+  },
+  /** Slot aktif untuk situs publik (tanpa auth). */
+  listActive() {
+    return http.get<AdSlot[]>('/ads/active');
   },
   create(payload: AdSlotPayload) {
     return http.post<AdSlot>('/ads', payload);

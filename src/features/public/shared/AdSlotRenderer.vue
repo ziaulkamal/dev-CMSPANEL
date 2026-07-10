@@ -17,7 +17,7 @@ const props = defineProps<{ position: AdPosition }>();
 
 const { data } = useQuery({
   queryKey: ['public-ads'],
-  queryFn: () => adsService.list(),
+  queryFn: () => adsService.listActive(),
   retry: false,
   staleTime: 5 * 60_000,
   enabled: !USE_MOCK,

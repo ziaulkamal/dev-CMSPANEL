@@ -36,7 +36,7 @@ const DEFAULT_IDENTITY: SiteIdentity = {
 export function useSiteConfig() {
   const { data } = useQuery({
     queryKey: ['public-site-config'],
-    queryFn: () => settingsService.get(),
+    queryFn: () => settingsService.getPublic(),
     retry: false,
     staleTime: 5 * 60_000,
     enabled: !USE_MOCK,

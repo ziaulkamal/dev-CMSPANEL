@@ -43,8 +43,13 @@ export interface PopupPayload {
 }
 
 export const popupService = {
+  /** Semua popup (admin, butuh auth manage_settings). */
   list() {
     return http.get<Popup[]>('/popups');
+  },
+  /** Popup aktif untuk situs publik (tanpa auth). */
+  listActive() {
+    return http.get<Popup[]>('/popups/active');
   },
   create(payload: PopupPayload) {
     return http.post<Popup>('/popups', payload);

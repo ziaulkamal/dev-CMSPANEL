@@ -17,7 +17,7 @@ const STORAGE_PREFIX = 'cms.popup.seen.';
 // Mock belum menyertakan popup → matikan query agar tak ada panggilan sia-sia.
 const { data } = useQuery({
   queryKey: ['public-popups'],
-  queryFn: () => popupService.list(),
+  queryFn: () => popupService.listActive(),
   retry: false,
   staleTime: 5 * 60_000,
   enabled: !USE_MOCK,

@@ -83,8 +83,12 @@ raw.interceptors.response.use(
         original.headers.Authorization = `Bearer ${newToken}`;
         return raw(original);
       }
-      // refresh gagal → arahkan ke login
-      window.location.assign('/login');
+      // Refresh gagal → hanya paksa ke /login bila sedang di area admin.
+      // Di halaman publik, 401 dari suatu call dibiarkan gagal diam-diam agar
+      // pengunjung anonim TIDAK ikut ter-redirect ke login (mis. saat membuka '/').
+      if (window.location.pathname.startsWith('/admin')) {
+        window.location.assign('/login');
+      }
     }
     return Promise.reject(error);
   },

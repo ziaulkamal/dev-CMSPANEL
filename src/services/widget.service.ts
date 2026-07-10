@@ -102,7 +102,9 @@ export function defaultWidget(): Widget {
 
 export const widgetService = {
   async list(): Promise<Widget[]> {
-    const settings = await settingsService.get();
+    // Baca dari settings PUBLIK (home.widgets masuk whitelist) agar HomeView
+    // publik anonim juga bisa memuat konfigurasi widget.
+    const settings = await settingsService.getPublic();
     return normalize(settings[SETTINGS_KEY]);
   },
   async saveAll(widgets: Widget[]): Promise<Widget[]> {

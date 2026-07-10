@@ -58,9 +58,10 @@ function normalize(raw: unknown): MenuSet {
 }
 
 export const menuService = {
-  /** Ambil seluruh set menu (semua lokasi). */
+  /** Ambil seluruh set menu (semua lokasi). Baca dari settings PUBLIK (home.menu
+   *  masuk whitelist) agar situs publik anonim juga bisa memuat menu. */
   async getAll(): Promise<MenuSet> {
-    const settings = await settingsService.get();
+    const settings = await settingsService.getPublic();
     return normalize(settings[SETTINGS_KEY]);
   },
 
