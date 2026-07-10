@@ -4,6 +4,7 @@
  */
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
 import { authGuard } from './guards';
+import { useRouteProgress } from '@/composables/useRouteProgress';
 
 const routes: RouteRecordRaw[] = [
   // ── Segment PUBLIC ──────────────────────────────────────────────
@@ -192,4 +193,13 @@ export const router = createRouter({
   scrollBehavior: () => ({ top: 0 }),
 });
 
+// Loading bar navigasi: mulai sebelum tiap pindah rute, selesai saat resolusi
+// (sukses/gagal/redirect) — menutupi jeda unduh chunk lazy-loaded per menu.
+const routeProgress = useRouteProgress();
+router.beforeEach((to, from) => {
+  // Jangan tampilkan bar untuk navigasi "di tempat" (hanya query/hash berubah).
+  if (to.path !== from.path) routeProgress.start();
+});
 router.beforeEach(authGuard);
+router.afterEach(() => routeProgress.done());
+router.onError(() => routeProgress.done());
