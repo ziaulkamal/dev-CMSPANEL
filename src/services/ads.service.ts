@@ -57,9 +57,10 @@ export const adsService = {
   list() {
     return http.get<AdSlot[]>('/ads');
   },
-  /** Slot aktif untuk situs publik (tanpa auth). */
+  /** Slot aktif untuk situs publik (tanpa auth). Dikelompokkan per posisi:
+   *  { [position]: AdSlot[] }. */
   listActive() {
-    return http.get<AdSlot[]>('/ads/active');
+    return http.get<Partial<Record<AdPosition, AdSlot[]>>>('/ads/active');
   },
   create(payload: AdSlotPayload) {
     return http.post<AdSlot>('/ads', payload);

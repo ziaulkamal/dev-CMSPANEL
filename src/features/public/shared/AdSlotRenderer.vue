@@ -15,6 +15,7 @@ import { USE_MOCK, getMockAdsByPosition } from '@/features/public/data/homeSourc
 
 const props = defineProps<{ position: AdPosition }>();
 
+// /ads/active mengembalikan MAP dikelompokkan per posisi: { position: AdSlot[] }.
 const { data } = useQuery({
   queryKey: ['public-ads'],
   queryFn: () => adsService.listActive(),
@@ -25,9 +26,9 @@ const { data } = useQuery({
 
 const slots = computed<AdSlot[]>(() => {
   if (USE_MOCK) return getMockAdsByPosition(props.position);
-  return (data.value ?? [])
-    .filter((a) => a.active && a.position === props.position)
-    .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
+  const byPosition: Partial<Record<AdPosition, AdSlot[]>> = data.value ?? {};
+  const list = byPosition[props.position] ?? [];
+  return [...list].sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
 });
 
 function imageSrc(cfg: Record<string, unknown>): string {
