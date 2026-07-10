@@ -46,6 +46,12 @@ html {
     --color-primary-hover: #1e40af;
     --color-primary-light: #eff6ff;
 
+    /* Aksen indigo — warna aksen DOMINAN komponen (sidebar/nav/kontrol vendor).
+       Token agar konsisten light/dark (indigo hardcoded #6366f1 tak menyesuaikan). */
+    --color-accent: #6366f1;
+    --color-accent-hover: #4f46e5;
+    --color-accent-soft: #eef2ff;
+
     --color-surface: #ffffff;
     --color-bg: #f8fafc;
     --color-bg-subtle: #f1f5f9;
@@ -124,6 +130,12 @@ html {
     --color-primary: #3b82f6;
     --color-primary-hover: #2563eb;
     --color-primary-light: #1e3a5f;
+
+    /* Aksen indigo untuk dark: hue lebih terang agar kontras di atas surface gelap,
+       dan "soft" jadi indigo-gelap (bukan pucat) untuk latar opsi aktif. */
+    --color-accent: #818cf8;
+    --color-accent-hover: #6366f1;
+    --color-accent-soft: #312e58;
 
     --color-surface: #1e293b;
     --color-bg: #0f172a;
